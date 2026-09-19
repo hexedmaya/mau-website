@@ -2,10 +2,10 @@
 // mau · Copyright (c) 2026 hexedmaya · mau License 1.0
 import { signal, computed, effect, untracked, batch, onDestroy, router, route, navigate, h as __h, raw as __raw, each as __each, adoptStyle as __style } from "../../vendor/mau/index.js";
 
-__style("@scope (.mau-1hjyap) {\n:scope { padding: clamp(3rem, 10vw, 7rem) clamp(1rem, 4vw, 2.5rem); }\n  h1 { margin: 0; font-size: clamp(6rem, 25vw, 16rem); line-height: .8; font-weight: 900; letter-spacing: -.07em; color: var(--accent); }\n  p { font-family: var(--mono); }\n  a { color: var(--ink); }\n}");
+__style("@scope (.mau-1urkpy) {\n:scope { padding: clamp(3rem, 10vw, 7rem) clamp(1rem, 4vw, 2.5rem); }\r\n  h1 { margin: 0; font-size: clamp(6rem, 25vw, 16rem); line-height: .8; font-weight: 900; letter-spacing: -.07em; color: var(--accent); }\r\n  p { font-family: var(--mono); }\r\n  a { color: var(--ink); }\n}");
 
 export default function NotFound(props = {}) {
-  const __root = __h("section", { "class": "nf" }, __h("h1", {  }, "404"), __h("p", {  }, "nothing here. ", __h("a", { "href": "#/" }, "back home")));
-  __root.classList.add("mau-1hjyap");
+  const __root = __h("section", { "class": "nf" }, __h("h1", {  }, "404"), __h("p", {  }, "nothing here. ", __h("a", { "href": "/" }, "back home")));
+  __root.classList.add("mau-1urkpy");
   return __root;
 }

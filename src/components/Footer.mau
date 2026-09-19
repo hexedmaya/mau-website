@@ -5,11 +5,11 @@
       <p class="tag">Make A UI.</p>
     </div>
     <nav class="nav">
-      <a href="#/docs">docs</a>
-      <a href="#/start">getting started</a>
-      <a href="#/try">try</a>
-      <a href="#/about">about</a>
-      <a href="#/brand">brand</a>
+      <a href="/docs">docs</a>
+      <a href="/start">getting started</a>
+      <a href="/try">try</a>
+      <a href="/about">about</a>
+      <a href="/brand">brand</a>
     </nav>
   </div>
   <div class="line">

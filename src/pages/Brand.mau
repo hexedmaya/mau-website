@@ -60,7 +60,7 @@
     return out;
   }
 
-  fetch("BRAND-POLICY.md")
+  fetch("/BRAND-POLICY.md")
     .then((r) => (r.ok ? r.text() : Promise.reject(new Error("not found"))))
     .then((text) => blocks.set(parse(text)))
     .catch(() => failed.set(true));
@@ -74,7 +74,7 @@
   <div class="tiles">
     {#each logos as l (l.file)}
       <figure class="tile {l.bg}">
-        <img src={"brand/" + l.file} alt={"mau " + l.label}>
+        <img src={"/assets/brand/" + l.file} alt={"mau " + l.label}>
         <figcaption>{l.label}</figcaption>
       </figure>
     {/each}
@@ -83,7 +83,7 @@
   <h2 class="label">downloads</h2>
   <ul class="files">
     {#each downloads as d (d.file)}
-      <li><a href={"brand/" + d.file} download>{d.file}</a> <span>{d.note}</span></li>
+      <li><a href={"/assets/brand/" + d.file} download>{d.file}</a> <span>{d.note}</span></li>
     {/each}
   </ul>
 
@@ -101,7 +101,7 @@
   <h2 class="label">brand policy</h2>
   <div class="policy">
     {#if failed()}
-      <p class="note">The policy could not be loaded. It is the file <a href="BRAND-POLICY.md">BRAND-POLICY.md</a>.</p>
+      <p class="note">The policy could not be loaded. It is the file <a href="/BRAND-POLICY.md">BRAND-POLICY.md</a>.</p>
     {/if}
     {#each blocks() as b}
       {#if b.t === "h"}

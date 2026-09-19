@@ -2,7 +2,7 @@
 // mau · Copyright (c) 2026 hexedmaya · mau License 1.0
 import { signal, computed, effect, untracked, batch, onDestroy, router, route, navigate, h as __h, raw as __raw, each as __each, adoptStyle as __style } from "../../vendor/mau/index.js";
 
-__style("@scope (.mau-1wjmaw) {\n:scope { padding: 3rem clamp(1rem, 4vw, 2.5rem); border-bottom: 2px solid var(--ink); }\n  .label { margin: 0 0 1.4rem; font-family: var(--mono); font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; }\n  .rows { list-style: none; margin: 0; padding: 0; border-bottom: 2px solid var(--ink); }\n  .rows li {\n    display: grid; grid-template-columns: 4rem minmax(9rem, 1fr) 2fr; gap: 1rem; align-items: baseline;\n    padding: 1rem .6rem; border-top: 2px solid var(--ink); transition: background .1s;\n  }\n  .rows li:hover { background: var(--ink); color: var(--paper); }\n  .n { font-family: var(--mono); color: var(--accent); font-weight: 700; }\n  .t { font-size: 1.25rem; letter-spacing: -.01em; }\n  .d { color: var(--mute); }\n  .rows li:hover .d { color: var(--paper); }\n  @media (max-width: 700px) { .rows li { grid-template-columns: 2.5rem 1fr; } .d { grid-column: 2; } }\n}");
+__style("@scope (.mau-1i8392) {\n:scope { padding: 3rem clamp(1rem, 4vw, 2.5rem); border-bottom: 2px solid var(--ink); }\r\n  .label { margin: 0 0 1.4rem; font-family: var(--mono); font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; }\r\n  .rows { list-style: none; margin: 0; padding: 0; border-bottom: 2px solid var(--ink); }\r\n  .rows li {\r\n    display: grid; grid-template-columns: 4rem minmax(9rem, 1fr) 2fr; gap: 1rem; align-items: baseline;\r\n    padding: 1rem .6rem; border-top: 2px solid var(--ink); transition: background .1s;\r\n  }\r\n  .rows li:hover { background: var(--ink); color: var(--paper); }\r\n  .n { font-family: var(--mono); color: var(--accent); font-weight: 700; }\r\n  .t { font-size: 1.25rem; letter-spacing: -.01em; }\r\n  .d { color: var(--mute); }\r\n  .rows li:hover .d { color: var(--paper); }\r\n  @media (max-width: 700px) { .rows li { grid-template-columns: 2.5rem 1fr; } .d { grid-column: 2; } }\n}");
 
 export default function Features(props = {}) {
   const rows = [
@@ -11,9 +11,9 @@ export default function Features(props = {}) {
     { n: "03", title: "Strict CSP", text: "No eval, no inline handlers, no inline styles. Runs under default-src 'none'." },
     { n: "04", title: "Escaped by default", text: "Text stays text. Raw HTML needs an explicit @html, so player names can't inject." },
     { n: "05", title: "Scoped styles", text: "Native @scope. Short CSS next to the markup, and it stays in its component." },
-    { n: "06", title: "Keyed lists + router", text: "Rows get moved, not rebuilt. Hash router, works from any static server." },
+    { n: "06", title: "Keyed lists + router", text: "Rows get moved, not rebuilt. Router with real paths, and plain links just work." },
   ];
   const __root = __h("section", { "class": "features", "id": "features" }, __h("h2", { "class": "label" }, "what it does"), __h("ol", { "class": "rows" }, __each(() => (rows), (r) => (r.n), (r) => [__h("li", {  }, __h("span", { "class": "n" }, () => (r.n)), __h("b", { "class": "t" }, () => (r.title)), __h("span", { "class": "d" }, () => (r.text)))], true)));
-  __root.classList.add("mau-1wjmaw");
+  __root.classList.add("mau-1i8392");
   return __root;
 }

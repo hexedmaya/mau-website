@@ -15,7 +15,7 @@
   <nav class="side">
     <p class="cap">docs</p>
     {#each pages as p, i (p.slug)}
-      <a href={"#/docs/" + p.slug} class={p.slug === slug ? "on" : ""}>
+      <a href={"/docs/" + p.slug} class={p.slug === slug ? "on" : ""}>
         <span>{String(i + 1).padStart(2, "0")}</span> {p.title}
       </a>
     {/each}
@@ -37,8 +37,8 @@
       {/each}
 
       <div class="pager">
-        {#if prev}<a href={"#/docs/" + prev.slug}>← {prev.title}</a>{/if}
-        {#if next}<a class="right" href={"#/docs/" + next.slug}>{next.title} →</a>{/if}
+        {#if prev}<a href={"/docs/" + prev.slug}>← {prev.title}</a>{/if}
+        {#if next}<a class="right" href={"/docs/" + next.slug}>{next.title} →</a>{/if}
       </div>
     {:else}
       <h1>404</h1>

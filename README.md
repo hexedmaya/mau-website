@@ -4,13 +4,16 @@ The website and docs of mau, built with mau itself. Every page is a `.mau` compo
 
 ```
 index.html          the page, with a strict Content-Security-Policy
+<page>/index.html   one small file per page with its own share preview (generated)
+build-pages.mjs     writes those files
+dev-server.mjs      a tiny server with the index.html fallback
 main.js             mounts the site
 src/
   Site.mau          layout, navigation and routes
   pages/            Home, Docs, Try, About, NotFound
   components/       Hero, Features, Footer
   content/docs.js   the text of the docs pages
-brand/              logo, icon and PNG variants
+assets/brand/       logo, icon and PNG variants
 BRAND-POLICY.md     how the mau name and logo may be used (shown on the brand page)
 vendor/mau/         a copy of the mau runtime
 ```
@@ -19,13 +22,13 @@ The `.js` file next to each `.mau` file is generated and committed.
 
 ## Run it
 
-Any static server, from this folder:
+The site uses real paths (`/docs/router`), so the server has to answer every unknown path with `index.html`. This repo has a small server for that:
 
 ```
-python -m http.server 8000
+node dev-server.mjs          # http://localhost:8080
 ```
 
-Then open http://localhost:8000/
+`python -m http.server` is not enough: a reload on `/docs/router` would be a 404. On Cloudflare Pages it works without settings (no `404.html`), on Caddy and Nginx it needs one line, see the router page in the docs.
 
 ## Change it
 
@@ -36,6 +39,22 @@ node ../mau/compiler/cli.js src --runtime ./vendor/mau/index.js
 ```
 
 Add `--watch` while you work.
+
+## Share previews
+
+Chat apps like Discord do not run JavaScript. They read the HTML of the link. So every page has its own small `index.html` with a title, a description, a theme color and a preview image (Open Graph and Twitter tags). They are generated from `src/content/pages.js`:
+
+```
+node build-pages.mjs
+```
+
+The image and the page addresses in those tags need the public address of the site. It defaults to `https://mau.melloo.me`. If the site lives somewhere else:
+
+```
+SITE_URL=https://example.com node build-pages.mjs
+```
+
+Run it again whenever you add a page or a docs page, and commit the result.
 
 ## `vendor/mau`
 

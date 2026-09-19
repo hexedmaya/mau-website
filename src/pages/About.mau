@@ -3,7 +3,7 @@
     "signals, computed, effects with clean-up",
     "compiler with file:line:col errors",
     "keyed lists, if / else, components",
-    "hash router",
+    "router with real paths",
     "scoped styles under a strict CSP",
     "glitch-free updates, batched per event",
     "live component props",

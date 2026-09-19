@@ -5,7 +5,7 @@
     { n: "03", title: "Strict CSP", text: "No eval, no inline handlers, no inline styles. Runs under default-src 'none'." },
     { n: "04", title: "Escaped by default", text: "Text stays text. Raw HTML needs an explicit @html, so player names can't inject." },
     { n: "05", title: "Scoped styles", text: "Native @scope. Short CSS next to the markup, and it stays in its component." },
-    { n: "06", title: "Keyed lists + router", text: "Rows get moved, not rebuilt. Hash router, works from any static server." },
+    { n: "06", title: "Keyed lists + router", text: "Rows get moved, not rebuilt. Router with real paths, and plain links just work." },
   ];
 </script>
 

@@ -49,6 +49,7 @@ mount(document.getElementById("app"), Counter);`,
       h: "Serve it",
       p: [
         "Any static server works, for example `python -m http.server`. There is nothing to bundle: ES modules run in the browser as they are.",
+        "If your app uses the router, the server must also answer unknown paths with `index.html`. The router page in the docs shows how.",
       ],
       code: `python -m http.server 8000`,
     },
@@ -76,8 +77,8 @@ mount(document.getElementById("app"), Counter);`,
   {/each}
 
   <div class="next">
-    <a class="big" href="#/docs">read the docs →</a>
-    <a class="big" href="#/try">try it →</a>
+    <a class="big" href="/docs">read the docs →</a>
+    <a class="big" href="/try">try it →</a>
   </div>
 </section>
 

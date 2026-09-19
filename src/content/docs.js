@@ -283,7 +283,7 @@ destroy();`,
   {
     slug: "router",
     title: "Router",
-    intro: "A small hash router. It needs no server setup, so any static host works.",
+    intro: "A small history router with real paths like /docs/router. Plain links are enough.",
     blocks: [
       {
         h: "Define routes",
@@ -311,21 +311,54 @@ destroy();`,
         code: `const { id } = props.params;         // /instance/3?tab=log
 const { tab } = props.query;
 
-<a class={route().path === "/" ? "on" : ""} href="#/">home</a>`,
+<a class={route().path === "/" ? "on" : ""} href="/">home</a>`,
       },
       {
         h: "Move around",
-        p: ["Use plain links with a `#`, or call `navigate` from code."],
-        code: `<a href="#/instance/3">three</a>
+        p: [
+          "A normal link is all it takes. A click on a link to your own site becomes a navigation without a page load. Ctrl-click, `target=\"_blank\"`, downloads, other sites and `#anchors` on the same page work as usual.",
+          "From code, use `navigate`. With `replace` the current history entry is swapped instead of a new one added.",
+        ],
+        code: `<a href="/instance/3">three</a>
 
-navigate("/instance/3");`,
+navigate("/instance/3");
+navigate("/login", { replace: true });`,
+      },
+      {
+        h: "Server setup",
+        p: [
+          "The paths are real, so the server has to answer every unknown path with `index.html`. Otherwise a reload on `/docs/router` is a 404.",
+          "Cloudflare Pages does this on its own when the project has no `404.html`. Caddy and Nginx need one line:",
+        ],
+        code: `# Caddy
+try_files {path} /index.html
+
+# Nginx
+try_files $uri $uri/ /index.html;`,
+      },
+      {
+        h: "Links people share",
+        p: [
+          "Chat apps and search engines do not run JavaScript. They read the HTML of the address they are given, and a single-page app has one HTML file for every path.",
+          "For a title, a text and a preview image per page, write a small `index.html` for each route with its own meta tags. This site generates them from one list with `build-pages.mjs`.",
+        ],
+      },
+      {
+        h: "Below a path",
+        p: [
+          "If the site lives at `/app` instead of the root of a domain, pass a base. Routes stay written without it, links in your markup use the full path, and `navigate` adds it for you.",
+        ],
+        code: `router({ "/": Home, "/docs": Docs }, { base: "/app" });
+
+<a href="/app/docs">docs</a>
+navigate("/docs");        // goes to /app/docs`,
       },
       {
         h: "Good to know",
         p: [
           "The page is rebuilt on every route change and the old one is destroyed, so its effects and `onDestroy` callbacks are cleaned up.",
           "Scrolling to the top is not automatic. This site does it with an effect on `route()`.",
-          "A broken `%` sequence in a URL does not throw, the raw text is used.",
+          "A trailing slash is ignored, and a broken `%` sequence in a URL does not throw, the raw text is used.",
         ],
       },
     ],
@@ -445,9 +478,9 @@ const { code } = compile(source, {
       { h: "raw(html)", p: ["Marks a string as HTML for `h`. Same trust rules as `{@html}`."] },
       { h: "each(list, key, render, live)", p: ["The keyed list the compiler emits for `{#each}`."] },
       { h: "adoptStyle(css)", p: ["Adds a constructed stylesheet. Used for the scoped styles."] },
-      { h: "router(routes)", p: ["Returns a function that renders the page for the current hash."] },
-      { h: "route()", p: ["Reactive `{ path, query }` of the current hash."] },
-      { h: "navigate(path)", p: ["Sets the hash, for example `navigate(\"/docs\")`."] },
+      { h: "router(routes, options)", p: ["Returns a function that renders the page for the current path. Option: `{ base: \"/app\" }`."] },
+      { h: "route()", p: ["Reactive `{ path, query }` of the current address."] },
+      { h: "navigate(path, options)", p: ["Goes to a path without a page load, for example `navigate(\"/docs\")`. Option: `{ replace: true }`."] },
     ],
   },
 ];
