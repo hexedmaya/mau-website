@@ -1,5 +1,5 @@
-// A tiny static server for working on the site. Like the real host, it answers every unknown path with
-// index.html, so a reload on /docs/router works. No dependencies.
+// A tiny static server for working on the site. Like the real host, every page has its own file and every
+// address that is not a page is a real 404 that shows 404.html. No dependencies.
 //
 //   node dev-server.mjs          # http://localhost:8080
 //   node dev-server.mjs 3000
@@ -23,13 +23,18 @@ function fileFor(urlPath) {
   if (fs.existsSync(p) && fs.statSync(p).isFile()) return p;
   const index = path.join(p, "index.html");
   if (fs.existsSync(index)) return index;
-  // a path with a file extension that does not exist is a real 404, everything else is a page of the app
-  return path.extname(p) ? null : path.join(root, "index.html");
+  return null;
 }
 
 http.createServer((req, res) => {
   const file = fileFor(new URL(req.url, "http://x").pathname);
-  if (!file) { res.writeHead(404, { "content-type": "text/plain" }).end("not found"); return; }
+  if (!file) {
+    const page = path.join(root, "404.html");
+    if (path.extname(req.url.split("?")[0]) || !fs.existsSync(page)) { res.writeHead(404, { "content-type": "text/plain" }).end("not found"); return; }
+    res.writeHead(404, { "content-type": "text/html; charset=utf-8" });
+    fs.createReadStream(page).pipe(res);
+    return;
+  }
   res.writeHead(200, { "content-type": types[path.extname(file)] ?? "application/octet-stream", "cache-control": "no-cache" });
   fs.createReadStream(file).pipe(res);
 }).listen(port, () => console.log(`http://localhost:${port}`));

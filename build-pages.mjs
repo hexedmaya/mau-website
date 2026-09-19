@@ -1,4 +1,4 @@
-// Writes one small index.html per page (index.html, docs/index.html, docs/router/index.html, ...).
+// Writes one small index.html per page (index.html, docs/index.html, docs/router/index.html, ...) and 404.html.
 // Chat apps and search engines do not run JavaScript. They read the HTML of the address they get, so every
 // page needs its own title, description and preview image in its HTML. The app itself is the same everywhere.
 //
@@ -15,7 +15,7 @@ const IMAGE = `${SITE}/assets/brand/png/mau-social-1280x640.png`;
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 
-const html = ({ path: p, title, description }) => `<!doctype html>
+const html = ({ path: p, title, description, notFound }) => `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -24,14 +24,14 @@ const html = ({ path: p, title, description }) => `<!doctype html>
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}">
   <meta name="theme-color" content="#ff4b1f">
-  <link rel="canonical" href="${SITE}${p === "/" ? "/" : p}">
+${notFound ? `  <meta name="robots" content="noindex">` : `  <link rel="canonical" href="${SITE}${p === "/" ? "/" : p + "/"}">`}
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="mau">
   <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(description)}">
-  <meta property="og:url" content="${SITE}${p === "/" ? "/" : p}">
+${notFound ? "" : `  <meta property="og:url" content="${SITE}${p === "/" ? "/" : p + "/"}">\n`}
   <meta property="og:image" content="${IMAGE}">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1280">
@@ -57,4 +57,7 @@ for (const page of pages) {
   fs.writeFileSync(path.join(dir, "index.html"), html(page));
   n++;
 }
-console.log(`${n} pages written for ${SITE}`);
+// 404.html: the server sends it, with the status 404, for every address that is not a page. The app shows its not-found page.
+fs.writeFileSync(path.join(root, "404.html"), html({ path: "/404", title: "Not found · mau", description: "This page does not exist.", notFound: true }));
+
+console.log(`${n} pages and 404.html written for ${SITE}`);

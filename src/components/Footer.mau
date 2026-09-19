@@ -22,6 +22,12 @@
     <a href={links.website} target="_blank" rel="noopener">source code of this website ↗</a>
     <a href={links.vs} target="_blank" rel="noopener">VS Code extension source ↗</a>
   </div>
+  <div class="legal">
+    <a href="/licenses">license</a>
+    <a href="/licenses/website">website license</a>
+    <a href="/imprint">imprint</a>
+    <a href="/privacy">privacy</a>
+  </div>
   <div class="line">
     <span>mau, by <a class="by" href={links.profile} target="_blank" rel="noopener">hexedmaya</a></span>
     <span class="copy">© 2026 hexedmaya</span>
@@ -41,6 +47,9 @@
   .ext { display: flex; flex-wrap: wrap; gap: .4rem 1.5rem; padding: 0 clamp(1rem, 4vw, 2.5rem) 1.5rem; }
   .ext a { color: var(--mute); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .22em; }
   .ext a:hover { background: var(--accent); color: #000; text-decoration: none; }
+  .legal { display: flex; flex-wrap: wrap; gap: .4rem 1.5rem; padding: 0 clamp(1rem, 4vw, 2.5rem) 1.5rem; }
+  .legal a { color: var(--mute); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .22em; }
+  .legal a:hover { background: var(--accent); color: #000; text-decoration: none; }
   .by { background: var(--accent); color: #000; padding: 0 .3em; text-decoration: none; font-weight: 700; }
   .by:hover { background: var(--ink); color: var(--paper); }
   .copy { color: var(--mute); }

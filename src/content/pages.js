@@ -34,6 +34,26 @@ export const pages = [
     title: "Brand · mau",
     description: "The mau logo, colors and brand policy.",
   },
+  {
+    path: "/licenses",
+    title: "License · mau",
+    description: "The mau License 1.0: use mau, also commercially, to build your own products. Do not sell mau itself.",
+  },
+  {
+    path: "/licenses/website",
+    title: "Website License · mau",
+    description: "The license of the mau website: its code, design, text and graphics.",
+  },
+  {
+    path: "/imprint",
+    title: "Imprint · mau",
+    description: "Imprint of mau.melloo.me.",
+  },
+  {
+    path: "/privacy",
+    title: "Privacy · mau",
+    description: "What this website stores: server logs, no analytics, no cookies, no third-party resources.",
+  },
 ];
 
 export const titleFor = (path) => (pages.find((p) => p.path === path) ?? { title: "Not found · mau" }).title;

@@ -5,6 +5,7 @@
   import Try from "./pages/Try.js";
   import About from "./pages/About.js";
   import Brand from "./pages/Brand.js";
+  import Legal from "./pages/Legal.js";
   import NotFound from "./pages/NotFound.js";
   import Footer from "./components/Footer.js";
   import { titleFor } from "./content/pages.js";
@@ -18,6 +19,10 @@
     "/try": Try,
     "/about": About,
     "/brand": Brand,
+    "/licenses": Legal,
+    "/licenses/website": Legal,
+    "/imprint": Legal,
+    "/privacy": Legal,
     "*": NotFound,
   });
 

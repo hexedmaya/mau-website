@@ -1,4 +1,7 @@
 <script>
+  import Markdown from "../components/Markdown.js";
+  import { parseMarkdown } from "../content/markdown.js";
+
   const logos = [
     { file: "logo.svg", label: "logo, light", bg: "paper" },
     { file: "logo-dark.svg", label: "logo, dark", bg: "ink" },
@@ -31,38 +34,9 @@
   const blocks = signal([]);
   const failed = signal(false);
 
-  function parse(md) {
-    const out = [];
-    let para = [], list = null, quote = null;
-    const flush = () => {
-      if (para.length) out.push({ t: "p", text: para.join(" ") });
-      if (list) out.push({ t: "ul", items: list });
-      if (quote) out.push({ t: "quote", text: quote.join("\n") });
-      para = []; list = null; quote = null;
-    };
-    for (const line of md.split(/\r?\n/)) {
-      if (/^#{1,3} /.test(line)) {
-        flush();
-        if (!line.startsWith("# ")) out.push({ t: "h", text: line.replace(/^#+ /, "") });
-      } else if (line.startsWith("* ")) {
-        if (!list) flush();
-        (list ??= []).push(line.slice(2));
-      } else if (line.startsWith("> ")) {
-        if (!quote) flush();
-        (quote ??= []).push(line.slice(2));
-      } else if (!line.trim()) flush();
-      else {
-        if (list || quote) flush();
-        para.push(line);
-      }
-    }
-    flush();
-    return out;
-  }
-
   fetch("/BRAND-POLICY.md")
     .then((r) => (r.ok ? r.text() : Promise.reject(new Error("not found"))))
-    .then((text) => blocks.set(parse(text)))
+    .then((text) => blocks.set(parseMarkdown(text).filter((b) => b.t !== "h1")))
     .catch(() => failed.set(true));
 </script>
 
@@ -103,17 +77,7 @@
     {#if failed()}
       <p class="note">The policy could not be loaded. It is the file <a href="/BRAND-POLICY.md">BRAND-POLICY.md</a>.</p>
     {/if}
-    {#each blocks() as b}
-      {#if b.t === "h"}
-        <h3>{b.text}</h3>
-      {:else if b.t === "ul"}
-        <ul>{#each b.items as it}<li>{it}</li>{/each}</ul>
-      {:else if b.t === "quote"}
-        <blockquote>{b.text}</blockquote>
-      {:else}
-        <p>{b.text}</p>
-      {/if}
-    {/each}
+    <Markdown blocks={blocks} />
   </div>
 </section>
 
@@ -142,10 +106,5 @@
   .swatch code { font-family: var(--mono); font-size: .85rem; color: var(--mute); }
 
   .policy { max-width: 46rem; }
-  .policy h3 { margin: 2rem 0 .5rem; font-size: 1.25rem; letter-spacing: -.01em; }
-  .policy p { margin: 0 0 .8rem; }
-  .policy ul { margin: 0 0 1rem; padding-left: 1.2rem; }
-  .policy li { margin: .2rem 0; }
-  .policy blockquote { margin: 0 0 1rem; padding: .6rem 1rem; border-left: 4px solid var(--accent); white-space: pre-line; font-family: var(--mono); font-size: .9rem; }
   .note { font-family: var(--mono); }
 </style>

@@ -6,7 +6,9 @@ The website and docs of mau, built with mau itself. Every page is a `.mau` compo
 index.html          the page, with a strict Content-Security-Policy
 <page>/index.html   one small file per page with its own share preview (generated)
 build-pages.mjs     writes those files
-dev-server.mjs      a tiny server with the index.html fallback
+dev-server.mjs      a tiny server: every page has a file, everything else is a 404
+deploy/             an example nginx configuration
+404.html            shown for every address that is not a page (generated)
 main.js             mounts the site
 src/
   Site.mau          layout, navigation and routes
@@ -22,13 +24,13 @@ The `.js` file next to each `.mau` file is generated and committed.
 
 ## Run it
 
-The site uses real paths (`/docs/router`), so the server has to answer every unknown path with `index.html`. This repo has a small server for that:
+The site uses real paths (`/docs/router`). Every page has its own small `index.html`, so a normal static server is enough. This repo has a small one that also shows `404.html` for unknown addresses:
 
 ```
 node dev-server.mjs          # http://localhost:8080
 ```
 
-`python -m http.server` is not enough: a reload on `/docs/router` would be a 404. On Cloudflare Pages it works without settings (no `404.html`), on Caddy and Nginx it needs one line, see the router page in the docs.
+`python -m http.server` opens `/docs/router/` as well, but it shows its own 404 page instead of ours.
 
 ## Change it
 
@@ -39,6 +41,15 @@ node ../mau/compiler/cli.js src --runtime ./vendor/mau/index.js
 ```
 
 Add `--watch` while you work.
+
+## Deploy
+
+The site is plain files: upload the whole folder, no build step. It needs a server that
+
+- serves `<page>/index.html` for `/<page>/` and redirects `/<page>` to it,
+- answers everything that is not a file with a real 404 that shows `404.html`.
+
+`deploy/nginx.example.conf` is an example for nginx behind Cloudflare, as `mau.melloo.me` runs. It is an example and has not been run against a live server. `node dev-server.mjs` behaves the same way on your machine.
 
 ## Share previews
 
@@ -54,7 +65,7 @@ The image and the page addresses in those tags need the public address of the si
 SITE_URL=https://example.com node build-pages.mjs
 ```
 
-Run it again whenever you add a page or a docs page, and commit the result.
+It also writes `404.html`. Run it again whenever you add a page or a docs page, and commit the result.
 
 ## `vendor/mau`
 

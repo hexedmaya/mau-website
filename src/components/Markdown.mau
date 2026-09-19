@@ -1,0 +1,37 @@
+<script>
+  import { segs } from "../content/text.js";
+</script>
+
+<div class="md">
+  {#each props.blocks() as b}
+    {#if b.t === "h1"}
+      <h2 class="t">{b.text}</h2>
+    {:else if b.t === "h2"}
+      <h3>{b.text}</h3>
+    {:else if b.t === "h3"}
+      <h4>{b.text}</h4>
+    {:else if b.t === "ul"}
+      <ul>{#each b.items as it}<li>{#each segs(it) as s}{#if s.code}<code>{s.t}</code>{:else}{s.t}{/if}{/each}</li>{/each}</ul>
+    {:else if b.t === "ol"}
+      <ol>{#each b.items as it}<li>{#each segs(it) as s}{#if s.code}<code>{s.t}</code>{:else}{s.t}{/if}{/each}</li>{/each}</ol>
+    {:else if b.t === "quote"}
+      <blockquote>{b.text}</blockquote>
+    {:else}
+      <p>{#each segs(b.text) as s}{#if s.code}<code>{s.t}</code>{:else if s.href}<a href={s.href}>{s.t}</a>{:else}{s.t}{/if}{/each}</p>
+    {/if}
+  {/each}
+</div>
+
+<style>
+  :scope { max-width: 46rem; }
+  .t { margin: 0 0 1rem; font-size: 1.6rem; letter-spacing: -.02em; }
+  h3 { margin: 2rem 0 .5rem; font-size: 1.25rem; letter-spacing: -.01em; }
+  h4 { margin: 1.4rem 0 .4rem; font-family: var(--mono); font-size: .85rem; text-transform: uppercase; letter-spacing: .1em; color: var(--accent); }
+  p { margin: 0 0 .8rem; white-space: pre-line; }
+  ul, ol { margin: 0 0 1rem; padding-left: 1.4rem; }
+  li { margin: .2rem 0; }
+  blockquote { margin: 0 0 1rem; padding: .6rem 1rem; border-left: 4px solid var(--accent); white-space: pre-line; font-family: var(--mono); font-size: .9rem; }
+  code { font-family: var(--mono); font-size: .88em; background: var(--ink); color: var(--paper); padding: .05em .35em; }
+  a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
+  a:hover { background: var(--accent); color: #000; text-decoration: none; }
+</style>

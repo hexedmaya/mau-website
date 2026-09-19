@@ -1,0 +1,72 @@
+<script>
+  import Markdown from "../components/Markdown.js";
+  import { parseMarkdown } from "../content/markdown.js";
+  import { imprint, privacy } from "../content/legal.js";
+  import { links } from "../content/links.js";
+
+  // one page for four addresses: the two license texts are read from their LICENSE files
+  const all = {
+    "/licenses": { heading: "license", src: "/vendor/mau/LICENSE", repo: links.mau },
+    "/licenses/website": { heading: "license", src: "/LICENSE", repo: links.website },
+    "/imprint": { heading: "imprint", text: imprint },
+    "/privacy": { heading: "privacy", text: privacy },
+  };
+  const path = route().path;
+  const page = all[path];
+  const isLicense = path === "/licenses" || path === "/licenses/website";
+
+  const subtitle = signal("");
+  const blocks = signal([]);
+  const failed = signal(false);
+
+  const show = (md) => {
+    const parsed = parseMarkdown(md);
+    subtitle.set(isLicense ? parsed.find((b) => b.t === "h1")?.text ?? "" : "");
+    blocks.set(parsed.filter((b) => b.t !== "h1"));
+  };
+
+  if (page.text) show(page.text);
+  else {
+    fetch(page.src)
+      .then((r) => (r.ok ? r.text() : Promise.reject(new Error("not found"))))
+      .then(show)
+      .catch(() => failed.set(true));
+  }
+</script>
+
+<section class="legal">
+  <h1 class="head">{page.heading}</h1>
+
+  {#if isLicense}
+    <nav class="tabs">
+      <a href="/licenses" class={path === "/licenses" ? "on" : ""}>mau License</a>
+      <a href="/licenses/website" class={path === "/licenses/website" ? "on" : ""}>Website License</a>
+      <a href="/brand">Brand Policy</a>
+    </nav>
+    <p class="sub">{subtitle()}</p>
+  {/if}
+
+  {#if failed()}
+    <p class="note">The text could not be loaded. It is the file <a href={page.src}>{page.src}</a>.</p>
+  {/if}
+
+  <Markdown blocks={blocks} />
+
+  {#if isLicense}
+    <p class="from">The text is the file <a href={page.repo + "/blob/main/LICENSE"} target="_blank" rel="noopener">LICENSE ↗</a> in the repository.</p>
+  {/if}
+</section>
+
+<style>
+  :scope { padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2.5rem) 3rem; }
+  .head { margin: 0 0 1.4rem; font-size: clamp(3.5rem, 13vw, 8rem); line-height: .85; font-weight: 900; letter-spacing: -.06em; }
+  .tabs { display: flex; flex-wrap: wrap; margin-bottom: 1.6rem; border: 2px solid var(--ink); width: fit-content; max-width: 100%; font-family: var(--mono); font-size: .85rem; }
+  .tabs a { padding: .55rem 1rem; color: var(--ink); text-decoration: none; border-right: 2px solid var(--ink); }
+  .tabs a:last-child { border-right: 0; }
+  .tabs a:hover, .tabs a.on { background: var(--accent); color: #000; }
+  .sub { margin: 0 0 1.6rem; font-size: 1.3rem; font-weight: 800; letter-spacing: -.02em; }
+  .note { font-family: var(--mono); }
+  .from { margin-top: 2.5rem; padding-top: 1.2rem; border-top: 2px solid var(--ink); font-family: var(--mono); font-size: .85rem; color: var(--mute); }
+  .from a, .note a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
+  .from a:hover, .note a:hover { background: var(--accent); color: #000; text-decoration: none; }
+</style>

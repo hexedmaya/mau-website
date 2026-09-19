@@ -329,7 +329,7 @@ navigate("/login", { replace: true });`,
       {
         h: "Server setup",
         p: [
-          "The paths are real, so the server has to answer every unknown path with `index.html`. Otherwise a reload on `/docs/router` is a 404.",
+          "The paths are real, so the server has to answer every path of your app with a page. For an app with paths it cannot know in advance, like `/instance/3`, that means answering every unknown path with `index.html`. Otherwise a reload on `/docs/router` is a 404.",
           "Cloudflare Pages does this on its own when the project has no `404.html`. Caddy and Nginx need one line:",
         ],
         code: `# Caddy
@@ -337,6 +337,12 @@ try_files {path} /index.html
 
 # Nginx
 try_files $uri $uri/ /index.html;`,
+      },
+      {
+        h: "A file for every page",
+        p: [
+          "If all your paths are known, like on this site, write a small `index.html` for each of them (see below). Then no fallback is needed and unknown addresses are real 404s: point the server at a `404.html`. In Nginx that is `error_page 404 /404.html;` and `try_files $uri $uri/ =404;`, a complete example is in the repository of this site.",
+        ],
       },
       {
         h: "Links people share",
