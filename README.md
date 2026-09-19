@@ -51,6 +51,10 @@ The site is plain files: upload the whole folder, no build step. It needs a serv
 
 `deploy/nginx.example.conf` is an example for nginx behind Cloudflare, as `mau.melloo.me` runs. It is an example and has not been run against a live server. `node dev-server.mjs` behaves the same way on your machine.
 
+### Cloudflare and the Content-Security-Policy
+
+Behind Cloudflare, the browser console can show "Executing inline script violates the following Content Security Policy directive 'script-src 'self''". That script is not part of this site. It is Cloudflare's bot detection (JavaScript detections, `/cdn-cgi/challenge-platform/scripts/jsd/main.js`), added to every HTML response, and the policy blocks it, as it should. The site works either way. To make the message go away, switch off "JavaScript detections" for the domain in Cloudflare (Security, Bots). Allowing the script through the policy does not work, because it changes on every request.
+
 ## Share previews
 
 Chat apps like Discord do not run JavaScript. They read the HTML of the link. So every page has its own small `index.html` with a title, a description, a theme color and a preview image (Open Graph and Twitter tags). They are generated from `src/content/pages.js`:
