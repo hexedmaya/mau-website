@@ -1,0 +1,104 @@
+<script>
+  const steps = [
+    {
+      n: "01",
+      h: "Get it",
+      p: [
+        "mau is a folder. Copy the `mau/` directory into your project. It holds the runtime (`index.js` and its friends) and the compiler (`compiler/`).",
+        "You need a recent Node.js to run the compiler, and only on your own machine. The browser never sees it.",
+      ],
+    },
+    {
+      n: "02",
+      h: "Write a component",
+      p: ["Save this as `src/Counter.mau`. Script on top, markup below."],
+      code: `<script>
+  const n = signal(0);
+</script>
+
+<button on:click={() => n.set(n() + 1)}>
+  clicked {n()}
+</button>`,
+    },
+    {
+      n: "03",
+      h: "Compile it",
+      p: [
+        "Every `.mau` file gets a `.js` file next to it. Commit both, so nobody else needs a build step.",
+        "Add `--watch` while you work and it recompiles on every save.",
+      ],
+      code: `node mau/compiler/cli.js src
+node mau/compiler/cli.js src --watch`,
+    },
+    {
+      n: "04",
+      h: "Mount it",
+      p: ["A page, a script, and one call to `mount`."],
+      code: `<!-- index.html -->
+<div id="app"></div>
+<script type="module" src="main.js"></script>
+
+// main.js
+import { mount } from "./mau/index.js";
+import Counter from "./src/Counter.js";
+
+mount(document.getElementById("app"), Counter);`,
+    },
+    {
+      n: "05",
+      h: "Serve it",
+      p: [
+        "Any static server works, for example `python -m http.server`. There is nothing to bundle: ES modules run in the browser as they are.",
+      ],
+      code: `python -m http.server 8000`,
+    },
+  ];
+
+  // backticks in the text mark inline code
+  const segs = (text) => text.split("`").map((t, i) => ({ t, code: i % 2 === 1 }));
+</script>
+
+<section class="start">
+  <h1 class="head">start</h1>
+  <p class="intro">mau turns .mau files into plain JavaScript. The people who use what you build install nothing.</p>
+
+  {#each steps as s (s.n)}
+    <article class="step">
+      <div class="info">
+        <span class="n">{s.n}</span>
+        <h2>{s.h}</h2>
+        {#each s.p as text (text)}
+          <p>{#each segs(text) as part}{#if part.code}<code>{part.t}</code>{:else}{part.t}{/if}{/each}</p>
+        {/each}
+      </div>
+      {#if s.code}<pre class="code"><code>{s.code}</code></pre>{/if}
+    </article>
+  {/each}
+
+  <div class="next">
+    <a class="big" href="#/docs">read the docs →</a>
+    <a class="big" href="#/try">try it →</a>
+  </div>
+</section>
+
+<style>
+  :scope { padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2.5rem) 2rem; }
+  .head { margin: 0 0 .8rem; font-size: clamp(3.5rem, 13vw, 8rem); line-height: .85; font-weight: 900; letter-spacing: -.06em; }
+  .intro { max-width: 40rem; margin: 0 0 2.5rem; font-size: 1.2rem; }
+
+  .step { display: grid; grid-template-columns: 1fr 1.3fr; gap: 2rem; padding: 1.6rem 0; border-top: 2px solid var(--ink); }
+  @media (max-width: 800px) { .step { grid-template-columns: minmax(0, 1fr); gap: 1rem; } }
+  .n { font-family: var(--mono); font-weight: 700; color: var(--accent); }
+  .step h2 { margin: .1rem 0 .5rem; font-size: 1.6rem; letter-spacing: -.02em; }
+  .step p { max-width: 32rem; margin: 0 0 .7rem; }
+  .step p code { font-family: var(--mono); font-size: .88em; background: var(--ink); color: var(--paper); padding: .05em .35em; }
+  .code { margin: 0; padding: 1rem 1.2rem; overflow: auto; align-self: start; background: var(--ink); color: var(--paper); font: .84rem/1.65 var(--mono); }
+  .code code { font-family: inherit; }
+
+  .next { display: flex; flex-wrap: wrap; gap: 1rem 2rem; padding-top: 2rem; border-top: 2px solid var(--ink); }
+  .big {
+    font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 900; letter-spacing: -.03em; color: var(--ink);
+    text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: .18em;
+  }
+  .big:hover { background: var(--accent); color: #000; text-decoration: none; }
+</style>

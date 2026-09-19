@@ -1,5 +1,6 @@
 <script>
   import Home from "./pages/Home.js";
+  import Start from "./pages/Start.js";
   import Docs from "./pages/Docs.js";
   import Try from "./pages/Try.js";
   import About from "./pages/About.js";
@@ -9,6 +10,7 @@
 
   const view = router({
     "/": Home,
+    "/start": Start,
     "/docs": Docs,
     "/docs/:page": Docs,
     "/try": Try,

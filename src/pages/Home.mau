@@ -29,7 +29,7 @@
   <Features />
 
   <div class="next">
-    <a class="big" href="#/docs/start">start here →</a>
+    <a class="big" href="#/start">start here →</a>
     <a class="big" href="#/try">try it →</a>
   </div>
 </div>

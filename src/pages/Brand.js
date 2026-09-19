@@ -11,7 +11,7 @@ export default function Brand(props = {}) {
     { file: "logo-mono.svg", label: "logo, one color", bg: "paper" },
     { file: "icon.svg", label: "icon", bg: "paper" },
   ];
-  
+
   const downloads = [
     { file: "logo.svg", note: "svg, for light backgrounds" },
     { file: "logo-dark.svg", note: "svg, for dark backgrounds" },
@@ -23,7 +23,7 @@ export default function Brand(props = {}) {
     { file: "png/mau-logo-transparent-dark-512.png", note: "png, 512 x 512, transparent, for dark" },
     { file: "png/mau-social-1280x640.png", note: "png, 1280 x 640, social preview" },
   ];
-  
+
   const colors = [
     { name: "ink", hex: "#141414" },
     { name: "paper", hex: "#f1eee4" },
@@ -32,11 +32,11 @@ export default function Brand(props = {}) {
     { name: "paper, dark mode", hex: "#131311" },
     { name: "orange, dark mode", hex: "#ff5a2b" },
   ];
-  
+
   // the policy is BRAND-POLICY.md next to the page, turned into simple blocks
   const blocks = signal([]);
   const failed = signal(false);
-  
+
   function parse(md) {
     const out = [];
     let para = [], list = null, quote = null;
@@ -65,7 +65,7 @@ export default function Brand(props = {}) {
     flush();
     return out;
   }
-  
+
   fetch("BRAND-POLICY.md")
     .then((r) => (r.ok ? r.text() : Promise.reject(new Error("not found"))))
     .then((text) => blocks.set(parse(text)))

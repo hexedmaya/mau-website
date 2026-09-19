@@ -1,60 +1,6 @@
 // Content of the docs pages. Backticks in a paragraph mark inline code.
 export default [
   {
-    slug: "start",
-    title: "Getting started",
-    intro: "mau turns .mau files into plain JavaScript. The people who use what you build install nothing.",
-    blocks: [
-      {
-        h: "Get it",
-        p: [
-          "mau is a folder. Copy the `mau/` directory into your project. It holds the runtime (`index.js` and its friends) and the compiler (`compiler/`).",
-          "You need a recent Node.js to run the compiler, and only on your own machine. The browser never sees it.",
-        ],
-      },
-      {
-        h: "Write a component",
-        p: ["Save this as `src/Counter.mau`. Script on top, markup below."],
-        code: `<script>
-  const n = signal(0);
-</script>
-
-<button on:click={() => n.set(n() + 1)}>
-  clicked {n()}
-</button>`,
-      },
-      {
-        h: "Compile it",
-        p: [
-          "Every `.mau` file gets a `.js` file next to it. Commit both, so nobody else needs a build step.",
-          "Add `--watch` while you work and it recompiles on every save.",
-        ],
-        code: `node mau/compiler/cli.js src
-node mau/compiler/cli.js src --watch`,
-      },
-      {
-        h: "Mount it",
-        p: ["A page, a script, and one call to `mount`."],
-        code: `<!-- index.html -->
-<div id="app"></div>
-<script type="module" src="main.js"></script>
-
-// main.js
-import { mount } from "./mau/index.js";
-import Counter from "./src/Counter.js";
-
-mount(document.getElementById("app"), Counter);`,
-      },
-      {
-        h: "Serve it",
-        p: [
-          "Any static server works, for example `python -m http.server`. There is nothing to bundle: ES modules run in the browser as they are.",
-        ],
-      },
-    ],
-  },
-
-  {
     slug: "templates",
     title: "Templates",
     intro: "The markup part of a .mau file is HTML with a few additions in curly braces.",

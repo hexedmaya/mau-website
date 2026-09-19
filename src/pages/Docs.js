@@ -11,7 +11,7 @@ export default function Docs(props = {}) {
   const page = pages[idx];
   const prev = pages[idx - 1];
   const next = pages[idx + 1];
-  
+
   // backticks in the text mark inline code
   const segs = (text) => text.split("`").map((t, i) => ({ t, code: i % 2 === 1 }));
   const __root = __h("div", { "class": "docs" }, __h("nav", { "class": "side" }, __h("p", { "class": "cap" }, "docs"), __each(() => (pages), (p, i) => (p.slug), (p, i) => [__h("a", { "href": () => ("#/docs/" + p.slug), "class": () => (p.slug === slug ? "on" : "") }, __h("span", {  }, () => (String(i + 1).padStart(2, "0"))), " ", () => (p.title))], true)), __h("article", { "class": "doc" }, () => ((page) ? untracked(() => [__h("h1", {  }, () => (page.title)), __h("p", { "class": "intro" }, () => (page.intro)), __each(() => (page.blocks), (b) => (b.h), (b) => [__h("section", { "class": "blk" }, __h("h2", {  }, () => (b.h)), __each(() => (b.p ?? []), (text) => (text), (text) => [__h("p", {  }, __each(() => (segs(text)), null, (s) => [() => ((s.code) ? untracked(() => [__h("code", {  }, () => (s.t))]) : untracked(() => [() => (s.t)]))], true))], true), () => ((b.code) ? untracked(() => [__h("pre", { "class": "code" }, __h("code", {  }, () => (b.code)))]) : null))], true), __h("div", { "class": "pager" }, () => ((prev) ? untracked(() => [__h("a", { "href": () => ("#/docs/" + prev.slug) }, "← ", () => (prev.title))]) : null), () => ((next) ? untracked(() => [__h("a", { "class": "right", "href": () => ("#/docs/" + next.slug) }, () => (next.title), " →")]) : null))]) : untracked(() => [__h("h1", {  }, "404"), __h("p", {  }, "no such docs page.")]))));

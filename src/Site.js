@@ -2,6 +2,7 @@
 // mau · Copyright (c) 2026 hexedmaya · mau License 1.0
 import { signal, computed, effect, untracked, batch, onDestroy, router, route, navigate, h as __h, raw as __raw, each as __each, adoptStyle as __style } from "../vendor/mau/index.js";
 import Home from "./pages/Home.js";
+import Start from "./pages/Start.js";
 import Docs from "./pages/Docs.js";
 import Try from "./pages/Try.js";
 import About from "./pages/About.js";
@@ -9,11 +10,12 @@ import Brand from "./pages/Brand.js";
 import NotFound from "./pages/NotFound.js";
 import Footer from "./components/Footer.js";
 
-__style("@scope (.mau-1d0a6v) {\n:scope {\r\n    --paper: #f1eee4; --ink: #141414; --mute: #6b6759; --accent: #ff4b1f;\r\n    --mono: ui-monospace, \"Cascadia Code\", \"SF Mono\", Consolas, monospace;\r\n    position: fixed; inset: 0; overflow: auto; scroll-behavior: smooth;\r\n    background: var(--paper); color: var(--ink);\r\n    font: 17px/1.55 \"Helvetica Neue\", Arial, system-ui, sans-serif;\r\n  }\r\n  @media (prefers-color-scheme: dark) {\r\n    :scope { --paper: #131311; --ink: #efeadc; --mute: #958f7d; --accent: #ff5a2b; }\r\n  }\r\n  ::selection { background: var(--accent); color: #000; }\r\n\r\n  /* scrollbars: square, ink on paper, orange on hover (Chrome, Edge, Safari) */\r\n  :scope, :scope * { scrollbar-width: auto; }\r\n  :scope::-webkit-scrollbar, :scope *::-webkit-scrollbar { width: 14px; height: 14px; }\r\n  :scope::-webkit-scrollbar-track, :scope *::-webkit-scrollbar-track { background: var(--paper); border-left: 2px solid var(--ink); }\r\n  :scope::-webkit-scrollbar-thumb, :scope *::-webkit-scrollbar-thumb { background: var(--ink); border: 3px solid var(--paper); }\r\n  :scope::-webkit-scrollbar-thumb:hover, :scope *::-webkit-scrollbar-thumb:hover { background: var(--accent); }\r\n  :scope::-webkit-scrollbar-corner, :scope *::-webkit-scrollbar-corner { background: var(--paper); }\r\n  /* code blocks are ink coloured, so their scrollbar is inverted */\r\n  pre::-webkit-scrollbar-track { background: var(--ink); border-left: 0; border-top: 2px solid var(--paper); }\r\n  pre::-webkit-scrollbar-thumb { background: var(--paper); border-color: var(--ink); }\r\n  pre::-webkit-scrollbar-thumb:hover { background: var(--accent); }\r\n  /* Firefox has no pseudo-elements, only colour and width */\r\n  @supports not selector(::-webkit-scrollbar) {\r\n    :scope { scrollbar-width: thin; scrollbar-color: var(--ink) var(--paper); }\r\n    pre { scrollbar-color: var(--paper) var(--ink); }\r\n  }\r\n  .topbar {\r\n    position: sticky; top: 0; z-index: 5; background: var(--paper);\r\n    display: flex; justify-content: space-between; align-items: baseline;\r\n    padding: .8rem clamp(1rem, 4vw, 2.5rem); border-bottom: 2px solid var(--ink);\r\n    font-family: var(--mono); font-size: .85rem;\r\n  }\r\n  .brand { display: inline-flex; align-items: center; gap: .55rem; font-weight: 800; font-size: 1.05rem; color: var(--ink); text-decoration: none; }\r\n  .brand svg { height: 1.15rem; width: auto; fill: var(--ink); }\r\n  .brand .dot { fill: var(--accent); }\r\n  .links a { margin-left: 1.3rem; color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .25em; }\r\n  .links a:hover, .links a.on { background: var(--accent); color: #000; text-decoration: none; }\n}");
+__style("@scope (.mau-18zcx7) {\n:scope {\r\n    --paper: #f1eee4; --ink: #141414; --mute: #6b6759; --accent: #ff4b1f;\r\n    --mono: ui-monospace, \"Cascadia Code\", \"SF Mono\", Consolas, monospace;\r\n    position: fixed; inset: 0; overflow: auto; scroll-behavior: smooth;\r\n    background: var(--paper); color: var(--ink);\r\n    font: 17px/1.55 \"Helvetica Neue\", Arial, system-ui, sans-serif;\r\n  }\r\n  @media (prefers-color-scheme: dark) {\r\n    :scope { --paper: #131311; --ink: #efeadc; --mute: #958f7d; --accent: #ff5a2b; }\r\n  }\r\n  ::selection { background: var(--accent); color: #000; }\r\n\r\n  /* scrollbars: square, ink on paper, orange on hover (Chrome, Edge, Safari) */\r\n  :scope, :scope * { scrollbar-width: auto; }\r\n  :scope::-webkit-scrollbar, :scope *::-webkit-scrollbar { width: 14px; height: 14px; }\r\n  :scope::-webkit-scrollbar-track, :scope *::-webkit-scrollbar-track { background: var(--paper); border-left: 2px solid var(--ink); }\r\n  :scope::-webkit-scrollbar-thumb, :scope *::-webkit-scrollbar-thumb { background: var(--ink); border: 3px solid var(--paper); }\r\n  :scope::-webkit-scrollbar-thumb:hover, :scope *::-webkit-scrollbar-thumb:hover { background: var(--accent); }\r\n  :scope::-webkit-scrollbar-corner, :scope *::-webkit-scrollbar-corner { background: var(--paper); }\r\n  /* code blocks are ink coloured, so their scrollbar is inverted */\r\n  pre::-webkit-scrollbar-track { background: var(--ink); border-left: 0; border-top: 2px solid var(--paper); }\r\n  pre::-webkit-scrollbar-thumb { background: var(--paper); border-color: var(--ink); }\r\n  pre::-webkit-scrollbar-thumb:hover { background: var(--accent); }\r\n  /* Firefox has no pseudo-elements, only colour and width */\r\n  @supports not selector(::-webkit-scrollbar) {\r\n    :scope { scrollbar-width: thin; scrollbar-color: var(--ink) var(--paper); }\r\n    pre { scrollbar-color: var(--paper) var(--ink); }\r\n  }\r\n  .topbar {\r\n    position: sticky; top: 0; z-index: 5; background: var(--paper);\r\n    display: flex; justify-content: space-between; align-items: baseline;\r\n    padding: .8rem clamp(1rem, 4vw, 2.5rem); border-bottom: 2px solid var(--ink);\r\n    font-family: var(--mono); font-size: .85rem;\r\n  }\r\n  .brand { display: inline-flex; align-items: center; gap: .55rem; font-weight: 800; font-size: 1.05rem; color: var(--ink); text-decoration: none; }\r\n  .brand svg { height: 1.15rem; width: auto; fill: var(--ink); }\r\n  .brand .dot { fill: var(--accent); }\r\n  .links a { margin-left: 1.3rem; color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .25em; }\r\n  .links a:hover, .links a.on { background: var(--accent); color: #000; text-decoration: none; }\n}");
 
 export default function Site(props = {}) {
   const view = router({
     "/": Home,
+    "/start": Start,
     "/docs": Docs,
     "/docs/:page": Docs,
     "/try": Try,
@@ -21,13 +23,13 @@ export default function Site(props = {}) {
     "/brand": Brand,
     "*": NotFound,
   });
-  
+
   const links = [
     { to: "/docs", label: "docs" },
     { to: "/try", label: "try" },
     { to: "/about", label: "about" },
   ];
-  
+
   // every page starts at the top
   let el;
   effect(() => {
@@ -35,6 +37,6 @@ export default function Site(props = {}) {
     el?.scrollTo({ top: 0, behavior: "instant" });
   });
   const __root = __h("div", { "class": "site", "ref": ((e) => (el = e)) }, __h("nav", { "class": "topbar" }, __h("a", { "class": "brand", "href": "#/", "aria-label": "mau, home" }, __h("svg", { "viewBox": "0 0 28 24", "aria-hidden": "true" }, __h("path", { "d": "M2 21V3l6 6h6l6-6v18h-4v-8h-3v8H9v-8H6v8z" }), __h("rect", { "class": "dot", "x": "22", "y": "17", "width": "4", "height": "4" })), __h("span", {  }, "mau")), __h("div", { "class": "links" }, __each(() => (links), (l) => (l.to), (l) => [__h("a", { "href": () => ("#" + l.to), "class": () => (route().path.startsWith(l.to) ? "on" : "") }, () => (l.label))], true))), __h("main", {  }, () => (view())), Footer({  }));
-  __root.classList.add("mau-1d0a6v");
+  __root.classList.add("mau-18zcx7");
   return __root;
 }

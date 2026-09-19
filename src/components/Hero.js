@@ -6,21 +6,21 @@ __style("@scope (.mau-17xj48) {\n:scope {\r\n    display: grid; grid-template-co
 
 export default function Hero(props = {}) {
   const cmd = "node mau/compiler/cli.js src --watch";
-    const copied = signal(false);
-    const copy = async () => {
-      try {
-        await navigator.clipboard.writeText(cmd);
-        copied.set(true);
-        setTimeout(() => copied.set(false), 1600);
-      } catch {}
-    };
-  
-    const written = `<button on:click={() => n.set(n() + 1)}>
-    clicked {n()}
-  </button>`;
-    const emitted = `__h("button",
-    { onclick: () => n.set(n() + 1) },
-    "clicked ", () => n())`;
+  const copied = signal(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(cmd);
+      copied.set(true);
+      setTimeout(() => copied.set(false), 1600);
+    } catch {}
+  };
+
+  const written = `<button on:click={() => n.set(n() + 1)}>
+  clicked {n()}
+</button>`;
+  const emitted = `__h("button",
+  { onclick: () => n.set(n() + 1) },
+  "clicked ", () => n())`;
   const __root = __h("section", { "class": "hero", "id": "top" }, __h("div", { "class": "left" }, __h("h1", { "class": "title" }, "mau", __h("i", {  }, ".")), __h("p", { "class": "tag" }, "Make A UI."), __h("p", { "class": "lead" }, "A small frontend framework. You write ", __h("code", {  }, ".mau"), ", the compiler hands back plain JavaScript. Nothing to install for the people who use it."), __h("div", { "class": "cta", "id": "get" }, __h("button", { "class": "cmd", "onclick": copy, "title": "click to copy" }, __h("span", { "class": "prompt" }, "$"), " ", () => (copied() ? "copied." : cmd))), __h("p", { "class": "facts" }, "0 dependencies / 0 build steps for users / ~3 KB gzip")), __h("div", { "class": "right" }, __h("p", { "class": "cap" }, "you write"), __h("pre", { "class": "code" }, __h("code", {  }, () => (written))), __h("p", { "class": "cap" }, "mau emits"), __h("pre", { "class": "code out" }, __h("code", {  }, () => (emitted)))));
   __root.classList.add("mau-17xj48");
   return __root;

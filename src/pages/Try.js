@@ -6,58 +6,58 @@ __style("@scope (.mau-i7bkyg) {\n:scope { padding: 3rem clamp(1rem, 4vw, 2.5rem)
 
 export default function Try(props = {}) {
   const clicks = signal(0);
-    const todos = signal([
-      { id: 1, text: "read the source" },
-      { id: 2, text: "compile it" },
-      { id: 3, text: "ship plain JS" },
-    ]);
-    const draft = signal("");
-    let next = 4;
-  
-    const add = () => {
-      const text = draft().trim();
-      if (!text) return;
-      todos.set([{ id: next++, text }, ...todos()]);
-      draft.set("");
-    };
-    const remove = (id) => todos.set(todos().filter((t) => t.id !== id));
-  
-    // polled data: every second the array is replaced with new objects
-    const clamp = (v) => Math.max(0, Math.min(100, v));
-    const instances = signal([
-      { id: 1, name: "web-01", cpu: 32, on: true },
-      { id: 2, name: "db-01", cpu: 58, on: true },
-      { id: 3, name: "cache", cpu: 12, on: true },
-      { id: 4, name: "worker-a", cpu: 0, on: false },
-    ]);
-    const timer = setInterval(() => {
-      instances.set(instances().map((x) => (x.on ? { ...x, cpu: clamp(Math.round(x.cpu + (Math.random() - 0.5) * 24)) } : x)));
-    }, 1000);
-    onDestroy(() => clearInterval(timer));
-    const toggle = (id) => instances.set(instances().map((x) => (x.id === id ? { ...x, on: !x.on, cpu: x.on ? 0 : 20 } : x)));
-  
-    const liveSource = `{#each instances() as i (i.id)}
-    <li>
-      {i.name}
-      <svg viewBox="0 0 100 8">
-        <rect width={i.cpu} height="8" />
-      </svg>
-      {i.cpu}%
-    </li>
-  {/each}`;
-  
-    const source = `<button on:click={inc}>
-    clicked {n()} times
-  </button>
-  
-  <input bind:value={draft}>
-  
-  {#each todos() as t (t.id)}
-    <li>
-      {t.text}
-      <button on:click={() => remove(t.id)}>x</button>
-    </li>
-  {/each}`;
+  const todos = signal([
+    { id: 1, text: "read the source" },
+    { id: 2, text: "compile it" },
+    { id: 3, text: "ship plain JS" },
+  ]);
+  const draft = signal("");
+  let next = 4;
+
+  const add = () => {
+    const text = draft().trim();
+    if (!text) return;
+    todos.set([{ id: next++, text }, ...todos()]);
+    draft.set("");
+  };
+  const remove = (id) => todos.set(todos().filter((t) => t.id !== id));
+
+  // polled data: every second the array is replaced with new objects
+  const clamp = (v) => Math.max(0, Math.min(100, v));
+  const instances = signal([
+    { id: 1, name: "web-01", cpu: 32, on: true },
+    { id: 2, name: "db-01", cpu: 58, on: true },
+    { id: 3, name: "cache", cpu: 12, on: true },
+    { id: 4, name: "worker-a", cpu: 0, on: false },
+  ]);
+  const timer = setInterval(() => {
+    instances.set(instances().map((x) => (x.on ? { ...x, cpu: clamp(Math.round(x.cpu + (Math.random() - 0.5) * 24)) } : x)));
+  }, 1000);
+  onDestroy(() => clearInterval(timer));
+  const toggle = (id) => instances.set(instances().map((x) => (x.id === id ? { ...x, on: !x.on, cpu: x.on ? 0 : 20 } : x)));
+
+  const liveSource = `{#each instances() as i (i.id)}
+  <li>
+    {i.name}
+    <svg viewBox="0 0 100 8">
+      <rect width={i.cpu} height="8" />
+    </svg>
+    {i.cpu}%
+  </li>
+{/each}`;
+
+  const source = `<button on:click={inc}>
+  clicked {n()} times
+</button>
+
+<input bind:value={draft}>
+
+{#each todos() as t (t.id)}
+  <li>
+    {t.text}
+    <button on:click={() => remove(t.id)}>x</button>
+  </li>
+{/each}`;
   const __root = __h("section", { "class": "demo", "id": "demo" }, __h("h2", { "class": "label" }, "try it (this page is .mau, too)"), __h("div", { "class": "split" }, __h("div", { "class": "panel" }, __h("button", { "class": "count", "onclick": () => clicks.set(clicks() + 1) }, "clicked ", () => (clicks()), " ", () => (clicks() === 1 ? "time" : "times")), __h("div", { "class": "add" }, __h("input", { "value": () => (draft)(), "oninput": (e) => (draft).set(e.target.value), "placeholder": "new task", "onkeydown": (e) => e.key === "Enter" && add() }), __h("button", { "class": "go", "onclick": add }, "add")), __h("ul", { "class": "list" }, __each(() => (todos()), (t) => (t.id), (t) => [__h("li", {  }, __h("span", {  }, () => (t.text)), __h("button", { "class": "x", "onclick": () => remove(t.id), "title": "remove" }, "x"))], true)), () => ((todos().length === 0) ? untracked(() => [__h("p", { "class": "empty" }, "nothing left.")]) : null)), __h("pre", { "class": "src" }, __h("code", {  }, () => (source)))), __h("h2", { "class": "label second" }, "live list: polled data, rows update in place"), __h("div", { "class": "split" }, __h("div", { "class": "panel" }, __h("ul", { "class": "inst" }, __each(() => (instances()), (i) => (i.id), (i) => [__h("li", { "class": () => (i.on ? "on" : "off") }, __h("span", { "class": "name" }, () => (i.name)), __h("svg", { "class": "bar", "viewBox": "0 0 100 8", "preserveAspectRatio": "none" }, __h("rect", { "class": "track", "width": "100", "height": "8" }), __h("rect", { "class": "fill", "width": () => (i.cpu), "height": "8" })), __h("span", { "class": "cpu" }, () => (i.cpu), "%"), __h("button", { "class": "tog", "onclick": () => toggle(i.id) }, () => (i.on ? "stop" : "start")))], true)), __h("p", { "class": "note" }, "Every second the array is replaced with new objects. The rows stay, only the changed values are written.")), __h("pre", { "class": "src" }, __h("code", {  }, () => (liveSource)))));
   __root.classList.add("mau-i7bkyg");
   return __root;
