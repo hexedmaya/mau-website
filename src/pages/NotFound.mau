@@ -1,0 +1,11 @@
+<section class="nf">
+  <h1>404</h1>
+  <p>nothing here. <a href="#/">back home</a></p>
+</section>
+
+<style>
+  :scope { padding: clamp(3rem, 10vw, 7rem) clamp(1rem, 4vw, 2.5rem); }
+  h1 { margin: 0; font-size: clamp(6rem, 25vw, 16rem); line-height: .8; font-weight: 900; letter-spacing: -.07em; color: var(--accent); }
+  p { font-family: var(--mono); }
+  a { color: var(--ink); }
+</style>

@@ -1,0 +1,67 @@
+<script>
+  const works = [
+    "signals, computed, effects with clean-up",
+    "compiler with file:line:col errors",
+    "keyed lists, if / else, components",
+    "hash router",
+    "scoped styles under a strict CSP",
+    "glitch-free updates, batched per event",
+    "live component props",
+    "SVG, and rows that update in place",
+    "VS Code highlighting for .mau",
+  ];
+  const next = [
+    "runtime source maps",
+    "bind:value for numbers, select, radio",
+    "formatter and language server",
+  ];
+  const isnt = [
+    "a React replacement",
+    "server-side rendering",
+    "made for huge apps",
+  ];
+</script>
+
+<section class="about">
+  <h1 class="head">about</h1>
+
+  <div class="why">
+    <p class="big">mau is a small frontend framework. No dependencies, no telemetry, nothing to install for the people who use what you build.</p>
+    <p>
+      It stays small on purpose.
+      The parser runs on the developer's machine, the browser only gets plain JavaScript.
+      Anything a user can type is untrusted, so text is escaped by default.
+    </p>
+  </div>
+
+  <div class="cols">
+    <div class="col">
+      <h2>works</h2>
+      <ul>{#each works as w (w)}<li>{w}</li>{/each}</ul>
+    </div>
+    <div class="col">
+      <h2>next</h2>
+      <ul>{#each next as w (w)}<li>{w}</li>{/each}</ul>
+    </div>
+    <div class="col">
+      <h2>is not</h2>
+      <ul>{#each isnt as w (w)}<li>{w}</li>{/each}</ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  :scope { padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2.5rem); }
+  .head { margin: 0 0 2rem; font-size: clamp(3.5rem, 13vw, 8rem); line-height: .85; font-weight: 900; letter-spacing: -.06em; }
+  .why { max-width: 44rem; margin-bottom: 3rem; }
+  .big { margin: 0 0 1rem; font-size: clamp(1.4rem, 3.6vw, 2.1rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }
+  .why p:not(.big) { margin: 0; color: var(--mute); }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 0; border: 2px solid var(--ink); }
+  .col { padding: 1.2rem; border-right: 2px solid var(--ink); }
+  .col:last-child { border-right: 0; }
+  @media (max-width: 700px) { .col { border-right: 0; border-bottom: 2px solid var(--ink); } .col:last-child { border-bottom: 0; } }
+  .col h2 { margin: 0 0 .6rem; font-family: var(--mono); font-size: .8rem; text-transform: uppercase; letter-spacing: .14em; color: var(--accent); }
+  .col ul { margin: 0; padding: 0; list-style: none; }
+  .col li { padding: .4rem 0; border-top: 1px dashed var(--mute); }
+  .col li:first-child { border-top: 0; }
+</style>

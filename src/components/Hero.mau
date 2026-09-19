@@ -1,0 +1,74 @@
+<script>
+  const cmd = "node mau/compiler/cli.js src --watch";
+  const copied = signal(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(cmd);
+      copied.set(true);
+      setTimeout(() => copied.set(false), 1600);
+    } catch {}
+  };
+
+  const written = `<button on:click={() => n.set(n() + 1)}>
+  clicked {n()}
+</button>`;
+  const emitted = `__h("button",
+  { onclick: () => n.set(n() + 1) },
+  "clicked ", () => n())`;
+</script>
+
+<section class="hero" id="top">
+  <div class="left">
+    <h1 class="title">mau<i>.</i></h1>
+    <p class="tag">Make A UI.</p>
+    <p class="lead">
+      A small frontend framework.
+      You write <code>.mau</code>, the compiler hands back plain JavaScript.
+      Nothing to install for the people who use it.
+    </p>
+
+    <div class="cta" id="get">
+      <button class="cmd" on:click={copy} title="click to copy">
+        <span class="prompt">$</span> {copied() ? "copied." : cmd}
+      </button>
+    </div>
+
+    <p class="facts">0 dependencies / 0 build steps for users / ~3 KB gzip</p>
+  </div>
+
+  <div class="right">
+    <p class="cap">you write</p>
+    <pre class="code"><code>{written}</code></pre>
+    <p class="cap">mau emits</p>
+    <pre class="code out"><code>{emitted}</code></pre>
+  </div>
+</section>
+
+<style>
+  :scope {
+    display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(1.5rem, 5vw, 4rem); align-items: end;
+    padding: clamp(2.5rem, 8vw, 6rem) clamp(1rem, 4vw, 2.5rem) clamp(2.5rem, 6vw, 4rem);
+    border-bottom: 2px solid var(--ink);
+  }
+  @media (max-width: 800px) { :scope { grid-template-columns: 1fr; } }
+  .title { margin: 0; font-size: clamp(6rem, 21vw, 15rem); line-height: .78; font-weight: 900; letter-spacing: -.07em; }
+  .title i { color: var(--accent); font-style: normal; }
+  .tag { margin: 1.2rem 0 0; font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: .12em; font-size: .9rem; }
+  .lead { max-width: 30rem; margin: 1rem 0 1.6rem; font-size: 1.15rem; }
+  code { font-family: var(--mono); font-size: .92em; background: var(--ink); color: var(--paper); padding: .05em .35em; }
+  .cmd {
+    font: inherit; font-family: var(--mono); font-size: .9rem; cursor: pointer; text-align: left;
+    color: var(--ink); background: var(--paper); border: 2px solid var(--ink); padding: .7rem 1rem;
+    box-shadow: 5px 5px 0 var(--ink); transition: transform .08s, box-shadow .08s;
+  }
+  .cmd:hover { background: var(--accent); color: #000; }
+  .cmd:active { transform: translate(5px, 5px); box-shadow: 0 0 0 var(--ink); }
+  .prompt { color: var(--accent); font-weight: 800; }
+  .cmd:hover .prompt { color: #000; }
+  .facts { margin: 1.6rem 0 0; font-family: var(--mono); font-size: .8rem; color: var(--mute); }
+  .cap { margin: 0 0 .35rem; font-family: var(--mono); font-size: .75rem; text-transform: uppercase; letter-spacing: .12em; color: var(--mute); }
+  .right .cap:not(:first-child) { margin-top: 1.4rem; }
+  .code { margin: 0; padding: 1rem 1.2rem; overflow: auto; border: 2px solid var(--ink); font-family: var(--mono); font-size: .85rem; line-height: 1.6; }
+  .code code { background: none; color: inherit; padding: 0; font-size: inherit; }
+  .out { background: var(--ink); color: var(--paper); }
+</style>

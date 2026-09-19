@@ -1,0 +1,80 @@
+<script>
+  import pages from "../content/docs.js";
+
+  const slug = props.params.page ?? pages[0].slug;
+  const idx = pages.findIndex((p) => p.slug === slug);
+  const page = pages[idx];
+  const prev = pages[idx - 1];
+  const next = pages[idx + 1];
+
+  // backticks in the text mark inline code
+  const segs = (text) => text.split("`").map((t, i) => ({ t, code: i % 2 === 1 }));
+</script>
+
+<div class="docs">
+  <nav class="side">
+    <p class="cap">docs</p>
+    {#each pages as p, i (p.slug)}
+      <a href={"#/docs/" + p.slug} class={p.slug === slug ? "on" : ""}>
+        <span>{String(i + 1).padStart(2, "0")}</span> {p.title}
+      </a>
+    {/each}
+  </nav>
+
+  <article class="doc">
+    {#if page}
+      <h1>{page.title}</h1>
+      <p class="intro">{page.intro}</p>
+
+      {#each page.blocks as b (b.h)}
+        <section class="blk">
+          <h2>{b.h}</h2>
+          {#each b.p ?? [] as text (text)}
+            <p>{#each segs(text) as s}{#if s.code}<code>{s.t}</code>{:else}{s.t}{/if}{/each}</p>
+          {/each}
+          {#if b.code}<pre class="code"><code>{b.code}</code></pre>{/if}
+        </section>
+      {/each}
+
+      <div class="pager">
+        {#if prev}<a href={"#/docs/" + prev.slug}>← {prev.title}</a>{/if}
+        {#if next}<a class="right" href={"#/docs/" + next.slug}>{next.title} →</a>{/if}
+      </div>
+    {:else}
+      <h1>404</h1>
+      <p>no such docs page.</p>
+    {/if}
+  </article>
+</div>
+
+<style>
+  :scope {
+    display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: start;
+    padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 2.5rem) 4rem;
+  }
+  @media (max-width: 800px) { :scope { grid-template-columns: minmax(0, 1fr); } .side { position: static; } }
+
+  .side { position: sticky; top: 4.4rem; border: 2px solid var(--ink); font-family: var(--mono); font-size: .85rem; }
+  .cap { margin: 0; padding: .55rem .8rem; background: var(--ink); color: var(--paper); text-transform: uppercase; letter-spacing: .14em; font-size: .75rem; }
+  .side a { display: flex; gap: .7rem; padding: .55rem .8rem; color: var(--ink); text-decoration: none; border-top: 2px solid var(--ink); }
+  .side a span { color: var(--accent); font-weight: 700; }
+  .side a:hover, .side a.on { background: var(--accent); color: #000; }
+  .side a:hover span, .side a.on span { color: #000; }
+
+  .doc h1 { margin: 0 0 .8rem; font-size: clamp(2.6rem, 8vw, 5.5rem); line-height: .9; font-weight: 900; letter-spacing: -.05em; }
+  .intro { max-width: 40rem; margin: 0 0 2rem; font-size: 1.2rem; }
+  .blk { padding: 1.4rem 0; border-top: 2px solid var(--ink); }
+  .blk h2 { margin: 0 0 .5rem; font-size: 1.5rem; letter-spacing: -.02em; }
+  .blk p { max-width: 42rem; margin: 0 0 .7rem; }
+  .blk p code { font-family: var(--mono); font-size: .88em; background: var(--ink); color: var(--paper); padding: .05em .35em; }
+  .code {
+    margin: .8rem 0 0; padding: 1rem 1.2rem; overflow: auto;
+    background: var(--ink); color: var(--paper); font: .84rem/1.65 var(--mono);
+  }
+  .code code { font-family: inherit; }
+
+  .pager { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2.5rem; padding-top: 1.2rem; border-top: 2px solid var(--ink); font-family: var(--mono); }
+  .pager a { color: var(--ink); }
+  .pager a:hover { background: var(--accent); color: #000; text-decoration: none; }
+  .right { margin-left: auto; }
+</style>

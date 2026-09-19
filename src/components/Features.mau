@@ -1,0 +1,39 @@
+<script>
+  const rows = [
+    { n: "01", title: "No virtual DOM", text: "The compiler knows which node depends on which value. Only that node changes." },
+    { n: "02", title: "No dependencies", text: "Plain ES modules. No npm, no bundler, no telemetry. Copy a folder, done." },
+    { n: "03", title: "Strict CSP", text: "No eval, no inline handlers, no inline styles. Runs under default-src 'none'." },
+    { n: "04", title: "Escaped by default", text: "Text stays text. Raw HTML needs an explicit @html, so player names can't inject." },
+    { n: "05", title: "Scoped styles", text: "Native @scope. Short CSS next to the markup, and it stays in its component." },
+    { n: "06", title: "Keyed lists + router", text: "Rows get moved, not rebuilt. Hash router, works from any static server." },
+  ];
+</script>
+
+<section class="features" id="features">
+  <h2 class="label">what it does</h2>
+  <ol class="rows">
+    {#each rows as r (r.n)}
+      <li>
+        <span class="n">{r.n}</span>
+        <b class="t">{r.title}</b>
+        <span class="d">{r.text}</span>
+      </li>
+    {/each}
+  </ol>
+</section>
+
+<style>
+  :scope { padding: 3rem clamp(1rem, 4vw, 2.5rem); border-bottom: 2px solid var(--ink); }
+  .label { margin: 0 0 1.4rem; font-family: var(--mono); font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; }
+  .rows { list-style: none; margin: 0; padding: 0; border-bottom: 2px solid var(--ink); }
+  .rows li {
+    display: grid; grid-template-columns: 4rem minmax(9rem, 1fr) 2fr; gap: 1rem; align-items: baseline;
+    padding: 1rem .6rem; border-top: 2px solid var(--ink); transition: background .1s;
+  }
+  .rows li:hover { background: var(--ink); color: var(--paper); }
+  .n { font-family: var(--mono); color: var(--accent); font-weight: 700; }
+  .t { font-size: 1.25rem; letter-spacing: -.01em; }
+  .d { color: var(--mute); }
+  .rows li:hover .d { color: var(--paper); }
+  @media (max-width: 700px) { .rows li { grid-template-columns: 2.5rem 1fr; } .d { grid-column: 2; } }
+</style>
