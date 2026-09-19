@@ -8,6 +8,7 @@
   import NotFound from "./pages/NotFound.js";
   import Footer from "./components/Footer.js";
   import { titleFor } from "./content/pages.js";
+  import { links as ext } from "./content/links.js";
 
   const view = router({
     "/": Home,
@@ -44,6 +45,7 @@
       {#each links as l (l.to)}
         <a href={l.to} class={route().path.startsWith(l.to) ? "on" : ""}>{l.label}</a>
       {/each}
+      <a class="gh" href={ext.mau} target="_blank" rel="noopener">github ↗</a>
     </div>
   </nav>
   <main>{view()}</main>

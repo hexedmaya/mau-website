@@ -1,4 +1,6 @@
 // Content of the docs pages. Backticks in a paragraph mark inline code.
+import { links } from "./links.js";
+
 export default [
   {
     slug: "templates",
@@ -413,6 +415,42 @@ const { code } = compile(source, {
         h: "Commit the output",
         p: [
           "Keep the generated `.js` files in your repository. Installers, servers and other people then need no build at all.",
+        ],
+      },
+    ],
+  },
+
+  {
+    slug: "editor",
+    title: "VS Code",
+    intro: "Syntax highlighting for .mau files in VS Code.",
+    blocks: [
+      {
+        h: "What you get",
+        p: [
+          "The markup with its tags and attributes, JavaScript in `<script>` and in every `{expression}`, CSS in `<style>`, the blocks (`{#if}`, `{#each}`, `{@html}`), `on:` and `bind:`, and components in their own color.",
+          "There is no language server, no formatter and no snippets yet.",
+        ],
+      },
+      {
+        h: "Get it",
+        p: [
+          `The extension is not on the marketplace yet. Get the source from [mau-vs on GitHub](${links.vs}), build the package and install it. You need Node.js and the \`code\` command of VS Code.`,
+          "Reload the window afterwards. If a file is not recognized, pick mau in the language mode at the bottom right.",
+        ],
+        code: `git clone ${links.vs}.git
+cd mau-vs
+npx @vscode/vsce package
+code --install-extension mau-0.1.0.vsix`,
+      },
+      {
+        h: "Try it without installing",
+        p: ["Open the `mau-vs` folder in VS Code and press `F5`. A test window opens with the extension active."],
+      },
+      {
+        h: "Source",
+        p: [
+          `The grammar, its tests and the package files are in [mau-vs](${links.vs}). The framework itself is [mau](${links.mau}), and the source of this website is [mau-website](${links.website}).`,
         ],
       },
     ],
