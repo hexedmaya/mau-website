@@ -85,23 +85,23 @@
     font: 17px/1.55 "Helvetica Neue", Arial, system-ui, sans-serif;
   }
   :scope.dark { --paper: #131311; --ink: #efeadc; --mute: #958f7d; --accent: #ff5a2b; }
-  ::selection { background: var(--accent); color: #000; }
+  :global(::selection) { background: var(--accent); color: #000; }
 
   /* scrollbars: square, ink on paper, orange on hover (Chrome, Edge, Safari) */
-  :scope, :scope * { scrollbar-width: auto; }
-  :scope::-webkit-scrollbar, :scope *::-webkit-scrollbar { width: 14px; height: 14px; }
-  :scope::-webkit-scrollbar-track, :scope *::-webkit-scrollbar-track { background: var(--paper); border-left: 2px solid var(--ink); }
-  :scope::-webkit-scrollbar-thumb, :scope *::-webkit-scrollbar-thumb { background: var(--ink); border: 3px solid var(--paper); }
-  :scope::-webkit-scrollbar-thumb:hover, :scope *::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-  :scope::-webkit-scrollbar-corner, :scope *::-webkit-scrollbar-corner { background: var(--paper); }
+  :scope, :scope :global(*) { scrollbar-width: auto; }
+  :scope::-webkit-scrollbar, :scope :global(*)::-webkit-scrollbar { width: 14px; height: 14px; }
+  :scope::-webkit-scrollbar-track, :scope :global(*)::-webkit-scrollbar-track { background: var(--paper); border-left: 2px solid var(--ink); }
+  :scope::-webkit-scrollbar-thumb, :scope :global(*)::-webkit-scrollbar-thumb { background: var(--ink); border: 3px solid var(--paper); }
+  :scope::-webkit-scrollbar-thumb:hover, :scope :global(*)::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+  :scope::-webkit-scrollbar-corner, :scope :global(*)::-webkit-scrollbar-corner { background: var(--paper); }
   /* code blocks are ink coloured, so their scrollbar is inverted */
-  pre::-webkit-scrollbar-track { background: var(--ink); border-left: 0; border-top: 2px solid var(--paper); }
-  pre::-webkit-scrollbar-thumb { background: var(--paper); border-color: var(--ink); }
-  pre::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+  :global(pre)::-webkit-scrollbar-track { background: var(--ink); border-left: 0; border-top: 2px solid var(--paper); }
+  :global(pre)::-webkit-scrollbar-thumb { background: var(--paper); border-color: var(--ink); }
+  :global(pre)::-webkit-scrollbar-thumb:hover { background: var(--accent); }
   /* Firefox has no pseudo-elements, only colour and width */
   @supports not selector(::-webkit-scrollbar) {
     :scope { scrollbar-width: thin; scrollbar-color: var(--ink) var(--paper); }
-    pre { scrollbar-color: var(--paper) var(--ink); }
+    :global(pre) { scrollbar-color: var(--paper) var(--ink); }
   }
   main { flex: 1 0 auto; min-width: 0; }
   .topbar {

@@ -254,7 +254,7 @@ destroy();`,
       {
         h: "Scoped by default",
         p: [
-          "The style block becomes a native `@scope` rule. `:scope` is the root element of the component.",
+          "A rule in the style block only matches elements that this component's template creates. `:scope` is the root element of the component.",
         ],
         code: `<style>
   :scope { border: 2px solid; padding: 1rem; }
@@ -262,10 +262,23 @@ destroy();`,
 </style>`,
       },
       {
-        h: "Know the limit",
+        h: "Children of other components",
         p: [
-          "A scope reaches all elements below the root, including those of child components. Use classes instead of bare tag names when a child could be hit by accident.",
+          "A rule never reaches into a child component. `b { ... }` styles the `b` elements of this file, not the ones inside `<Card />`. Elements you write between the tags of a child, like the `<p>` in `<Card><p>hi</p></Card>`, are yours, so your rules apply to them.",
+          "Every part of a selector gets one more attribute selector, so a rule is a little more specific than it looks. CSS nesting is not supported.",
         ],
+      },
+      {
+        h: "Reaching outside on purpose",
+        p: [
+          "Wrap a selector in `:global(...)` to leave it as it is. Use it for something a child renders that you cannot change, or for a class that a parent sets.",
+        ],
+        code: `<style>
+  /* the .md box inside a child component */
+  :scope :global(.md h3) { color: orangered; }
+  /* a class on an element above this component */
+  :global(.dark) :scope { --ink: #efeadc; }
+</style>`,
       },
       {
         h: "Design tokens",
@@ -282,7 +295,7 @@ destroy();`,
       {
         h: "Browser support",
         p: [
-          "The scoped styles use the native `@scope` rule. It needs a current browser: Chrome and Edge 118, Safari 17.4, Firefox 146 or newer. In an older browser the styles of a component are simply not applied.",
+          "Scoped styles use constructed stylesheets and attribute selectors, which every current browser has: Chrome and Edge 79, Firefox 101, Safari 16.4 or newer. In an older browser the styles of a component are not applied.",
         ],
       },
       {

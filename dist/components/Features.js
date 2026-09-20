@@ -2,7 +2,7 @@
 // mau · Copyright (c) 2026 hexedmaya · mau License 1.0
 import { signal, computed, effect, untracked, batch, onDestroy, router, route, navigate, h as __h, raw as __raw, each as __each, adoptStyle as __style } from "../../vendor/mau/index.js";
 
-__style("@scope (.mau-1i8392) {\n:scope { padding: 3rem clamp(1rem, 4vw, 2.5rem); border-bottom: 2px solid var(--ink); }\r\n  .label { margin: 0 0 1.4rem; font-family: var(--mono); font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; }\r\n  .rows { list-style: none; margin: 0; padding: 0; border-bottom: 2px solid var(--ink); }\r\n  .rows li {\r\n    display: grid; grid-template-columns: 4rem minmax(9rem, 1fr) 2fr; gap: 1rem; align-items: baseline;\r\n    padding: 1rem .6rem; border-top: 2px solid var(--ink); transition: background .1s;\r\n  }\r\n  .rows li:hover { background: var(--ink); color: var(--paper); }\r\n  .n { font-family: var(--mono); color: var(--accent); font-weight: 700; }\r\n  .t { font-size: 1.25rem; letter-spacing: -.01em; }\r\n  .d { color: var(--mute); }\r\n  .rows li:hover .d { color: var(--paper); }\r\n  @media (max-width: 700px) { .rows li { grid-template-columns: 2.5rem 1fr; } .d { grid-column: 2; } }\n}");
+__style("[data-m-dendi1=\"r\"] { padding: 3rem clamp(1rem, 4vw, 2.5rem); border-bottom: 2px solid var(--ink); }\n.label[data-m-dendi1] { margin: 0 0 1.4rem; font-family: var(--mono); font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; }\n.rows[data-m-dendi1] { list-style: none; margin: 0; padding: 0; border-bottom: 2px solid var(--ink); }\n.rows[data-m-dendi1] li[data-m-dendi1] {\r\n    display: grid; grid-template-columns: 4rem minmax(9rem, 1fr) 2fr; gap: 1rem; align-items: baseline;\r\n    padding: 1rem .6rem; border-top: 2px solid var(--ink); transition: background .1s;\r\n  }\n.rows[data-m-dendi1] li:hover[data-m-dendi1] { background: var(--ink); color: var(--paper); }\n.n[data-m-dendi1] { font-family: var(--mono); color: var(--accent); font-weight: 700; }\n.t[data-m-dendi1] { font-size: 1.25rem; letter-spacing: -.01em; }\n.d[data-m-dendi1] { color: var(--mute); }\n.rows[data-m-dendi1] li:hover[data-m-dendi1] .d[data-m-dendi1] { color: var(--paper); }\n@media (max-width: 700px) {\n.rows[data-m-dendi1] li[data-m-dendi1] { grid-template-columns: 2.5rem 1fr; }\n.d[data-m-dendi1] { grid-column: 2; }\n}");
 
 export default function Features(props = {}) {
   const rows = [
@@ -10,11 +10,9 @@ export default function Features(props = {}) {
     { n: "02", title: "No dependencies", text: "Plain ES modules. No npm, no bundler, no telemetry. Copy a folder, done." },
     { n: "03", title: "Strict CSP", text: "No eval, no inline handlers, no inline styles. Runs under default-src 'none'." },
     { n: "04", title: "Escaped by default", text: "Text stays text. Raw HTML needs an explicit @html, so player names can't inject." },
-    { n: "05", title: "Scoped styles", text: "Native @scope. Short CSS next to the markup, and it stays in its component." },
+    { n: "05", title: "Scoped styles", text: "Short CSS next to the markup. It stays in its component and never leaks into a child." },
     { n: "06", title: "Keyed lists + router", text: "Rows get moved, not rebuilt. Router with real paths, and plain links just work." },
   ];
-  const __root = __h("section", { "class": "features", "id": "features" }, __h("h2", { "class": "label" }, "what it does"), __h("ol", { "class": "rows" }, __each(() => (rows), (r) => (r.n), (r) => [__h("li", {  }, __h("span", { "class": "n" }, () => (r.n)), __h("b", { "class": "t" }, () => (r.title)), __h("span", { "class": "d" }, () => (r.text)))], true)));
-  __root.classList.add("mau-1i8392");
-  (__root.__mauScopes ||= []).push("mau-1i8392");
+  const __root = __h("section", { "class": "features", "id": "features", "data-m-dendi1": "r" }, __h("h2", { "class": "label", "data-m-dendi1": "" }, "what it does"), __h("ol", { "class": "rows", "data-m-dendi1": "" }, __each(() => (rows), (r) => (r.n), (r) => [__h("li", { "data-m-dendi1": "" }, __h("span", { "class": "n", "data-m-dendi1": "" }, () => (r.n)), __h("b", { "class": "t", "data-m-dendi1": "" }, () => (r.title)), __h("span", { "class": "d", "data-m-dendi1": "" }, () => (r.text)))], true)));
   return __root;
 }

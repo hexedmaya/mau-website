@@ -24,7 +24,7 @@
     --c-k: #ff79c6; --c-s: #a5d6a7; --c-c: #9a9686; --c-n: #ffb86c; --c-t: #82aaff; --c-a: #d2a8ff;
     position: relative; margin-top: .8rem;
   }
-  .dark :scope { --c-k: #b0125e; --c-s: #2a7a2e; --c-c: #7a7666; --c-n: #a34a00; --c-t: #0f5fbf; --c-a: #7b2fa8; }
+  :global(.dark) :scope { --c-k: #b0125e; --c-s: #2a7a2e; --c-c: #7a7666; --c-n: #a34a00; --c-t: #0f5fbf; --c-a: #7b2fa8; }
   .code {
     margin: 0; padding: 1rem 5rem 1rem 1.2rem; overflow: auto;
     background: var(--ink); color: var(--paper); font: .84rem/1.65 var(--mono);

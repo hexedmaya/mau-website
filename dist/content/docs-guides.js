@@ -178,7 +178,7 @@ python -m http.server 8000`,
     {
       h: "Style it",
       p: [
-        "The style block sits next to the markup and applies to this component only. `:scope` is its root element. Put a class on what you want to style and the child components stay untouched.",
+        "The style block sits next to the markup and applies to this component only. `:scope` is its root element. A rule never reaches into a child component.",
       ],
       code: `<!-- in TaskItem.mau -->
 <style>
@@ -345,7 +345,7 @@ export const loggedIn = computed(() => user() !== null);
     {
       h: "Light and dark",
       p: [
-        "This site keeps the mode in a signal, puts it on the root as a class, and lets the design tokens change with it. Start from the mode of the system, save the choice in `localStorage`. A class that changes on the root keeps the style class of the component.",
+        "This site keeps the mode in a signal, puts it on the root as a class, and lets the design tokens change with it. Start from the mode of the system and save the choice in `localStorage`.",
       ],
       code: `<script>
   const dark = matchMedia("(prefers-color-scheme: dark)").matches;
@@ -533,7 +533,7 @@ export const faq = {
     {
       h: "Which browsers?",
       p: [
-        "Current ones. The scoped styles need `@scope`, see the styles page for the versions.",
+        "Current ones. The scoped styles need constructed stylesheets, see the styles page for the versions.",
       ],
     },
     {
@@ -613,7 +613,7 @@ src/Card.mau:8:3: unclosed {#if}`,
     {
       h: "Styles are missing or leak",
       p: [
-        "Nothing at all applies in an old browser, because `@scope` is missing. If a rule reaches a child component, use classes instead of bare tag names, because a scope covers everything below its root. Both are on the styles page.",
+        "Nothing at all applies in a browser without constructed stylesheets, see the styles page for the versions. If a rule does not reach an element inside a child component, that is on purpose: a rule only matches what this component's template creates. Wrap the selector in `:global(...)` when you mean it.",
       ],
     },
     {
@@ -639,7 +639,7 @@ export const changelog = {
     {
       h: "After 0.1.0",
       p: [
-        "A class that changes on the root element of a component no longer removes the style class of that component. Before, a reactive `class` on the root made its styles disappear until a reload.",
+        "Styles are scoped with an attribute on every element that a component creates, instead of the native `@scope` rule. A rule no longer reaches into child components. `:global(...)` reaches outside on purpose. The scoped styles now work in every browser with constructed stylesheets, not only in those with `@scope`. A reactive `class` on a root element no longer risks its styles.",
         "The playground keeps its code in the link, offers examples, and remembers the last draft in your browser.",
         "The website has a light and a dark mode that you can switch.",
         "Docs: a tutorial, recipes, deployment, questions and troubleshooting.",
@@ -649,7 +649,7 @@ export const changelog = {
       h: "0.1.0",
       p: [
         "The first version. Signals, computed values and effects with a scheduler that never shows half-changed state. The compiler with the two folders `src/` and `dist/`, `--watch` and messages with line and column.",
-        "Templates with `{#if}`, keyed `{#each}`, `bind:` for values, numbers, selects, checkboxes and radio groups, `{@html}` as the one explicit escape hatch, components with live props and scoped styles through `@scope`.",
+        "Templates with `{#if}`, keyed `{#each}`, `bind:` for values, numbers, selects, checkboxes and radio groups, `{@html}` as the one explicit escape hatch, components with live props and scoped styles.",
         "A history router with real paths, a small compiler that also runs in a browser, syntax highlighting for VS Code, and a strict policy that the runtime and the output work under.",
       ],
     },
