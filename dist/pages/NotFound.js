@@ -7,5 +7,6 @@ __style("@scope (.mau-1urkpy) {\n:scope { padding: clamp(3rem, 10vw, 7rem) clamp
 export default function NotFound(props = {}) {
   const __root = __h("section", { "class": "nf" }, __h("h1", {  }, "404"), __h("p", {  }, "nothing here. ", __h("a", { "href": "/" }, "back home")));
   __root.classList.add("mau-1urkpy");
+  (__root.__mauScopes ||= []).push("mau-1urkpy");
   return __root;
 }

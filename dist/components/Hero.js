@@ -23,5 +23,6 @@ export default function Hero(props = {}) {
   "clicked ", () => n())`;
   const __root = __h("section", { "class": "hero", "id": "top" }, __h("div", { "class": "left" }, __h("h1", { "class": "title" }, "mau", __h("i", {  }, ".")), __h("p", { "class": "tag" }, "Make A UI."), __h("p", { "class": "lead" }, "A small frontend framework. You write ", __h("code", {  }, ".mau"), ", the compiler hands back plain JavaScript. Nothing to install for the people who use it."), __h("div", { "class": "cta", "id": "get" }, __h("button", { "class": "cmd", "onclick": copy, "title": "click to copy" }, __h("span", { "class": "prompt" }, "$"), " ", () => (copied() ? "copied." : cmd))), __h("p", { "class": "facts" }, "0 dependencies / 0 build steps for users / ~3 KB gzip")), __h("div", { "class": "right" }, __h("p", { "class": "cap" }, "you write"), __h("pre", { "class": "code" }, __h("code", {  }, () => (written))), __h("p", { "class": "cap" }, "mau emits"), __h("pre", { "class": "code out" }, __h("code", {  }, () => (emitted)))));
   __root.classList.add("mau-1covo2");
+  (__root.__mauScopes ||= []).push("mau-1covo2");
   return __root;
 }

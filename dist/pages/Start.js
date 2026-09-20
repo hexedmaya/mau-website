@@ -71,5 +71,6 @@ mount(document.getElementById("app"), Counter);`,
   ];
   const __root = __h("section", { "class": "start" }, __h("h1", { "class": "head" }, "start"), __h("p", { "class": "intro" }, "mau turns .mau files into plain JavaScript. The people who use what you build install nothing."), __each(() => (steps), (s) => (s.n), (s) => [__h("article", { "class": "step" }, __h("div", { "class": "info" }, __h("span", { "class": "n" }, () => (s.n)), __h("h2", {  }, () => (s.h)), __each(() => (s.p), (text) => (text), (text) => [__h("p", {  }, __each(() => (segs(text)), null, (part) => [() => ((part.code) ? untracked(() => [__h("code", {  }, () => (part.t))]) : (part.href) ? untracked(() => [__h("a", { "href": () => (part.href), "target": () => (part.external ? "_blank" : null), "rel": () => (part.external ? "noopener" : null) }, () => (part.t))]) : untracked(() => [() => (part.t)]))], true))], true)), () => ((s.code) ? untracked(() => [CodeBlock({ get "code"() { return (s.code); } })]) : null))], true), __h("div", { "class": "next" }, __h("a", { "class": "big", "href": "/docs" }, "read the docs →"), __h("a", { "class": "big", "href": "/try" }, "try it →"), __h("a", { "class": "big", "href": "/playground" }, "playground →")));
   __root.classList.add("mau-1s8xki");
+  (__root.__mauScopes ||= []).push("mau-1s8xki");
   return __root;
 }

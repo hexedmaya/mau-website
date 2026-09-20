@@ -18,5 +18,6 @@ export default function CodeBlock(props = {}) {
   }
   const __root = __h("div", { "class": "cb" }, __h("button", { "class": "copy", "onclick": copy, "aria-label": "copy the code" }, () => (copied() ? "copied" : "copy")), __h("pre", { "class": "code" }, __h("code", {  }, __each(() => (tokens()), null, (t) => [__h("span", { "class": () => ("t-" + t.k) }, () => (t.v))], true))));
   __root.classList.add("mau-1gei1a");
+  (__root.__mauScopes ||= []).push("mau-1gei1a");
   return __root;
 }

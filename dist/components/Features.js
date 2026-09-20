@@ -15,5 +15,6 @@ export default function Features(props = {}) {
   ];
   const __root = __h("section", { "class": "features", "id": "features" }, __h("h2", { "class": "label" }, "what it does"), __h("ol", { "class": "rows" }, __each(() => (rows), (r) => (r.n), (r) => [__h("li", {  }, __h("span", { "class": "n" }, () => (r.n)), __h("b", { "class": "t" }, () => (r.title)), __h("span", { "class": "d" }, () => (r.text)))], true)));
   __root.classList.add("mau-1i8392");
+  (__root.__mauScopes ||= []).push("mau-1i8392");
   return __root;
 }

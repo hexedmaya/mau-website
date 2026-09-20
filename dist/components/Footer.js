@@ -8,5 +8,6 @@ __style("@scope (.mau-10hjbd) {\n:scope { border-top: 2px solid var(--ink); marg
 export default function Footer(props = {}) {
   const __root = __h("footer", { "class": "foot" }, __h("div", { "class": "top" }, __h("div", {  }, __h("p", { "class": "brand" }, "mau", __h("i", {  }, ".")), __h("p", { "class": "tag" }, "Make A UI.")), __h("nav", { "class": "nav" }, __h("a", { "href": "/about" }, "about"), __h("a", { "href": "/brand" }, "brand"), __h("a", { "href": "/docs/editor" }, "VS Code"), __h("a", { "href": () => (links.website), "target": "_blank", "rel": "noopener" }, "website source ↗"))), __h("div", { "class": "line" }, __h("span", { "class": "by-line" }, "mau, by ", __h("a", { "class": "by", "href": () => (links.profile), "target": "_blank", "rel": "noopener" }, "hexedmaya")), __h("nav", { "class": "legal" }, __h("a", { "href": "/licenses" }, "license"), __h("a", { "href": "/imprint" }, "imprint"), __h("a", { "href": "/privacy" }, "privacy")), __h("span", { "class": "copy" }, "© 2026 hexedmaya")));
   __root.classList.add("mau-10hjbd");
+  (__root.__mauScopes ||= []).push("mau-10hjbd");
   return __root;
 }

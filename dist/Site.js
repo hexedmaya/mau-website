@@ -62,5 +62,6 @@ export default function Site(props = {}) {
   });
   const __root = __h("div", { "class": () => ("site " + theme()) }, __h("nav", { "class": "topbar" }, __h("a", { "class": "brand", "href": "/", "aria-label": "mau, home" }, __h("svg", { "viewBox": "0 0 28 24", "aria-hidden": "true" }, __h("path", { "d": "M2 21V3l6 6h6l6-6v18h-4v-8h-3v8H9v-8H6v8z" }), __h("rect", { "class": "dot", "x": "22", "y": "17", "width": "4", "height": "4" })), __h("span", {  }, "mau")), __h("div", { "class": "links" }, __each(() => (links), (l) => (l.to), (l) => [__h("a", { "href": () => (l.to), "class": () => (route().path.startsWith(l.to) ? "on" : ""), "aria-current": () => (route().path.startsWith(l.to) ? "page" : null) }, () => (l.label))], true), __h("a", { "class": "gh", "href": () => (ext.mau), "target": "_blank", "rel": "noopener" }, "github ↗"), __h("button", { "class": "mode", "onclick": toggle, "aria-label": () => (theme() === "dark" ? "switch to light mode" : "switch to dark mode") }, () => (theme() === "dark" ? "light" : "dark")))), __h("main", {  }, () => (view())), Footer({  }));
   __root.classList.add("mau-1e1lyd");
+  (__root.__mauScopes ||= []).push("mau-1e1lyd");
   return __root;
 }

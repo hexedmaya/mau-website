@@ -28,5 +28,6 @@ export default function About(props = {}) {
   ];
   const __root = __h("section", { "class": "about" }, __h("h1", { "class": "head" }, "about"), __h("div", { "class": "why" }, __h("p", { "class": "big" }, "mau is a small frontend framework. No dependencies, no telemetry, nothing to install for the people who use what you build."), __h("p", {  }, "It stays small on purpose. The parser runs on the developer's machine, the browser only gets plain JavaScript. Anything a user can type is untrusted, so text is escaped by default.")), __h("div", { "class": "cols" }, __h("div", { "class": "col" }, __h("h2", {  }, "works"), __h("ul", {  }, __each(() => (works), (w) => (w), (w) => [__h("li", {  }, () => (w))], true))), __h("div", { "class": "col" }, __h("h2", {  }, "next"), __h("ul", {  }, __each(() => (next), (w) => (w), (w) => [__h("li", {  }, () => (w))], true))), __h("div", { "class": "col" }, __h("h2", {  }, "is not"), __h("ul", {  }, __each(() => (isnt), (w) => (w), (w) => [__h("li", {  }, () => (w))], true)))));
   __root.classList.add("mau-1rmvh7");
+  (__root.__mauScopes ||= []).push("mau-1rmvh7");
   return __root;
 }

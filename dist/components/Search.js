@@ -12,5 +12,6 @@ export default function Search(props = {}) {
   const clear = () => q.set("");
   const __root = __h("div", { "class": "search" }, __h("input", { "type": "search", "value": () => (q)(), "oninput": (e) => (q).set(e.target.value), "placeholder": "search the docs", "autocomplete": "off", "aria-label": "search the docs", "onkeydown": (e) => e.key === "Escape" && clear() }), () => ((open()) ? untracked(() => [__h("ul", { "class": "hits" }, __each(() => (results()), (r) => (r.slug + r.id), (r) => [__h("li", {  }, __h("a", { "href": () => ("/docs/" + r.slug + "#" + r.id), "onclick": clear }, __h("b", {  }, () => (r.title), " › ", () => (r.h)), __h("span", {  }, () => (r.body.slice(0, 110)))))], true)), () => ((results().length === 0) ? untracked(() => [__h("p", { "class": "none" }, "nothing found for \"", () => (q().trim()), "\".")]) : null)]) : null));
   __root.classList.add("mau-yr0bap");
+  (__root.__mauScopes ||= []).push("mau-yr0bap");
   return __root;
 }

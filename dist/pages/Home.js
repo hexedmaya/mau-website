@@ -14,5 +14,6 @@ export default function Home(props = {}) {
   ];
   const __root = __h("div", { "class": "home" }, Hero({  }), __h("section", { "class": "how" }, __h("h2", { "class": "label" }, "how it works"), __h("div", { "class": "steps" }, __each(() => (steps), (s) => (s.n), (s) => [__h("div", { "class": "step" }, __h("p", { "class": "num" }, () => (s.n)), __h("h3", {  }, () => (s.title)), __h("p", { "class": "text" }, () => (s.text)), __h("pre", { "class": "code" }, __h("code", {  }, () => (s.code))))], true))), Features({  }), __h("div", { "class": "next" }, __h("a", { "class": "big", "href": "/start" }, "start here →"), __h("a", { "class": "big", "href": "/try" }, "try it →")));
   __root.classList.add("mau-pfzl8z");
+  (__root.__mauScopes ||= []).push("mau-pfzl8z");
   return __root;
 }

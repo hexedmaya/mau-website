@@ -41,5 +41,6 @@ export default function Legal(props = {}) {
   }
   const __root = __h("section", { "class": "legal notice" }, __h("h1", { "class": "head" }, () => (page.heading)), () => ((hasTabs) ? untracked(() => [__h("nav", { "class": "tabs" }, __h("a", { "href": "/licenses", "class": () => (path === "/licenses" ? "on" : "") }, "mau License"), __h("a", { "href": "/licenses/website", "class": () => (path === "/licenses/website" ? "on" : "") }, "Website License"), __h("a", { "href": "/brand-policy", "class": () => (path === "/brand-policy" ? "on" : "") }, "Brand Policy")), __h("p", { "class": "sub" }, () => (subtitle()))]) : null), () => ((failed()) ? untracked(() => [__h("p", { "class": "note" }, "The text could not be loaded. It is the file ", __h("a", { "href": () => (page.src) }, () => (page.src)), ".")]) : null), Markdown({ get "blocks"() { return (blocks); } }), () => ((isLicense) ? untracked(() => [__h("p", { "class": "from" }, "The text is the file ", __h("a", { "href": () => (page.repo + "/blob/main/LICENSE"), "target": "_blank", "rel": "noopener" }, "LICENSE ↗"), " in the repository.")]) : null));
   __root.classList.add("mau-qltgb1");
+  (__root.__mauScopes ||= []).push("mau-qltgb1");
   return __root;
 }
