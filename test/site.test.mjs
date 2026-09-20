@@ -110,7 +110,7 @@ test("search: needs two letters, all words, heading hits first", () => {
 
 test("the navbar: docs, try, github, and the current page is marked", async () => {
   await go("/docs");
-  assert.deepEqual($$(".links a").map((a) => a.textContent.trim()), ["docs", "try", "github ↗"]);
+  assert.deepEqual($$(".links a").map((a) => a.textContent.trim()), ["docs", "try", "playground", "github ↗"]);
   assert.equal($(".links a[href='/docs']").getAttribute("aria-current"), "page");
   assert.equal($(".links a[href='/try']").getAttribute("aria-current"), null);
 });
