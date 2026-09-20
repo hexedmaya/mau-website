@@ -2,7 +2,7 @@
   import { compile } from "../../vendor/mau/compiler/compile.js";
   import CodeBlock from "../components/CodeBlock.js";
   import { example, examples } from "../content/playground.js";
-  import { encode, fromHash, loadDraft, saveDraft } from "../content/share.js";
+  import { encode, fromHash, loadDraft, saveDraft, withContext } from "../content/share.js";
 
   // where the code comes from: a shared link, else what was typed last time in this browser, else the first example
   const start = fromHash(location.hash) ?? loadDraft() ?? example;
@@ -17,7 +17,7 @@
       const runtime = location.origin + "/vendor/mau/index.js"; // a blob: module needs a full address
       return { code: compile(source(), { file: "Playground.mau", runtime }).code, error: "" };
     } catch (e) {
-      return { code: "", error: e.message };
+      return { code: "", error: withContext(e.message, source(), e.line, e.col) };
     }
   });
 

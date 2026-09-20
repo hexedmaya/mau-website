@@ -327,6 +327,13 @@ test("playground: a shared link fills the editor", async () => {
   assert.equal($(".editor").value, example);
 });
 
+test("playground: an error shows the line and a mark under the column", async () => {
+  const { withContext } = await import("../src/content/share.js");
+  assert.equal(withContext("x.mau:3:5: oops", "a\nb\nabcdefg", 3, 5), "x.mau:3:5: oops\n\n  3 | abcdefg\n    |     ^");
+  assert.equal(withContext("no position", "a", undefined, undefined), "no position");
+  assert.equal(withContext("past the end", "a", 9, 1), "past the end");
+});
+
 test("playground: every example compiles, the list loads one, reset goes back", async () => {
   const { examples, example } = await import("../src/content/playground.js");
   const { compile } = await import("../vendor/mau/compiler/compile.js");

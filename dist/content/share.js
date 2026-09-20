@@ -29,3 +29,15 @@ export const loadDraft = () => {
 export const saveDraft = (text) => {
   try { localStorage.setItem(KEY, text); } catch (e) { /* private mode: nothing is kept */ }
 };
+
+// An error message with the line it points at and a mark under the column:
+//   Playground.mau:3:1: expected </p>
+//
+//     3 | <p>hello
+//       | ^
+export const withContext = (message, source, line, col) => {
+  const text = source.split("\n")[line - 1];
+  if (text === undefined || !(col >= 1)) return message;
+  const gutter = String(line);
+  return message + "\n\n  " + gutter + " | " + text + "\n  " + " ".repeat(gutter.length) + " | " + " ".repeat(col - 1) + "^";
+};
