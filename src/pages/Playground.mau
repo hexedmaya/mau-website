@@ -212,9 +212,10 @@
 
   .frame { display: block; width: 100%; height: 100%; border: 0; background: #fff; }
   .frame[hidden] { display: none; }
-  .gen { height: 100%; overflow: auto; background: var(--ink); }
-  .gen :global(.cb) { margin-top: 0; }
-  .gen :global(.cb .code) { min-height: 100%; box-sizing: border-box; }
+  /* the code block fills the box and scrolls itself, so its scrollbars sit at the edges of the box */
+  .gen { height: 100%; background: var(--ink); }
+  .gen :global(.cb) { height: 100%; margin-top: 0; }
+  .gen :global(.cb .code) { height: 100%; box-sizing: border-box; }
   .none { margin: 0; padding: 1rem 1.2rem; font-family: var(--mono); color: var(--paper); }
   .err { margin: 1.2rem 0 0; padding: .8rem 1rem; border: 2px solid var(--accent); font-family: var(--mono); font-size: .8rem; white-space: pre-wrap; }
 
