@@ -3,12 +3,15 @@
 import { signal, computed, effect, untracked, batch, onDestroy, router, route, navigate, h as __h, raw as __raw, each as __each, adoptStyle as __style } from "../../vendor/mau/index.js";
 import { compile } from "../../vendor/mau/compiler/compile.js";
 import CodeBlock from "../components/CodeBlock.js";
-import { example } from "../content/playground.js";
+import { example, examples } from "../content/playground.js";
+import { encode, fromHash, loadDraft, saveDraft } from "../content/share.js";
 
-__style("@scope (.mau-1gt9sd) {\n:scope { padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2.5rem) 3rem; }\r\n  .head { margin: 0 0 1.4rem; padding-bottom: .12em; font-size: clamp(3.5rem, 13vw, 8rem); line-height: .85; font-weight: 900; letter-spacing: -.06em; }\r\n  .intro { max-width: 40rem; margin: 0 0 2rem; font-size: 1.2rem; }\r\n\r\n  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.2rem; align-items: start; }\r\n  .pane { min-width: 0; }\r\n  .cap { margin: 0 0 .4rem; font-family: var(--mono); font-size: .75rem; text-transform: uppercase; letter-spacing: .12em; color: var(--mute); }\r\n\r\n  .editor {\r\n    display: block; width: 100%; box-sizing: border-box; height: 32rem; resize: vertical; tab-size: 2;\r\n    padding: 1rem 1.2rem; border: 2px solid var(--ink); border-radius: 0;\r\n    background: var(--paper); color: var(--ink); font: .84rem/1.65 var(--mono);\r\n  }\r\n  .editor:focus { outline: 3px solid var(--accent); outline-offset: -3px; }\r\n\r\n  .tabs { display: flex; margin-bottom: .6rem; border: 2px solid var(--ink); width: fit-content; font-family: var(--mono); font-size: .85rem; }\r\n  .tabs button { font: inherit; cursor: pointer; padding: .45rem 1rem; color: var(--ink); background: transparent; border: 0; border-right: 2px solid var(--ink); }\r\n  .tabs button:last-child { border-right: 0; }\r\n  .tabs button:hover, .tabs button.on { background: var(--accent); color: #000; }\r\n\r\n  .frame { display: block; width: 100%; height: 32rem; border: 2px solid var(--ink); background: #fff; }\r\n  .frame[hidden] { display: none; }\r\n  .err { margin: 0 0 .6rem; padding: .8rem 1rem; border: 2px solid var(--accent); font-family: var(--mono); font-size: .8rem; white-space: pre-wrap; }\r\n  .gen { max-height: 32rem; overflow: auto; }\r\n  .none { font-family: var(--mono); color: var(--mute); }\r\n\r\n  /* phones (after the base rules, so it wins) */\r\n  @media (max-width: 900px) {\r\n    .split { grid-template-columns: minmax(0, 1fr); }\r\n    .editor, .frame { height: 24rem; }\r\n  }\n}");
+__style("@scope (.mau-98b07i) {\n:scope { padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2.5rem) 3rem; }\r\n  .head { margin: 0 0 1.4rem; padding-bottom: .12em; font-size: clamp(3.5rem, 13vw, 8rem); line-height: .85; font-weight: 900; letter-spacing: -.06em; }\r\n  .intro { max-width: 40rem; margin: 0 0 2rem; font-size: 1.2rem; }\r\n\r\n  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.2rem; align-items: start; }\r\n  .pane { min-width: 0; }\r\n  .bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .4rem .8rem; margin-bottom: .4rem; }\r\n  .tools { display: flex; gap: .4rem; }\r\n  .tool, .pick { font: .78rem var(--mono); cursor: pointer; padding: .25rem .7rem; color: var(--ink); background: transparent; border: 2px solid var(--ink); border-radius: 0; }\r\n  .tool:hover, .pick:hover { background: var(--accent); border-color: var(--accent); color: #000; }\r\n  .pick option { background: var(--paper); color: var(--ink); }\r\n  .cap { margin: 0; font-family: var(--mono); font-size: .75rem; text-transform: uppercase; letter-spacing: .12em; color: var(--mute); }\r\n\r\n  .editor {\r\n    display: block; width: 100%; box-sizing: border-box; height: 32rem; resize: vertical; tab-size: 2;\r\n    padding: 1rem 1.2rem; border: 2px solid var(--ink); border-radius: 0;\r\n    background: var(--paper); color: var(--ink); font: .84rem/1.65 var(--mono);\r\n  }\r\n  .editor:focus { outline: 3px solid var(--accent); outline-offset: -3px; }\r\n\r\n  .tabs { display: flex; margin-bottom: .6rem; border: 2px solid var(--ink); width: fit-content; font-family: var(--mono); font-size: .85rem; }\r\n  .tabs button { font: inherit; cursor: pointer; padding: .45rem 1rem; color: var(--ink); background: transparent; border: 0; border-right: 2px solid var(--ink); }\r\n  .tabs button:last-child { border-right: 0; }\r\n  .tabs button:hover, .tabs button.on { background: var(--accent); color: #000; }\r\n\r\n  .frame { display: block; width: 100%; height: 32rem; border: 2px solid var(--ink); background: #fff; }\r\n  .frame[hidden] { display: none; }\r\n  .err { margin: 0 0 .6rem; padding: .8rem 1rem; border: 2px solid var(--accent); font-family: var(--mono); font-size: .8rem; white-space: pre-wrap; }\r\n  .gen { max-height: 32rem; overflow: auto; }\r\n  .none { font-family: var(--mono); color: var(--mute); }\r\n\r\n  /* phones (after the base rules, so it wins) */\r\n  @media (max-width: 900px) {\r\n    .split { grid-template-columns: minmax(0, 1fr); }\r\n    .editor, .frame { height: 24rem; }\r\n  }\n}");
 
 export default function Playground(props = {}) {
-  const source = signal(example);
+  // where the code comes from: a shared link, else what was typed last time in this browser, else the first example
+  const start = fromHash(location.hash) ?? loadDraft() ?? example;
+  const source = signal(start);
   const tab = signal("preview");
   let frame;
   let timer;
@@ -39,6 +42,41 @@ export default function Playground(props = {}) {
   addEventListener("message", onMessage);
   onDestroy(() => { clearTimeout(timer); removeEventListener("message", onMessage); });
 
+  // keep the draft, and once the code differs from a shared link the link in the address no longer describes it
+  let saveTimer;
+  effect(() => {
+    const text = source();
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      saveDraft(text);
+      if (location.hash && text !== start) history.replaceState(history.state, "", location.pathname + location.search);
+    }, 400);
+  });
+  onDestroy(() => clearTimeout(saveTimer));
+
+  const pick = (e) => {
+    const chosen = examples.find((x) => x.name === e.target.value);
+    if (chosen) source.set(chosen.code);
+    e.target.value = "";
+  };
+  const reset = () => source.set(example);
+
+  // the link carries the code. Without clipboard access the link is put in the address bar instead
+  const copied = signal(false);
+  let copyTimer;
+  const share = async () => {
+    const url = location.origin + "/playground/#code=" + encode(source.peek());
+    try {
+      await navigator.clipboard.writeText(url);
+      copied.set(true);
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(() => copied.set(false), 1600);
+    } catch (e) {
+      history.replaceState(history.state, "", url);
+    }
+  };
+  onDestroy(() => clearTimeout(copyTimer));
+
   // Tab writes two spaces instead of leaving the box
   const onKey = (e) => {
     if (e.key !== "Tab" || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
@@ -47,8 +85,8 @@ export default function Playground(props = {}) {
     box.setRangeText("  ", box.selectionStart, box.selectionEnd, "end");
     source.set(box.value);
   };
-  const __root = __h("section", { "class": "play" }, __h("h1", { "class": "head" }, "playground"), __h("p", { "class": "intro" }, "Write a component on the left. The compiler runs in your browser, nothing is sent anywhere."), __h("div", { "class": "split" }, __h("div", { "class": "pane" }, __h("p", { "class": "cap" }, "src / Playground.mau"), __h("textarea", { "class": "editor", "value": () => (source)(), "oninput": (e) => (source).set(e.target.value), "onkeydown": onKey, "spellcheck": "false", "autocomplete": "off", "aria-label": "mau source" })), __h("div", { "class": "pane" }, __h("div", { "class": "tabs", "role": "tablist" }, __h("button", { "role": "tab", "class": () => (tab() === "preview" ? "on" : ""), "aria-selected": () => (tab() === "preview" ? "true" : "false"), "onclick": () => tab.set("preview") }, "preview"), __h("button", { "role": "tab", "class": () => (tab() === "js" ? "on" : ""), "aria-selected": () => (tab() === "js" ? "true" : "false"), "onclick": () => tab.set("js") }, "generated js")), () => ((result().error) ? untracked(() => [__h("pre", { "class": "err" }, () => (result().error))]) : null), __h("iframe", { "class": "frame", "title": "preview", "src": "/playground/frame.html", "ref": ((el) => (frame = el)), "hidden": () => (tab() !== "preview") }), () => ((tab() === "js") ? untracked(() => [__h("div", { "class": "gen" }, () => ((result().code) ? untracked(() => [CodeBlock({ get "code"() { return (result().code); } })]) : untracked(() => [__h("p", { "class": "none" }, "nothing to show while there is an error.")])))]) : null))));
-  __root.classList.add("mau-1gt9sd");
-  (__root.__mauScopes ||= []).push("mau-1gt9sd");
+  const __root = __h("section", { "class": "play" }, __h("h1", { "class": "head" }, "playground"), __h("p", { "class": "intro" }, "Write a component on the left. The compiler runs in your browser, nothing is sent anywhere."), __h("div", { "class": "split" }, __h("div", { "class": "pane" }, __h("div", { "class": "bar" }, __h("p", { "class": "cap" }, "src / Playground.mau"), __h("div", { "class": "tools" }, __h("select", { "class": "pick", "onchange": pick, "aria-label": "load an example" }, __h("option", { "value": "" }, "examples"), __each(() => (examples), (x) => (x.name), (x) => [__h("option", { "value": () => (x.name) }, () => (x.name))], true)), __h("button", { "class": "tool", "onclick": reset }, "reset"), __h("button", { "class": "tool", "onclick": share }, () => (copied() ? "link copied" : "copy link")))), __h("textarea", { "class": "editor", "value": () => (source)(), "oninput": (e) => (source).set(e.target.value), "onkeydown": onKey, "spellcheck": "false", "autocomplete": "off", "aria-label": "mau source" })), __h("div", { "class": "pane" }, __h("div", { "class": "tabs", "role": "tablist" }, __h("button", { "role": "tab", "class": () => (tab() === "preview" ? "on" : ""), "aria-selected": () => (tab() === "preview" ? "true" : "false"), "onclick": () => tab.set("preview") }, "preview"), __h("button", { "role": "tab", "class": () => (tab() === "js" ? "on" : ""), "aria-selected": () => (tab() === "js" ? "true" : "false"), "onclick": () => tab.set("js") }, "generated js")), () => ((result().error) ? untracked(() => [__h("pre", { "class": "err" }, () => (result().error))]) : null), __h("iframe", { "class": "frame", "title": "preview", "src": "/playground/frame.html", "ref": ((el) => (frame = el)), "hidden": () => (tab() !== "preview") }), () => ((tab() === "js") ? untracked(() => [__h("div", { "class": "gen" }, () => ((result().code) ? untracked(() => [CodeBlock({ get "code"() { return (result().code); } })]) : untracked(() => [__h("p", { "class": "none" }, "nothing to show while there is an error.")])))]) : null))));
+  __root.classList.add("mau-98b07i");
+  (__root.__mauScopes ||= []).push("mau-98b07i");
   return __root;
 }

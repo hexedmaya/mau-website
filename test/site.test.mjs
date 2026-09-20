@@ -24,6 +24,7 @@ Object.assign(globalThis, {
   location: w.location,
   history: w.history,
   addEventListener: (...a) => w.addEventListener(...a),
+  removeEventListener: (...a) => w.removeEventListener(...a),
   CSSStyleSheet: class { replaceSync() {} },
   // the license and brand pages read files of the site: answer from the repository folder
   fetch: async (url) => {
@@ -292,6 +293,46 @@ test("playground: the editor starts with the example, the compiler runs in the p
   assert.equal($(".err"), null);
   assert.deepEqual($$(".tabs button").map((b) => b.textContent), ["preview", "generated js"]);
   assert.equal($(".frame").getAttribute("src"), "/playground/frame.html");
+});
+
+test("playground: share links carry the code, also with umlauts and emoji", async () => {
+  const { encode, decode, fromHash } = await import("../src/content/share.js");
+  const text = "<p>Grüße 🐈 {n()}</p>\n<script>const n = signal(1);</script>";
+  assert.equal(decode(encode(text)), text);
+  assert.match(encode(text), /^[A-Za-z0-9_-]+$/, "safe in an address");
+  assert.equal(fromHash("#code=" + encode(text)), text);
+  assert.equal(fromHash("#other"), null);
+  assert.equal(fromHash("#code=***"), null);
+  assert.equal(decode("%%%"), null);
+});
+
+test("playground: a shared link fills the editor", async () => {
+  const { encode } = await import("../src/content/share.js");
+  const text = "<p>from a link</p>\n";
+  await go("/"); // a new page load, as when the link is opened
+  await go("/playground#code=" + encode(text));
+  assert.equal($(".editor").value, text);
+  await go("/");
+  await go("/playground");
+  const { example } = await import("../src/content/playground.js");
+  assert.equal($(".editor").value, example);
+});
+
+test("playground: every example compiles, the list loads one, reset goes back", async () => {
+  const { examples, example } = await import("../src/content/playground.js");
+  const { compile } = await import("../vendor/mau/compiler/compile.js");
+  for (const x of examples) assert.doesNotThrow(() => compile(x.code, { file: "x.mau", runtime: "/vendor/mau/index.js" }), x.name);
+  await go("/playground");
+  const pick = $(".pick");
+  assert.equal(pick.querySelectorAll("option").length, examples.length + 1);
+  pick.value = "counter";
+  pick.dispatchEvent(new w.Event("change", { bubbles: true }));
+  assert.equal($(".editor").value, examples.find((x) => x.name === "counter").code);
+  assert.equal(pick.value, "", "the list goes back to its label");
+  await wait(300);
+  assert.equal($(".err"), null);
+  $$(".tool").find((b) => b.textContent === "reset").click();
+  assert.equal($(".editor").value, example);
 });
 
 test("playground: the generated js shows in the second tab", async () => {

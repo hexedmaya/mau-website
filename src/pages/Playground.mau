@@ -1,9 +1,12 @@
 <script>
   import { compile } from "../../vendor/mau/compiler/compile.js";
   import CodeBlock from "../components/CodeBlock.js";
-  import { example } from "../content/playground.js";
+  import { example, examples } from "../content/playground.js";
+  import { encode, fromHash, loadDraft, saveDraft } from "../content/share.js";
 
-  const source = signal(example);
+  // where the code comes from: a shared link, else what was typed last time in this browser, else the first example
+  const start = fromHash(location.hash) ?? loadDraft() ?? example;
+  const source = signal(start);
   const tab = signal("preview");
   let frame;
   let timer;
@@ -34,6 +37,41 @@
   addEventListener("message", onMessage);
   onDestroy(() => { clearTimeout(timer); removeEventListener("message", onMessage); });
 
+  // keep the draft, and once the code differs from a shared link the link in the address no longer describes it
+  let saveTimer;
+  effect(() => {
+    const text = source();
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      saveDraft(text);
+      if (location.hash && text !== start) history.replaceState(history.state, "", location.pathname + location.search);
+    }, 400);
+  });
+  onDestroy(() => clearTimeout(saveTimer));
+
+  const pick = (e) => {
+    const chosen = examples.find((x) => x.name === e.target.value);
+    if (chosen) source.set(chosen.code);
+    e.target.value = "";
+  };
+  const reset = () => source.set(example);
+
+  // the link carries the code. Without clipboard access the link is put in the address bar instead
+  const copied = signal(false);
+  let copyTimer;
+  const share = async () => {
+    const url = location.origin + "/playground/#code=" + encode(source.peek());
+    try {
+      await navigator.clipboard.writeText(url);
+      copied.set(true);
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(() => copied.set(false), 1600);
+    } catch (e) {
+      history.replaceState(history.state, "", url);
+    }
+  };
+  onDestroy(() => clearTimeout(copyTimer));
+
   // Tab writes two spaces instead of leaving the box
   const onKey = (e) => {
     if (e.key !== "Tab" || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
@@ -50,7 +88,19 @@
 
   <div class="split">
     <div class="pane">
-      <p class="cap">src / Playground.mau</p>
+      <div class="bar">
+        <p class="cap">src / Playground.mau</p>
+        <div class="tools">
+          <select class="pick" on:change={pick} aria-label="load an example">
+            <option value="">examples</option>
+            {#each examples as x (x.name)}
+              <option value={x.name}>{x.name}</option>
+            {/each}
+          </select>
+          <button class="tool" on:click={reset}>reset</button>
+          <button class="tool" on:click={share}>{copied() ? "link copied" : "copy link"}</button>
+        </div>
+      </div>
       <textarea class="editor" bind:value={source} on:keydown={onKey} spellcheck="false" autocomplete="off" aria-label="mau source"></textarea>
     </div>
 
@@ -86,7 +136,12 @@
 
   .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.2rem; align-items: start; }
   .pane { min-width: 0; }
-  .cap { margin: 0 0 .4rem; font-family: var(--mono); font-size: .75rem; text-transform: uppercase; letter-spacing: .12em; color: var(--mute); }
+  .bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .4rem .8rem; margin-bottom: .4rem; }
+  .tools { display: flex; gap: .4rem; }
+  .tool, .pick { font: .78rem var(--mono); cursor: pointer; padding: .25rem .7rem; color: var(--ink); background: transparent; border: 2px solid var(--ink); border-radius: 0; }
+  .tool:hover, .pick:hover { background: var(--accent); border-color: var(--accent); color: #000; }
+  .pick option { background: var(--paper); color: var(--ink); }
+  .cap { margin: 0; font-family: var(--mono); font-size: .75rem; text-transform: uppercase; letter-spacing: .12em; color: var(--mute); }
 
   .editor {
     display: block; width: 100%; box-sizing: border-box; height: 32rem; resize: vertical; tab-size: 2;
