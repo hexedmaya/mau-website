@@ -3,6 +3,7 @@
   import CodeBlock from "../components/CodeBlock.js";
   import { example, examples } from "../content/playground.js";
   import { encode, fromHash, loadDraft, saveDraft, withContext } from "../content/share.js";
+  import { highlightMau } from "../content/editor-highlight.js";
 
   // where the code comes from: a shared link, else what was typed last time in this browser, else the first example
   const start = fromHash(location.hash) ?? loadDraft() ?? example;
@@ -72,6 +73,15 @@
   };
   onDestroy(() => clearTimeout(copyTimer));
 
+  // the colors are drawn by a copy of the text behind the transparent textarea, which scrolls with it
+  const tokens = computed(() => highlightMau(source()));
+  let hl;
+  const sync = (e) => {
+    if (!hl) return;
+    hl.scrollTop = e.target.scrollTop;
+    hl.scrollLeft = e.target.scrollLeft;
+  };
+
   // Tab writes two spaces instead of leaving the box
   const onKey = (e) => {
     if (e.key !== "Tab" || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
@@ -101,69 +111,116 @@
           <button class="tool" on:click={share}>{copied() ? "link copied" : "copy link"}</button>
         </div>
       </div>
-      <textarea class="editor" bind:value={source} on:keydown={onKey} spellcheck="false" autocomplete="off" aria-label="mau source"></textarea>
+
+      <div class="box ed">
+        <pre class="hl" aria-hidden="true" ref={(el) => (hl = el)}><code>{#each tokens() as t, i (i)}<span class={"e-" + t.k}>{t.v}</span>{/each}{"\n"}</code></pre>
+        <textarea class="editor" bind:value={source} on:keydown={onKey} on:scroll={sync} wrap="off" spellcheck="false" autocomplete="off" aria-label="mau source"></textarea>
+      </div>
     </div>
 
     <div class="pane">
-      <div class="tabs" role="tablist">
-        <button role="tab" class={tab() === "preview" ? "on" : ""} aria-selected={tab() === "preview" ? "true" : "false"} on:click={() => tab.set("preview")}>preview</button>
-        <button role="tab" class={tab() === "js" ? "on" : ""} aria-selected={tab() === "js" ? "true" : "false"} on:click={() => tab.set("js")}>generated js</button>
+      <div class="bar">
+        <div class="tabs" role="tablist">
+          <button role="tab" class={tab() === "preview" ? "on" : ""} aria-selected={tab() === "preview" ? "true" : "false"} on:click={() => tab.set("preview")}>preview</button>
+          <button role="tab" class={tab() === "js" ? "on" : ""} aria-selected={tab() === "js" ? "true" : "false"} on:click={() => tab.set("js")}>generated js</button>
+        </div>
       </div>
 
-      {#if result().error}
-        <pre class="err">{result().error}</pre>
-      {/if}
+      <div class="box">
+        <iframe class="frame" title="preview" src="/playground/frame.html" ref={(el) => (frame = el)} hidden={tab() !== "preview"}></iframe>
 
-      <iframe class="frame" title="preview" src="/playground/frame.html" ref={(el) => (frame = el)} hidden={tab() !== "preview"}></iframe>
-
-      {#if tab() === "js"}
-        <div class="gen">
-          {#if result().code}
-            <CodeBlock code={result().code} />
-          {:else}
-            <p class="none">nothing to show while there is an error.</p>
-          {/if}
-        </div>
-      {/if}
+        {#if tab() === "js"}
+          <div class="gen">
+            {#if result().code}
+              <CodeBlock code={result().code} />
+            {:else}
+              <p class="none">nothing to show while there is an error.</p>
+            {/if}
+          </div>
+        {/if}
+      </div>
     </div>
   </div>
+
+  {#if result().error}
+    <pre class="err">{result().error}</pre>
+  {/if}
 </section>
 
 <style>
-  :scope { padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2.5rem) 3rem; }
+  :scope { --h: 34rem; padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2.5rem) 3rem; }
   .head { margin: 0 0 1.4rem; padding-bottom: .12em; font-size: clamp(3.5rem, 13vw, 8rem); line-height: .85; font-weight: 900; letter-spacing: -.06em; }
   .intro { max-width: 40rem; margin: 0 0 2rem; font-size: 1.2rem; }
 
+  /* two columns of the same height: a bar of the same height on top, a box of the same height below */
   .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.2rem; align-items: start; }
   .pane { min-width: 0; }
-  .bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .4rem .8rem; margin-bottom: .4rem; }
+  .bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .4rem .8rem; min-height: 2.6rem; margin-bottom: .5rem; }
   .tools { display: flex; gap: .4rem; }
   .tool, .pick { font: .78rem var(--mono); cursor: pointer; padding: .25rem .7rem; color: var(--ink); background: transparent; border: 2px solid var(--ink); border-radius: 0; }
   .tool:hover, .pick:hover { background: var(--accent); border-color: var(--accent); color: #000; }
   .pick option { background: var(--paper); color: var(--ink); }
   .cap { margin: 0; font-family: var(--mono); font-size: .75rem; text-transform: uppercase; letter-spacing: .12em; color: var(--mute); }
 
-  .editor {
-    display: block; width: 100%; box-sizing: border-box; height: 32rem; resize: vertical; tab-size: 2;
-    padding: 1rem 1.2rem; border: 2px solid var(--ink); border-radius: 0;
-    background: var(--paper); color: var(--ink); font: .84rem/1.65 var(--mono);
-  }
-  .editor:focus { outline: 3px solid var(--accent); outline-offset: -3px; }
+  .box { position: relative; height: var(--h); box-sizing: border-box; border: 2px solid var(--ink); overflow: hidden; }
 
-  .tabs { display: flex; margin-bottom: .6rem; border: 2px solid var(--ink); width: fit-content; font-family: var(--mono); font-size: .85rem; }
-  .tabs button { font: inherit; cursor: pointer; padding: .45rem 1rem; color: var(--ink); background: transparent; border: 0; border-right: 2px solid var(--ink); }
+  /* the editor: a colored copy of the text behind a transparent textarea. The colors are those of VS Code. */
+  .ed {
+    --e-bg: #ffffff; --e-fg: #000000; --e-sel: rgba(173, 214, 255, .6);
+    --e-c: #008000; --e-s: #a31515; --e-n: #098658; --e-k: #0000ff; --e-kc: #af00db; --e-t: #800000; --e-tp: #800000;
+    --e-cmp: #267f99; --e-a: #e50000; --e-ev: #795e26; --e-p: #000000; --e-fn: #795e26; --e-v: #001080;
+    --e-sel-css: #800000; --e-prop: #e50000; --e-val: #0451a5;
+    background: var(--e-bg); color: var(--e-fg);
+  }
+  :global(.dark) .ed {
+    --e-bg: #1e1e1e; --e-fg: #d4d4d4; --e-sel: rgba(38, 79, 120, .8);
+    --e-c: #6a9955; --e-s: #ce9178; --e-n: #b5cea8; --e-k: #569cd6; --e-kc: #c586c0; --e-t: #569cd6; --e-tp: #808080;
+    --e-cmp: #4ec9b0; --e-a: #9cdcfe; --e-ev: #dcdcaa; --e-p: #ffd700; --e-fn: #dcdcaa; --e-v: #9cdcfe;
+    --e-sel-css: #d7ba7d; --e-prop: #9cdcfe; --e-val: #ce9178;
+  }
+  .ed:focus-within { outline: 3px solid var(--accent); outline-offset: -3px; }
+  .hl, .editor {
+    position: absolute; inset: 0; box-sizing: border-box; margin: 0;
+    font: .84rem/1.65 var(--mono); font-variant-ligatures: none; letter-spacing: 0; tab-size: 2; white-space: pre; word-break: normal;
+  }
+  /* the scrollbars of the textarea take 14px on the right and at the bottom, this keeps both texts scrolling the same distance */
+  .hl { padding: 1rem 14px calc(1rem + 14px) 1.2rem; overflow: hidden; pointer-events: none; color: var(--e-fg); }
+  .hl code { font: inherit; }
+  .editor { width: 100%; height: 100%; padding: 1rem 1.2rem; border: 0; border-radius: 0; resize: none; overflow: auto; outline: none; background: transparent; color: transparent; caret-color: var(--e-fg); }
+  .editor::selection { background: var(--e-sel); color: transparent; }
+  .e-c { color: var(--e-c); font-style: italic; }
+  .e-s { color: var(--e-s); }
+  .e-n { color: var(--e-n); }
+  .e-k { color: var(--e-k); }
+  .e-kc { color: var(--e-kc); }
+  .e-t { color: var(--e-t); }
+  .e-tp { color: var(--e-tp); }
+  .e-cmp { color: var(--e-cmp); }
+  .e-a { color: var(--e-a); }
+  .e-ev { color: var(--e-ev); }
+  .e-p { color: var(--e-p); }
+  .e-fn { color: var(--e-fn); }
+  .e-v { color: var(--e-v); }
+  .e-sel { color: var(--e-sel-css); }
+  .e-prop { color: var(--e-prop); }
+  .e-val { color: var(--e-val); }
+
+  .tabs { display: flex; border: 2px solid var(--ink); width: fit-content; font-family: var(--mono); font-size: .85rem; }
+  .tabs button { font: inherit; cursor: pointer; padding: .3rem 1rem; color: var(--ink); background: transparent; border: 0; border-right: 2px solid var(--ink); }
   .tabs button:last-child { border-right: 0; }
   .tabs button:hover, .tabs button.on { background: var(--accent); color: #000; }
 
-  .frame { display: block; width: 100%; height: 32rem; border: 2px solid var(--ink); background: #fff; }
+  .frame { display: block; width: 100%; height: 100%; border: 0; background: #fff; }
   .frame[hidden] { display: none; }
-  .err { margin: 0 0 .6rem; padding: .8rem 1rem; border: 2px solid var(--accent); font-family: var(--mono); font-size: .8rem; white-space: pre-wrap; }
-  .gen { max-height: 32rem; overflow: auto; }
-  .none { font-family: var(--mono); color: var(--mute); }
+  .gen { height: 100%; overflow: auto; background: var(--ink); }
+  .gen :global(.cb) { margin-top: 0; }
+  .gen :global(.cb .code) { min-height: 100%; box-sizing: border-box; }
+  .none { margin: 0; padding: 1rem 1.2rem; font-family: var(--mono); color: var(--paper); }
+  .err { margin: 1.2rem 0 0; padding: .8rem 1rem; border: 2px solid var(--accent); font-family: var(--mono); font-size: .8rem; white-space: pre-wrap; }
 
   /* phones (after the base rules, so it wins) */
   @media (max-width: 900px) {
+    :scope { --h: 26rem; }
     .split { grid-template-columns: minmax(0, 1fr); }
-    .editor, .frame { height: 24rem; }
   }
 </style>

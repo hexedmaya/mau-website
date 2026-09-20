@@ -351,6 +351,45 @@ test("playground: every example compiles, the list loads one, reset goes back", 
   assert.equal($(".editor").value, example);
 });
 
+test("editor colors: the kinds, and the tokens always join back to the text", async () => {
+  const { highlightMau } = await import("../src/content/editor-highlight.js");
+  const { examples } = await import("../src/content/playground.js");
+  const kinds = (code) => Object.fromEntries(highlightMau(code).filter((t) => t.k).map((t) => [t.v, t.k]));
+  const k = kinds('<script>\n  const n = signal(0); // c\n</script>\n<Card class="a {b}" on:click={go}>{#if n() > 1}{n()}{/if}</Card>\n<style>\n  .x:hover { color: #fff; margin: .5rem var(--y); }\n</style>');
+  assert.equal(k.const, "k");
+  assert.equal(k.signal, "fn");
+  assert.equal(k["// c"], "c");
+  assert.equal(k.script, "t");
+  assert.equal(k.Card, "cmp");
+  assert.equal(k.class, "a");
+  assert.equal(k["on:click"], "ev");
+  assert.equal(k["{#if"], undefined);
+  assert.equal(k["#if"], "kc");
+  assert.equal(k["{"], "p");
+  assert.equal(k[".x"], "sel");
+  assert.equal(k.color, "prop");
+  assert.equal(k["#fff"], "n");
+  assert.equal(k["--y"], "v");
+
+  const same = (code) => assert.equal(highlightMau(code).map((t) => t.v).join(""), code, JSON.stringify(code));
+  for (const x of examples) same(x.code);
+  for (const page of docs) for (const b of page.blocks) if (b.code) same(b.code);
+  // unfinished and odd input: still no loss, no error
+  for (const bad of ["<", "<a", "<a b=", '<a b="x {', "{", "{#if", "a { b", "<style>a{", "<script>`", "<!--", "\\{ x \\}", "<div {", "</", "</ x", "<Card a={1 />", "x<y", "{/each}", "<style>@media (a) { .b { c: d } }</style>", "<style>a:hover { color:red; margin: .5rem var(--x) }"]) same(bad);
+});
+
+test("playground: the editor is colored, the colors follow what is typed", async () => {
+  await go("/");
+  await go("/playground");
+  assert.equal($(".hl").textContent, $(".editor").value + "\n", "a copy of the text behind the textarea");
+  assert.ok($$(".hl span[class^='e-']").length > 20);
+  assert.ok($(".hl .e-t"), "a tag is colored");
+  type($(".editor"), "<Box>{n()}</Box>");
+  assert.equal($(".hl").textContent, "<Box>{n()}</Box>\n");
+  assert.equal($(".hl .e-cmp").textContent, "Box");
+  $$(".tool").find((b) => b.textContent === "reset").click();
+});
+
 test("playground: the generated js shows in the second tab", async () => {
   await go("/playground");
   $$(".tabs button")[1].click();
