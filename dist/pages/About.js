@@ -2,7 +2,7 @@
 // mau · Copyright (c) 2026 hexedmaya · mau License 1.0
 import { signal, computed, effect, untracked, batch, onDestroy, router, route, navigate, h as __h, raw as __raw, each as __each, adoptStyle as __style } from "../../vendor/mau/index.js";
 
-__style("@scope (.mau-1cvytg) {\n:scope { padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2.5rem); }\r\n  .head { margin: 0 0 2rem; font-size: clamp(3.5rem, 13vw, 8rem); line-height: .85; font-weight: 900; letter-spacing: -.06em; }\r\n  .why { max-width: 44rem; margin-bottom: 3rem; }\r\n  .big { margin: 0 0 1rem; font-size: clamp(1.4rem, 3.6vw, 2.1rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }\r\n  .why p:not(.big) { margin: 0; color: var(--mute); }\r\n  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 0; border: 2px solid var(--ink); }\r\n  .col { padding: 1.2rem; border-right: 2px solid var(--ink); }\r\n  .col:last-child { border-right: 0; }\r\n  @media (max-width: 700px) { .col { border-right: 0; border-bottom: 2px solid var(--ink); } .col:last-child { border-bottom: 0; } }\r\n  .col h2 { margin: 0 0 .6rem; font-family: var(--mono); font-size: .8rem; text-transform: uppercase; letter-spacing: .14em; color: var(--accent); }\r\n  .col ul { margin: 0; padding: 0; list-style: none; }\r\n  .col li { padding: .4rem 0; border-top: 1px dashed var(--mute); }\r\n  .col li:first-child { border-top: 0; }\n}");
+__style("@scope (.mau-1rmvh7) {\n:scope { padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2.5rem); }\r\n  .head { margin: 0 0 2rem; font-size: clamp(3.5rem, 13vw, 8rem); line-height: .85; font-weight: 900; letter-spacing: -.06em; }\r\n  .why { max-width: 44rem; margin-bottom: 3rem; }\r\n  .big { margin: 0 0 1rem; font-size: clamp(1.4rem, 3.6vw, 2.1rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }\r\n  .why p:not(.big) { margin: 0; color: var(--mute); }\r\n  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 0; border: 2px solid var(--ink); }\r\n  .col { padding: 1.2rem; border-right: 2px solid var(--ink); }\r\n  .col:last-child { border-right: 0; }\r\n  @media (max-width: 700px) { .col { border-right: 0; border-bottom: 2px solid var(--ink); } .col:last-child { border-bottom: 0; } }\r\n  .col h2 { margin: 0 0 .6rem; font-family: var(--mono); font-size: .8rem; text-transform: uppercase; letter-spacing: .14em; color: var(--accent); }\r\n  .col ul { margin: 0; padding: 0; list-style: none; }\r\n  .col li { padding: .4rem 0; border-top: 1px dashed var(--mute); }\r\n  .col li:first-child { border-top: 0; }\n}");
 
 export default function About(props = {}) {
   const works = [
@@ -13,12 +13,12 @@ export default function About(props = {}) {
     "scoped styles under a strict CSP",
     "glitch-free updates, batched per event",
     "live component props",
+    "bindings for numbers, select and radio",
     "SVG, and rows that update in place",
     "VS Code highlighting for .mau",
   ];
   const next = [
     "runtime source maps",
-    "bind:value for numbers, select, radio",
     "formatter and language server",
   ];
   const isnt = [
@@ -27,6 +27,6 @@ export default function About(props = {}) {
     "made for huge apps",
   ];
   const __root = __h("section", { "class": "about" }, __h("h1", { "class": "head" }, "about"), __h("div", { "class": "why" }, __h("p", { "class": "big" }, "mau is a small frontend framework. No dependencies, no telemetry, nothing to install for the people who use what you build."), __h("p", {  }, "It stays small on purpose. The parser runs on the developer's machine, the browser only gets plain JavaScript. Anything a user can type is untrusted, so text is escaped by default.")), __h("div", { "class": "cols" }, __h("div", { "class": "col" }, __h("h2", {  }, "works"), __h("ul", {  }, __each(() => (works), (w) => (w), (w) => [__h("li", {  }, () => (w))], true))), __h("div", { "class": "col" }, __h("h2", {  }, "next"), __h("ul", {  }, __each(() => (next), (w) => (w), (w) => [__h("li", {  }, () => (w))], true))), __h("div", { "class": "col" }, __h("h2", {  }, "is not"), __h("ul", {  }, __each(() => (isnt), (w) => (w), (w) => [__h("li", {  }, () => (w))], true)))));
-  __root.classList.add("mau-1cvytg");
+  __root.classList.add("mau-1rmvh7");
   return __root;
 }

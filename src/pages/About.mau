@@ -7,12 +7,12 @@
     "scoped styles under a strict CSP",
     "glitch-free updates, batched per event",
     "live component props",
+    "bindings for numbers, select and radio",
     "SVG, and rows that update in place",
     "VS Code highlighting for .mau",
   ];
   const next = [
     "runtime source maps",
-    "bind:value for numbers, select, radio",
     "formatter and language server",
   ];
   const isnt = [

@@ -42,10 +42,20 @@ export default [
         h: "Bindings",
         p: [
           "`bind:value` and `bind:checked` keep an input and a signal in sync. The signal must be passed as it is, not called.",
-          "The value is always a string. Numbers, `select` and radio buttons are not covered yet.",
+          "On a number or range input (`type=number`, `type=range`) the signal gets a number, or `null` while the field is empty. On a `select` it gets the value of the chosen option.",
+          "`bind:group` ties radio buttons to one signal, which holds the value of the selected one. Checkbox groups are not supported yet.",
         ],
         code: `<input bind:value={name}>
-<input type="checkbox" bind:checked={agreed}>`,
+<input type="number" bind:value={count}>
+<input type="checkbox" bind:checked={agreed}>
+
+<select bind:value={size}>
+  <option value="s">small</option>
+  <option value="l">large</option>
+</select>
+
+<input type="radio" value="s" bind:group={size}>
+<input type="radio" value="l" bind:group={size}>`,
       },
       {
         h: "Conditions",
@@ -472,8 +482,15 @@ const { code } = compile(source, {
       {
         h: "Get it",
         p: [
-          `The extension is not on the marketplace yet. Get the source from [mau-vs on GitHub](${links.vs}), build the package and install it. You need Node.js and the \`code\` command of VS Code.`,
+          `The extension is not on the marketplace yet. Download the package from the [latest release](${links.vs}/releases/latest) and install it. You need the \`code\` command of VS Code.`,
           "Reload the window afterwards. If a file is not recognized, pick mau in the language mode at the bottom right.",
+        ],
+        code: `code --install-extension mau-0.1.1.vsix`,
+      },
+      {
+        h: "Build it yourself",
+        p: [
+          `Get the source from [mau-vs on GitHub](${links.vs}), build the package and install it. You need Node.js.`,
         ],
         code: `git clone ${links.vs}.git
 cd mau-vs
