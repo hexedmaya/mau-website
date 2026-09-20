@@ -1,0 +1,114 @@
+<script>
+  import { compile } from "../../vendor/mau/compiler/compile.js";
+  import CodeBlock from "../components/CodeBlock.js";
+  import { example } from "../content/playground.js";
+
+  const source = signal(example);
+  const tab = signal("preview");
+  let frame;
+  let timer;
+
+  // the compiler runs right here in the browser
+  const result = computed(() => {
+    try {
+      const runtime = location.origin + "/vendor/mau/index.js"; // a blob: module needs a full address
+      return { code: compile(source(), { file: "Playground.mau", runtime }).code, error: "" };
+    } catch (e) {
+      return { code: "", error: e.message };
+    }
+  });
+
+  const send = (r) => {
+    if (!r.error && frame && frame.contentWindow) frame.contentWindow.postMessage({ code: r.code }, location.origin);
+  };
+
+  // wait a moment after typing, and once the preview has said it is ready
+  effect(() => {
+    const r = result();
+    clearTimeout(timer);
+    timer = setTimeout(() => send(r), 250);
+  });
+  const onMessage = (e) => {
+    if (e.origin === location.origin && e.data && e.data.ready && frame && e.source === frame.contentWindow) send(result.peek());
+  };
+  addEventListener("message", onMessage);
+  onDestroy(() => { clearTimeout(timer); removeEventListener("message", onMessage); });
+
+  // Tab writes two spaces instead of leaving the box
+  const onKey = (e) => {
+    if (e.key !== "Tab" || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
+    e.preventDefault();
+    const box = e.target;
+    box.setRangeText("  ", box.selectionStart, box.selectionEnd, "end");
+    source.set(box.value);
+  };
+</script>
+
+<section class="play">
+  <h1 class="head">playground</h1>
+  <p class="intro">Write a component on the left. The compiler runs in your browser, nothing is sent anywhere.</p>
+
+  <div class="split">
+    <div class="pane">
+      <p class="cap">src / Playground.mau</p>
+      <textarea class="editor" bind:value={source} on:keydown={onKey} spellcheck="false" autocomplete="off" aria-label="mau source"></textarea>
+    </div>
+
+    <div class="pane">
+      <div class="tabs" role="tablist">
+        <button role="tab" class={tab() === "preview" ? "on" : ""} aria-selected={tab() === "preview" ? "true" : "false"} on:click={() => tab.set("preview")}>preview</button>
+        <button role="tab" class={tab() === "js" ? "on" : ""} aria-selected={tab() === "js" ? "true" : "false"} on:click={() => tab.set("js")}>generated js</button>
+      </div>
+
+      {#if result().error}
+        <pre class="err">{result().error}</pre>
+      {/if}
+
+      <iframe class="frame" title="preview" src="/playground/frame.html" ref={(el) => (frame = el)} hidden={tab() !== "preview"}></iframe>
+
+      {#if tab() === "js"}
+        <div class="gen">
+          {#if result().code}
+            <CodeBlock code={result().code} />
+          {:else}
+            <p class="none">nothing to show while there is an error.</p>
+          {/if}
+        </div>
+      {/if}
+    </div>
+  </div>
+</section>
+
+<style>
+  :scope { padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2.5rem) 3rem; }
+  .head { margin: 0 0 1.4rem; padding-bottom: .12em; font-size: clamp(3.5rem, 13vw, 8rem); line-height: .85; font-weight: 900; letter-spacing: -.06em; }
+  .intro { max-width: 40rem; margin: 0 0 2rem; font-size: 1.2rem; }
+
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.2rem; align-items: start; }
+  .pane { min-width: 0; }
+  .cap { margin: 0 0 .4rem; font-family: var(--mono); font-size: .75rem; text-transform: uppercase; letter-spacing: .12em; color: var(--mute); }
+
+  .editor {
+    display: block; width: 100%; box-sizing: border-box; height: 32rem; resize: vertical; tab-size: 2;
+    padding: 1rem 1.2rem; border: 2px solid var(--ink); border-radius: 0;
+    background: var(--paper); color: var(--ink); font: .84rem/1.65 var(--mono);
+  }
+  .editor:focus { outline: 3px solid var(--accent); outline-offset: -3px; }
+
+  .tabs { display: flex; margin-bottom: .6rem; border: 2px solid var(--ink); width: fit-content; font-family: var(--mono); font-size: .85rem; }
+  .tabs button { font: inherit; cursor: pointer; padding: .45rem 1rem; color: var(--ink); background: transparent; border: 0; border-right: 2px solid var(--ink); }
+  .tabs button:last-child { border-right: 0; }
+  .tabs button:hover, .tabs button.on { background: var(--accent); color: #000; }
+
+  .frame { display: block; width: 100%; height: 32rem; border: 2px solid var(--ink); background: #fff; }
+  .frame[hidden] { display: none; }
+  .err { margin: 0 0 .6rem; padding: .8rem 1rem; border: 2px solid var(--accent); font-family: var(--mono); font-size: .8rem; white-space: pre-wrap; }
+  .gen { max-height: 32rem; overflow: auto; }
+  .none { font-family: var(--mono); color: var(--mute); }
+
+  /* phones (after the base rules, so it wins) */
+  @media (max-width: 900px) {
+    .split { grid-template-columns: minmax(0, 1fr); }
+    .editor, .frame { height: 24rem; }
+  }
+</style>

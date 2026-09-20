@@ -87,6 +87,7 @@ mount(document.getElementById("app"), Counter);`,
   <div class="next">
     <a class="big" href="/docs">read the docs →</a>
     <a class="big" href="/try">try it →</a>
+    <a class="big" href="/playground">playground →</a>
   </div>
 </section>
 

@@ -273,3 +273,58 @@ test("the files the pages link to exist", () => {
     assert.ok(fs.existsSync(path.join(root, f)), f);
   }
 });
+
+// ---- playground
+
+test("playground: the editor starts with the example, the compiler runs in the page", async () => {
+  await go("/playground");
+  const { example } = await import("../src/content/playground.js");
+  assert.equal($(".editor").value, example);
+  assert.equal($(".err"), null);
+  assert.deepEqual($$(".tabs button").map((b) => b.textContent), ["preview", "generated js"]);
+  assert.equal($(".frame").getAttribute("src"), "/playground/frame.html");
+});
+
+test("playground: the generated js shows in the second tab", async () => {
+  await go("/playground");
+  $$(".tabs button")[1].click();
+  await wait();
+  const code = $(".gen pre").textContent;
+  assert.match(code, /export default function Playground/);
+  assert.ok(code.includes(location.origin + "/vendor/mau/index.js"), "the runtime is a full address, a blob module needs that");
+  assert.equal($(".frame").hasAttribute("hidden"), true);
+  $$(".tabs button")[0].click();
+  await wait();
+  assert.equal($(".frame").hasAttribute("hidden"), false);
+});
+
+test("playground: a mistake shows the error with file:line:col, and fixing it removes it", async () => {
+  await go("/playground");
+  type($(".editor"), "<div>\n  <p>\n</div>");
+  await wait();
+  assert.match($(".err").textContent, /^Playground\.mau:3:1: expected <\/p>/);
+  type($(".editor"), "<p>fine</p>");
+  await wait();
+  assert.equal($(".err"), null);
+});
+
+test("playground: Tab writes two spaces and stays in the box", async () => {
+  await go("/playground");
+  const box = $(".editor");
+  type(box, "ab");
+  box.setSelectionRange(1, 1);
+  const ev = new w.KeyboardEvent("keydown", { key: "Tab", bubbles: true, cancelable: true });
+  box.dispatchEvent(ev);
+  assert.equal(ev.defaultPrevented, true);
+  assert.equal(box.value, "a  b");
+});
+
+test("the preview frame page: its own policy allows blob:, and only this page", () => {
+  const frame = read("playground/frame.html");
+  assert.match(frame, /script-src 'self' blob:/);
+  assert.match(frame, /name="robots" content="noindex"/);
+  assert.ok(!read("index.html").includes("blob:"), "the pages of the site do not allow blob:");
+  assert.match(read("playground/index.html"), /frame-src 'self'/, "the playground page may frame its own preview");
+  assert.ok(fs.existsSync(path.join(root, "vendor/mau/compiler/compile.js")));
+  assert.ok(fs.existsSync(path.join(root, "dist/playground-frame.js")));
+});

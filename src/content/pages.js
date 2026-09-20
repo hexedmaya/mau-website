@@ -25,6 +25,11 @@ export const pages = [
     description: "A live counter, a task list and a polled instance list, all built with mau.",
   },
   {
+    path: "/playground",
+    title: "Playground · mau",
+    description: "Write a .mau component and see it run. The compiler runs in your browser, nothing is sent anywhere.",
+  },
+  {
     path: "/about",
     title: "About · mau",
     description: "Why mau exists, what works today, what comes next, and what it is not.",

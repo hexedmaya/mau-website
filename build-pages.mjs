@@ -20,7 +20,7 @@ const html = ({ path: p, title, description, notFound }) => `<!doctype html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; frame-src 'self'">
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}">
   <meta name="theme-color" content="#ff4b1f">

@@ -18,7 +18,8 @@ src/                what people write
 dist/               generated from src/, what the server serves
 assets/brand/       logo, icon and PNG variants
 BRAND-POLICY.md     how the mau name and logo may be used (shown on the brand page)
-vendor/mau/         a copy of the mau runtime
+playground/frame.html  the page inside the playground preview
+vendor/mau/         a copy of the mau runtime and, for the playground, of the compiler
 ```
 
 `dist/` is generated from `src/` by the mau compiler (`.mau` becomes `.js`, everything else is copied). It is committed and is what the server serves: upload the whole folder.
