@@ -71,12 +71,13 @@
   .from a:hover, .note a:hover { background: var(--accent); color: #000; text-decoration: none; }
 
   /* imprint and privacy: a centred column with orange accents */
-  :scope.notice .head { text-align: center; font-size: clamp(3rem, 11vw, 6.5rem); }
-  :scope.notice .head::after { content: ""; display: block; width: 4.5rem; height: .5rem; margin: 1.1rem auto 0; background: var(--accent); }
+  :scope.notice .head { text-align: center; padding-bottom: .22em; font-size: clamp(3rem, 11vw, 6.5rem); }
+  :scope.notice .head::after { content: ""; display: block; width: 4.5rem; height: .5rem; margin: 1.7rem auto 0; background: var(--accent); }
   :scope.notice .md { margin: 0 auto; }
   :scope.notice .md h3 { margin: 1.4rem 0 .6rem; padding: .35rem .8rem; border-left: 6px solid var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); font-size: 1.15rem; }
   :scope.notice .md h3:first-child { margin-top: 0; }
-  :scope.notice .md a { text-decoration-color: var(--accent); }
+  :scope.notice .md a[href^="mailto:"] { padding: .05em .45em; background: var(--accent); color: #000; font-family: var(--mono); font-size: .92em; font-weight: 700; text-decoration: none; }
+  :scope.notice .md a[href^="mailto:"]:hover { background: var(--ink); color: var(--paper); }
   :scope.notice .md p { padding-left: .8rem; }
   :scope.notice .md p:first-child { padding-left: 0; text-align: center; font-family: var(--mono); font-size: .9rem; color: var(--mute); }
 </style>

@@ -10,7 +10,7 @@ Jungbornstraße 25
 47445 Moers
 Germany
 
-Email: maja@melloo.me
+Email: [maja@melloo.me](mailto:maja@melloo.me)
 `;
 
 export const privacy = `# Privacy
@@ -23,7 +23,7 @@ This notice is about mau.melloo.me, the informational site you are on right now.
 
 ## Who is responsible
 
-Maja Bekurdts, Jungbornstraße 25, 47445 Moers, Germany, maja@melloo.me (see the imprint).
+Maja Bekurdts, Jungbornstraße 25, 47445 Moers, Germany, [maja@melloo.me](mailto:maja@melloo.me) (see the imprint).
 
 ## Server logs
 
@@ -39,7 +39,7 @@ This site uses no analytics, advertising or tracking pixels and does not set ana
 
 ## Your rights
 
-You can ask for access to your data, correction, deletion, restriction of processing, and you can object to processing based on legitimate interest (Art. 15 to 18 and 21 GDPR). Write to maja@melloo.me. You may also have a right to data portability where the legal requirements for that right are met. You also have the right to complain to a data protection authority, for example the LDI NRW (Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen). There is no statutory or contractual requirement to provide personal data. However, processing your IP address and technical request data is necessary to deliver the website.
+You can ask for access to your data, correction, deletion, restriction of processing, and you can object to processing based on legitimate interest (Art. 15 to 18 and 21 GDPR). Write to [maja@melloo.me](mailto:maja@melloo.me). You may also have a right to data portability where the legal requirements for that right are met. You also have the right to complain to a data protection authority, for example the LDI NRW (Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen). There is no statutory or contractual requirement to provide personal data. However, processing your IP address and technical request data is necessary to deliver the website.
 
 ## No third-party resources
 
