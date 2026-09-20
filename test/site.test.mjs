@@ -158,7 +158,16 @@ test("docs: code samples are colored, and the text is unchanged", async () => {
   const block = $(".cb");
   assert.ok(block.querySelectorAll("span[class^='t-']").length > 3);
   assert.ok(block.querySelector(".t-t"), "a tag is colored");
-  assert.equal(block.querySelector("pre").textContent, docs[0].blocks[0].code);
+  assert.equal(block.querySelector("pre").textContent, docs.find((d) => d.slug === "templates").blocks[0].code);
+});
+
+test("docs: the order of the sidebar, and every internal link in the guides goes to a page", () => {
+  assert.deepEqual(docs.map((d) => d.slug).slice(0, 3), ["tutorial", "templates", "reactivity"]);
+  assert.equal(docs.at(-1).slug, "changelog");
+  const known = new Set(["/", "/start", "/try", "/licenses", "/brand-policy", ...docs.map((d) => "/docs/" + d.slug)]);
+  for (const page of docs) for (const b of page.blocks) for (const text of b.p ?? []) {
+    for (const m of text.matchAll(/\]\((\/[^)#]*)/g)) assert.ok(known.has(m[1]), page.slug + ": " + m[1]);
+  }
 });
 
 test("docs: a copy button puts the sample on the clipboard", async () => {

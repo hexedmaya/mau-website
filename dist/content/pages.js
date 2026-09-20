@@ -16,7 +16,7 @@ export const pages = [
   {
     path: "/docs",
     title: "Docs · mau",
-    description: "The mau docs: templates, reactivity, components, styles, router, compiler and security.",
+    description: "The mau docs: a tutorial, templates, reactivity, components, styles, router, recipes, compiler, deployment and security.",
   },
   ...docs.map((d) => ({ path: "/docs/" + d.slug, title: `${d.title} · mau docs`, description: d.intro })),
   {

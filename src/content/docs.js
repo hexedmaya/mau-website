@@ -1,7 +1,8 @@
 // Content of the docs pages. Backticks in a paragraph mark inline code.
 import { links } from "./links.js";
+import { tutorial, recipes, deploy, faq, troubleshooting, changelog } from "./docs-guides.js";
 
-export default [
+const core = [
   {
     slug: "templates",
     title: "Templates",
@@ -575,4 +576,25 @@ code --install-extension mau-0.1.1.vsix`,
       { h: "navigate(path, options)", p: ["Goes to a path without a page load, for example `navigate(\"/docs\")`. Option: `{ replace: true }`."] },
     ],
   },
+];
+
+const by = (slug) => core.find((p) => p.slug === slug);
+
+// the order of the sidebar
+export default [
+  tutorial,
+  by("templates"),
+  by("reactivity"),
+  by("components"),
+  by("styles"),
+  by("router"),
+  recipes,
+  by("compiler"),
+  deploy,
+  by("editor"),
+  by("security"),
+  faq,
+  troubleshooting,
+  by("api"),
+  changelog,
 ];
