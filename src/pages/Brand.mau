@@ -14,10 +14,10 @@
     { file: "logo-dark.svg", note: "svg, for dark backgrounds" },
     { file: "logo-mono.svg", note: "svg, takes the text color" },
     { file: "icon.svg", note: "svg, square icon" },
-    { file: "png/mau-avatar-512.png", note: "png, 512 x 512, avatar" },
-    { file: "png/mau-logo-2048-dark.png", note: "png, 2048 x 2048, dark" },
-    { file: "png/mau-logo-transparent-512.png", note: "png, 512 x 512, transparent, for light" },
-    { file: "png/mau-logo-transparent-dark-512.png", note: "png, 512 x 512, transparent, for dark" },
+    { file: "png/mau-logo-512.png", note: "png, 512 x 512, transparent, for light backgrounds" },
+    { file: "png/mau-logo-dark-512.png", note: "png, 512 x 512, transparent, for dark backgrounds" },
+    { file: "png/mau-logo-mono-512.png", note: "png, 512 x 512, transparent, one color (black)" },
+    { file: "png/mau-icon-512.png", note: "png, 512 x 512, square icon, avatar" },
     { file: "png/mau-social-1280x640.png", note: "png, 1280 x 640, social preview" },
   ];
 

@@ -29,7 +29,6 @@
   const links = [
     { to: "/docs", label: "docs" },
     { to: "/try", label: "try" },
-    { to: "/about", label: "about" },
   ];
 
   // every page starts at the top, and the tab shows its title
