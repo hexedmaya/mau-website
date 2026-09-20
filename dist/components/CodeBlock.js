@@ -3,7 +3,7 @@
 import { signal, computed, effect, untracked, batch, onDestroy, router, route, navigate, h as __h, raw as __raw, each as __each, adoptStyle as __style } from "../../vendor/mau/index.js";
 import { highlight } from "../content/highlight.js";
 
-__style("@scope (.mau-1i7ljo) {\n:scope {\n    /* the block is dark on the light page and light on the dark page, so the colors switch with the mode */\n    --c-k: #ff79c6; --c-s: #a5d6a7; --c-c: #9a9686; --c-n: #ffb86c; --c-t: #82aaff; --c-a: #d2a8ff;\n    position: relative; margin-top: .8rem;\n  }\n  @media (prefers-color-scheme: dark) {\n    :scope { --c-k: #b0125e; --c-s: #2a7a2e; --c-c: #7a7666; --c-n: #a34a00; --c-t: #0f5fbf; --c-a: #7b2fa8; }\n  }\n  .code {\n    margin: 0; padding: 1rem 5rem 1rem 1.2rem; overflow: auto;\n    background: var(--ink); color: var(--paper); font: .84rem/1.65 var(--mono);\n  }\n  .code code { font-family: inherit; }\n  .t-k { color: var(--c-k); }\n  .t-s { color: var(--c-s); }\n  .t-c { color: var(--c-c); font-style: italic; }\n  .t-n { color: var(--c-n); }\n  .t-t { color: var(--c-t); }\n  .t-a { color: var(--c-a); }\n  .copy {\n    position: absolute; top: .5rem; right: .5rem; z-index: 1;\n    font: .72rem var(--mono); padding: .15rem .6rem; cursor: pointer;\n    color: var(--paper); background: transparent; border: 1px solid currentColor; opacity: .6;\n  }\n  .copy:hover { opacity: 1; background: var(--accent); border-color: var(--accent); color: #000; }\n}");
+__style("@scope (.mau-1gei1a) {\n:scope {\n    /* the block is dark on the light page and light on the dark page, so the colors switch with the mode */\n    --c-k: #ff79c6; --c-s: #a5d6a7; --c-c: #9a9686; --c-n: #ffb86c; --c-t: #82aaff; --c-a: #d2a8ff;\n    position: relative; margin-top: .8rem;\n  }\n  .dark :scope { --c-k: #b0125e; --c-s: #2a7a2e; --c-c: #7a7666; --c-n: #a34a00; --c-t: #0f5fbf; --c-a: #7b2fa8; }\n  .code {\n    margin: 0; padding: 1rem 5rem 1rem 1.2rem; overflow: auto;\n    background: var(--ink); color: var(--paper); font: .84rem/1.65 var(--mono);\n  }\n  .code code { font-family: inherit; }\n  .t-k { color: var(--c-k); }\n  .t-s { color: var(--c-s); }\n  .t-c { color: var(--c-c); font-style: italic; }\n  .t-n { color: var(--c-n); }\n  .t-t { color: var(--c-t); }\n  .t-a { color: var(--c-a); }\n  .copy {\n    position: absolute; top: .5rem; right: .5rem; z-index: 1;\n    font: .72rem var(--mono); padding: .15rem .6rem; cursor: pointer;\n    color: var(--paper); background: transparent; border: 1px solid currentColor; opacity: .6;\n  }\n  .copy:hover { opacity: 1; background: var(--accent); border-color: var(--accent); color: #000; }\n}");
 
 export default function CodeBlock(props = {}) {
   const tokens = computed(() => highlight(props.code));
@@ -17,6 +17,6 @@ export default function CodeBlock(props = {}) {
     } catch {}
   }
   const __root = __h("div", { "class": "cb" }, __h("button", { "class": "copy", "onclick": copy, "aria-label": "copy the code" }, () => (copied() ? "copied" : "copy")), __h("pre", { "class": "code" }, __h("code", {  }, __each(() => (tokens()), null, (t) => [__h("span", { "class": () => ("t-" + t.k) }, () => (t.v))], true))));
-  __root.classList.add("mau-1i7ljo");
+  __root.classList.add("mau-1gei1a");
   return __root;
 }

@@ -29,6 +29,7 @@ ${notFound ? `  <meta name="robots" content="noindex">` : `  <link rel="canonica
   <link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <link rel="stylesheet" href="/assets/base.css">
+  <script src="/assets/theme.js"></script>
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="mau">

@@ -4,6 +4,8 @@ body { margin: 0; padding: 1rem; }
 button, input, textarea, select { font: inherit; }
 .mau-error { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: .85rem; color: #b00020; white-space: pre-wrap; }
 @media (prefers-color-scheme: dark) {
-  html { background: #131311; color: #efeadc; }
-  .mau-error { color: #ff8a80; }
+  html:not([data-theme]) { background: #131311; color: #efeadc; }
+  html:not([data-theme]) .mau-error { color: #ff8a80; }
 }
+html[data-theme="dark"] { background: #131311; color: #efeadc; }
+html[data-theme="dark"] .mau-error { color: #ff8a80; }

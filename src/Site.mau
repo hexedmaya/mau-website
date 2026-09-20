@@ -29,6 +29,17 @@
     "*": NotFound,
   });
 
+  // light or dark: the choice of the visitor (kept in this browser), else the mode of the system
+  const saved = () => { try { const t = localStorage.getItem("mau-theme"); return t === "light" || t === "dark" ? t : null; } catch (e) { return null; } };
+  const systemDark = typeof matchMedia === "function" && matchMedia("(prefers-color-scheme: dark)").matches;
+  const theme = signal(saved() ?? (systemDark ? "dark" : "light"));
+  const toggle = () => {
+    const next = theme() === "dark" ? "light" : "dark";
+    theme.set(next);
+    try { localStorage.setItem("mau-theme", next); } catch (e) {}
+  };
+  effect(() => document.documentElement.setAttribute("data-theme", theme()));
+
   const links = [
     { to: "/docs", label: "docs" },
     { to: "/try", label: "try" },
@@ -46,7 +57,7 @@
   });
 </script>
 
-<div class="site">
+<div class={"site " + theme()}>
   <nav class="topbar">
     <a class="brand" href="/" aria-label="mau, home">
       <svg viewBox="0 0 28 24" aria-hidden="true"><path d="M2 21V3l6 6h6l6-6v18h-4v-8h-3v8H9v-8H6v8z" /><rect class="dot" x="22" y="17" width="4" height="4" /></svg>
@@ -57,6 +68,7 @@
         <a href={l.to} class={route().path.startsWith(l.to) ? "on" : ""} aria-current={route().path.startsWith(l.to) ? "page" : null}>{l.label}</a>
       {/each}
       <a class="gh" href={ext.mau} target="_blank" rel="noopener">github ↗</a>
+      <button class="mode" on:click={toggle} aria-label={theme() === "dark" ? "switch to light mode" : "switch to dark mode"}>{theme() === "dark" ? "light" : "dark"}</button>
     </div>
   </nav>
   <main>{view()}</main>
@@ -72,9 +84,7 @@
     background: var(--paper); color: var(--ink);
     font: 17px/1.55 "Helvetica Neue", Arial, system-ui, sans-serif;
   }
-  @media (prefers-color-scheme: dark) {
-    :scope { --paper: #131311; --ink: #efeadc; --mute: #958f7d; --accent: #ff5a2b; }
-  }
+  :scope.dark { --paper: #131311; --ink: #efeadc; --mute: #958f7d; --accent: #ff5a2b; }
   ::selection { background: var(--accent); color: #000; }
 
   /* scrollbars: square, ink on paper, orange on hover (Chrome, Edge, Safari) */
@@ -104,5 +114,7 @@
   .brand svg { height: 1.15rem; width: auto; fill: var(--ink); }
   .brand .dot { fill: var(--accent); }
   .links a { margin-left: 1.3rem; color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .25em; }
+  .mode { margin-left: 1.3rem; padding: .1rem .55rem; font: inherit; cursor: pointer; color: var(--ink); background: transparent; border: 2px solid var(--ink); }
+  .mode:hover { background: var(--accent); border-color: var(--accent); color: #000; }
   .links a:hover, .links a.on { background: var(--accent); color: #000; text-decoration: none; }
 </style>

@@ -13,13 +13,21 @@ html::-webkit-scrollbar-thumb:hover { background: #ff4b1f; }
   html { scrollbar-width: thin; scrollbar-color: #141414 #f1eee4; }
 }
 
+/* dark: the chosen mode (data-theme, set by theme.js) or, when nothing was chosen, the mode of the system */
+html[data-theme="dark"] { background: #131311; }
+html[data-theme="dark"]::-webkit-scrollbar-track { background: #131311; border-left-color: #efeadc; }
+html[data-theme="dark"]::-webkit-scrollbar-thumb { background: #efeadc; border-color: #131311; }
+html[data-theme="dark"]::-webkit-scrollbar-thumb:hover { background: #ff5a2b; }
+@supports not selector(::-webkit-scrollbar) {
+  html[data-theme="dark"] { scrollbar-color: #efeadc #131311; }
+}
 @media (prefers-color-scheme: dark) {
-  html { background: #131311; }
-  html::-webkit-scrollbar-track { background: #131311; border-left-color: #efeadc; }
-  html::-webkit-scrollbar-thumb { background: #efeadc; border-color: #131311; }
-  html::-webkit-scrollbar-thumb:hover { background: #ff5a2b; }
+  html:not([data-theme]) { background: #131311; }
+  html:not([data-theme])::-webkit-scrollbar-track { background: #131311; border-left-color: #efeadc; }
+  html:not([data-theme])::-webkit-scrollbar-thumb { background: #efeadc; border-color: #131311; }
+  html:not([data-theme])::-webkit-scrollbar-thumb:hover { background: #ff5a2b; }
   @supports not selector(::-webkit-scrollbar) {
-    html { scrollbar-color: #efeadc #131311; }
+    html:not([data-theme]) { scrollbar-color: #efeadc #131311; }
   }
 }
 
