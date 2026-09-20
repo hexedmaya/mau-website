@@ -71,8 +71,8 @@
   .from a:hover, .note a:hover { background: var(--accent); color: #000; text-decoration: none; }
 
   /* imprint and privacy: a centred column with orange accents */
-  :scope.notice .head { width: fit-content; max-width: 100%; margin: 0 auto 1.4rem; text-align: center; padding-bottom: .22em; font-size: clamp(3rem, 11vw, 6.5rem); }
-  :scope.notice .head::after { content: ""; display: block; width: 100%; height: .5rem; margin: 1.7rem 0 0; background: var(--accent); }
+  :scope.notice .head { width: fit-content; max-width: 100%; margin: 0 auto 2.4rem; text-align: center; padding-bottom: .22em; font-size: clamp(3rem, 11vw, 6.5rem); }
+  :scope.notice .head::after { content: ""; display: block; width: 100%; height: .5rem; margin: .1rem 0 0; background: var(--accent); }
   :scope.notice .md { margin: 0 auto; }
   :scope.notice .md h3 { margin: 1.4rem 0 .6rem; padding: .35rem .8rem; border-left: 6px solid var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); font-size: 1.15rem; }
   :scope.notice .md h3:first-child { margin-top: 0; }
