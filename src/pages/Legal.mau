@@ -76,7 +76,7 @@
   :scope.notice .md { margin: 0 auto; }
   :scope.notice .md h3 { margin: 1.4rem 0 .6rem; padding: .35rem .8rem; border-left: 6px solid var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); font-size: 1.15rem; }
   :scope.notice .md h3:first-child { margin-top: 0; }
-  :scope.notice .md a[href^="mailto:"] { font-family: var(--mono); font-size: .92em; font-weight: 700; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: .22em; text-decoration-skip-ink: none; }
+  :scope.notice .md a[href^="mailto:"] { font-family: var(--mono); font-size: .92em; font-weight: 700; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: .34em; }
   :scope.notice .md a[href^="mailto:"]:hover { background: var(--accent); color: #000; text-decoration: none; }
   :scope.notice .md p { padding-left: .8rem; }
   :scope.notice .md p:first-child { padding-left: 0; text-align: center; font-family: var(--mono); font-size: .9rem; color: var(--mute); }
