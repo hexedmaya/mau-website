@@ -67,6 +67,7 @@
     --paper: #f1eee4; --ink: #141414; --mute: #6b6759; --accent: #ff4b1f;
     --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
     min-height: 100vh; min-height: 100dvh;
+    display: flex; flex-direction: column;
     background: var(--paper); color: var(--ink);
     font: 17px/1.55 "Helvetica Neue", Arial, system-ui, sans-serif;
   }
@@ -91,6 +92,7 @@
     :scope { scrollbar-width: thin; scrollbar-color: var(--ink) var(--paper); }
     pre { scrollbar-color: var(--paper) var(--ink); }
   }
+  main { flex: 1 0 auto; min-width: 0; }
   .topbar {
     position: sticky; top: 0; z-index: 5; background: var(--paper);
     display: flex; justify-content: space-between; align-items: baseline;

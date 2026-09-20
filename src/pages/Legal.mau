@@ -34,7 +34,7 @@
   }
 </script>
 
-<section class="legal">
+<section class={isLicense ? "legal" : "legal notice"}>
   <h1 class="head">{page.heading}</h1>
 
   {#if isLicense}
@@ -69,4 +69,14 @@
   .from { margin-top: 2.5rem; padding-top: 1.2rem; border-top: 2px solid var(--ink); font-family: var(--mono); font-size: .85rem; color: var(--mute); }
   .from a, .note a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
   .from a:hover, .note a:hover { background: var(--accent); color: #000; text-decoration: none; }
+
+  /* imprint and privacy: a centred column with orange accents */
+  :scope.notice .head { text-align: center; font-size: clamp(3rem, 11vw, 6.5rem); }
+  :scope.notice .head::after { content: ""; display: block; width: 4.5rem; height: .5rem; margin: 1.1rem auto 0; background: var(--accent); }
+  :scope.notice .md { margin: 0 auto; }
+  :scope.notice .md h3 { margin: 1.4rem 0 .6rem; padding: .35rem .8rem; border-left: 6px solid var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); font-size: 1.15rem; }
+  :scope.notice .md h3:first-child { margin-top: 0; }
+  :scope.notice .md a { text-decoration-color: var(--accent); }
+  :scope.notice .md p { padding-left: .8rem; }
+  :scope.notice .md p:first-child { padding-left: 0; text-align: center; font-family: var(--mono); font-size: .9rem; color: var(--mute); }
 </style>
