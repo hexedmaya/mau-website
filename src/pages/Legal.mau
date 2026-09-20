@@ -8,7 +8,7 @@
   const all = {
     "/licenses": { heading: "license", src: "/vendor/mau/LICENSE", repo: links.mau },
     "/licenses/website": { heading: "license", src: "/LICENSE", repo: links.website },
-    "/brand-policy": { heading: "brand policy", src: "/BRAND-POLICY.md" },
+    "/brand-policy": { heading: "license", src: "/BRAND-POLICY.md" },
     "/imprint": { heading: "imprint", text: imprint },
     "/privacy": { heading: "privacy", text: privacy },
   };
@@ -23,7 +23,7 @@
 
   const show = (md) => {
     const parsed = parseMarkdown(md);
-    subtitle.set(isLicense ? parsed.find((b) => b.t === "h1")?.text ?? "" : "");
+    subtitle.set(hasTabs ? parsed.find((b) => b.t === "h1")?.text ?? "" : "");
     blocks.set(parsed.filter((b) => b.t !== "h1"));
   };
 
@@ -45,7 +45,7 @@
       <a href="/licenses/website" class={path === "/licenses/website" ? "on" : ""}>Website License</a>
       <a href="/brand-policy" class={path === "/brand-policy" ? "on" : ""}>Brand Policy</a>
     </nav>
-    {#if isLicense}<p class="sub">{subtitle()}</p>{/if}
+    <p class="sub">{subtitle()}</p>
   {/if}
 
   {#if failed()}

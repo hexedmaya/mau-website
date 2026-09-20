@@ -232,7 +232,8 @@ test("brand page: four logos, nine downloads, link to the policy", async () => {
 test("brand policy page: its own address, read from BRAND-POLICY.md", async () => {
   await go("/brand-policy");
   await wait(60);
-  assert.equal($(".head").textContent, "brand policy");
+  assert.equal($(".head").textContent, "license");
+  assert.equal($(".sub").textContent, "mau Brand Policy 1.0");
   assert.ok($$(".md h3").length > 5, "policy rendered");
   assert.equal($(".tabs a.on").textContent, "Brand Policy");
 });
