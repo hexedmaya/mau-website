@@ -472,7 +472,7 @@ const { code } = compile(source, {
         code: `git clone ${links.vs}.git
 cd mau-vs
 npx @vscode/vsce package
-code --install-extension mau-0.1.0.vsix`,
+code --install-extension mau-0.1.1.vsix`,
       },
       {
         h: "Try it without installing",
