@@ -1,0 +1,47 @@
+<script>
+  import { highlight } from "../content/highlight.js";
+
+  const tokens = computed(() => highlight(props.code));
+  const copied = signal(false);
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(props.code);
+      copied.set(true);
+      setTimeout(() => copied.set(false), 1500);
+    } catch {}
+  }
+</script>
+
+<div class="cb">
+  <button class="copy" on:click={copy} aria-label="copy the code">{copied() ? "copied" : "copy"}</button>
+  <pre class="code"><code>{#each tokens() as t}<span class={"t-" + t.k}>{t.v}</span>{/each}</code></pre>
+</div>
+
+<style>
+  :scope {
+    /* the block is dark on the light page and light on the dark page, so the colors switch with the mode */
+    --c-k: #ff79c6; --c-s: #a5d6a7; --c-c: #9a9686; --c-n: #ffb86c; --c-t: #82aaff; --c-a: #d2a8ff;
+    position: relative; margin-top: .8rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :scope { --c-k: #b0125e; --c-s: #2a7a2e; --c-c: #7a7666; --c-n: #a34a00; --c-t: #0f5fbf; --c-a: #7b2fa8; }
+  }
+  .code {
+    margin: 0; padding: 1rem 5rem 1rem 1.2rem; overflow: auto;
+    background: var(--ink); color: var(--paper); font: .84rem/1.65 var(--mono);
+  }
+  .code code { font-family: inherit; }
+  .t-k { color: var(--c-k); }
+  .t-s { color: var(--c-s); }
+  .t-c { color: var(--c-c); font-style: italic; }
+  .t-n { color: var(--c-n); }
+  .t-t { color: var(--c-t); }
+  .t-a { color: var(--c-a); }
+  .copy {
+    position: absolute; top: .5rem; right: .5rem; z-index: 1;
+    font: .72rem var(--mono); padding: .15rem .6rem; cursor: pointer;
+    color: var(--paper); background: transparent; border: 1px solid currentColor; opacity: .6;
+  }
+  .copy:hover { opacity: 1; background: var(--accent); border-color: var(--accent); color: #000; }
+</style>

@@ -269,6 +269,12 @@ destroy();`,
 </style>`,
       },
       {
+        h: "Browser support",
+        p: [
+          "The scoped styles use the native `@scope` rule. It needs a current browser: Chrome and Edge 118, Safari 17.4, Firefox 146 or newer. In an older browser the styles of a component are simply not applied.",
+        ],
+      },
+      {
         h: "Strict CSP",
         p: [
           "Styles are added through a constructed stylesheet, not an inline `<style>` tag, so `style-src 'self'` is enough.",
@@ -318,7 +324,7 @@ const { tab } = props.query;
       {
         h: "Move around",
         p: [
-          "A normal link is all it takes. A click on a link to your own site becomes a navigation without a page load. Ctrl-click, `target=\"_blank\"`, downloads, other sites and `#anchors` on the same page work as usual.",
+          "A normal link is all it takes. A click on a link to your own site becomes a navigation without a page load. Ctrl-click, `target=\"_blank\"`, downloads, other sites and `#anchors` on the same page work as usual. A link to another page keeps its anchor: `/docs/router#server-setup` opens the page and scrolls there.",
           "From code, use `navigate`. With `replace` the current history entry is swapped instead of a new one added.",
         ],
         code: `<a href="/instance/3">three</a>

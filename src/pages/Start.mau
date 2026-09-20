@@ -1,5 +1,6 @@
 <script>
   import { segs } from "../content/text.js";
+  import CodeBlock from "../components/CodeBlock.js";
 
   const steps = [
     {
@@ -79,7 +80,7 @@ mount(document.getElementById("app"), Counter);`,
           <p>{#each segs(text) as part}{#if part.code}<code>{part.t}</code>{:else if part.href}<a href={part.href} target={part.external ? "_blank" : null} rel={part.external ? "noopener" : null}>{part.t}</a>{:else}{part.t}{/if}{/each}</p>
         {/each}
       </div>
-      {#if s.code}<pre class="code"><code>{s.code}</code></pre>{/if}
+      {#if s.code}<CodeBlock code={s.code} />{/if}
     </article>
   {/each}
 
@@ -102,8 +103,6 @@ mount(document.getElementById("app"), Counter);`,
   .step p a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
   .step p a:hover { background: var(--accent); color: #000; text-decoration: none; }
   .step p code { font-family: var(--mono); font-size: .88em; background: var(--ink); color: var(--paper); padding: .05em .35em; }
-  .code { margin: 0; padding: 1rem 1.2rem; overflow: auto; align-self: start; background: var(--ink); color: var(--paper); font: .84rem/1.65 var(--mono); }
-  .code code { font-family: inherit; }
 
   .next { display: flex; flex-wrap: wrap; gap: 1rem 2rem; padding-top: 2rem; border-top: 2px solid var(--ink); }
   .big {

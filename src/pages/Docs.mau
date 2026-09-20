@@ -1,6 +1,8 @@
 <script>
   import pages from "../content/docs.js";
-  import { segs } from "../content/text.js";
+  import { segs, slugify } from "../content/text.js";
+  import CodeBlock from "../components/CodeBlock.js";
+  import Search from "../components/Search.js";
 
   const slug = props.params.page ?? pages[0].slug;
   const idx = pages.findIndex((p) => p.slug === slug);
@@ -21,17 +23,18 @@
   </nav>
 
   <article class="doc">
+    <Search />
     {#if page}
       <h1>{page.title}</h1>
       <p class="intro">{page.intro}</p>
 
       {#each page.blocks as b (b.h)}
         <section class="blk">
-          <h2>{b.h}</h2>
+          <h2 id={slugify(b.h)}><a class="anchor" href={"#" + slugify(b.h)} aria-label="link to this section">#</a>{b.h}</h2>
           {#each b.p ?? [] as text (text)}
             <p>{#each segs(text) as s}{#if s.code}<code>{s.t}</code>{:else if s.href}<a href={s.href} target={s.external ? "_blank" : null} rel={s.external ? "noopener" : null}>{s.t}</a>{:else}{s.t}{/if}{/each}</p>
           {/each}
-          {#if b.code}<pre class="code"><code>{b.code}</code></pre>{/if}
+          {#if b.code}<CodeBlock code={b.code} />{/if}
         </section>
       {/each}
 
@@ -70,16 +73,13 @@
   .doc h1 { margin: 0 0 .8rem; font-size: clamp(2.6rem, 8vw, 5.5rem); line-height: .9; font-weight: 900; letter-spacing: -.05em; }
   .intro { max-width: 40rem; margin: 0 0 2rem; font-size: 1.2rem; }
   .blk { padding: 1.4rem 0; border-top: 2px solid var(--ink); }
-  .blk h2 { margin: 0 0 .5rem; font-size: 1.5rem; letter-spacing: -.02em; }
+  .blk h2 { margin: 0 0 .5rem; font-size: 1.5rem; letter-spacing: -.02em; scroll-margin-top: 4.5rem; }
+  .anchor { margin-right: .5rem; color: var(--accent); text-decoration: none; opacity: .35; font-weight: 400; }
+  .blk h2:hover .anchor, .anchor:focus { opacity: 1; }
   .blk p { max-width: 42rem; margin: 0 0 .7rem; }
   .blk p a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
   .blk p a:hover { background: var(--accent); color: #000; text-decoration: none; }
   .blk p code { font-family: var(--mono); font-size: .88em; background: var(--ink); color: var(--paper); padding: .05em .35em; }
-  .code {
-    margin: .8rem 0 0; padding: 1rem 1.2rem; overflow: auto;
-    background: var(--ink); color: var(--paper); font: .84rem/1.65 var(--mono);
-  }
-  .code code { font-family: inherit; }
 
   .pager { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2.5rem; padding-top: 1.2rem; border-top: 2px solid var(--ink); font-family: var(--mono); }
   .pager a { color: var(--ink); }

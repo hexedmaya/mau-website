@@ -1,0 +1,17 @@
+{
+  "name": "mau-website",
+  "private": true,
+  "type": "module",
+  "description": "The website and docs of mau, built with mau.",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hexedmaya/mau-website.git"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.mjs\""
+  },
+  "devDependencies": {
+    "jsdom": "^30.1.0"
+  }
+}

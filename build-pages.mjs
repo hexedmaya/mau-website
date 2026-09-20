@@ -1,4 +1,4 @@
-// Writes one small index.html per page (index.html, docs/index.html, docs/router/index.html, ...) and 404.html.
+// Writes one small index.html per page (index.html, docs/index.html, docs/router/index.html, ...), 404.html, robots.txt and sitemap.xml.
 // Chat apps and search engines do not run JavaScript. They read the HTML of the address they get, so every
 // page needs its own title, description and preview image in its HTML. The app itself is the same everywhere.
 //
@@ -26,6 +26,8 @@ const html = ({ path: p, title, description, notFound }) => `<!doctype html>
   <meta name="theme-color" content="#ff4b1f">
 ${notFound ? `  <meta name="robots" content="noindex">` : `  <link rel="canonical" href="${SITE}${p === "/" ? "/" : p + "/"}">`}
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <link rel="stylesheet" href="/assets/base.css">
 
   <meta property="og:type" content="website">
@@ -61,4 +63,19 @@ for (const page of pages) {
 // 404.html: the server sends it, with the status 404, for every address that is not a page. The app shows its not-found page.
 fs.writeFileSync(path.join(root, "404.html"), html({ path: "/404", title: "Not found · mau", description: "This page does not exist.", notFound: true }));
 
-console.log(`${n} pages and 404.html written for ${SITE}`);
+// robots.txt and sitemap.xml: everything may be indexed, the sitemap lists every page
+const address = (p) => `${SITE}${p === "/" ? "/" : p + "/"}`;
+fs.writeFileSync(path.join(root, "robots.txt"), `User-agent: *
+Allow: /
+
+Sitemap: ${SITE}/sitemap.xml
+`);
+fs.writeFileSync(path.join(root, "sitemap.xml"),
+  `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+` +
+  pages.map((page) => `  <url><loc>${address(page.path)}</loc></url>`).join("\n") + `
+</urlset>
+`);
+
+console.log(`${n} pages, 404.html, robots.txt and sitemap.xml written for ${SITE}`);

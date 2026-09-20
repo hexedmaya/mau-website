@@ -31,10 +31,15 @@
     { to: "/try", label: "try" },
   ];
 
-  // every page starts at the top, and the tab shows its title
+  // the tab shows the title of the page. A link with #anchor scrolls to it once the page is drawn, every other page starts at the top
   effect(() => {
     document.title = titleFor(route().path);
-    window.scrollTo({ top: 0, behavior: "instant" });
+    const id = decodeURIComponent(location.hash.slice(1));
+    queueMicrotask(() => {
+      const target = id && document.getElementById(id);
+      if (target) target.scrollIntoView();
+      else window.scrollTo({ top: 0, behavior: "instant" });
+    });
   });
 </script>
 
@@ -46,7 +51,7 @@
     </a>
     <div class="links">
       {#each links as l (l.to)}
-        <a href={l.to} class={route().path.startsWith(l.to) ? "on" : ""}>{l.label}</a>
+        <a href={l.to} class={route().path.startsWith(l.to) ? "on" : ""} aria-current={route().path.startsWith(l.to) ? "page" : null}>{l.label}</a>
       {/each}
       <a class="gh" href={ext.mau} target="_blank" rel="noopener">github ↗</a>
     </div>
