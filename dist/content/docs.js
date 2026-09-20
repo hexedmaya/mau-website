@@ -76,7 +76,7 @@ const core = [
         p: [
           "`{#each list as item (key)}` renders a row per entry. With a key, rows are moved instead of rebuilt.",
           "With a plain `item` (or `item, i`), a new object for the same key updates the row in place. That keeps polled data cheap: the DOM nodes stay, only changed values are written. A destructuring pattern like `{ a, b }` rebuilds the row instead.",
-          "Duplicate keys print a warning. Plain values such as strings are rebuilt when they change.",
+          "Duplicate keys print a warning, and the later rows are kept apart so every row can still be removed. A row that shows its index (`item, i`) is built again when the index changes, for example after a reorder. Plain values such as strings are rebuilt when they change.",
         ],
         code: `{#each instances() as i (i.id)}
   <li>{i.name} {i.cpu}%</li>
@@ -338,7 +338,7 @@ destroy();`,
       {
         h: "Read the route",
         p: [
-          "A page receives `props.params` and `props.query`. `route()` is reactive and returns `{ path, query }`, which is handy for marking the active link.",
+          "A page receives `props.params` and `props.query`. `route()` is reactive and returns `{ path, query }`, which is handy for marking the active link. A query key that appears twice, like `?tag=a&tag=b`, gives an array: `{ tag: [\"a\", \"b\"] }`. A key that appears once stays a string.",
         ],
         code: `const { id } = props.params;         // /instance/3?tab=log
 const { tab } = props.query;
@@ -348,7 +348,7 @@ const { tab } = props.query;
       {
         h: "Move around",
         p: [
-          "A normal link is all it takes. A click on a link to your own site becomes a navigation without a page load. Ctrl-click, `target=\"_blank\"`, downloads, other sites and `#anchors` on the same page work as usual. A link to another page keeps its anchor: `/docs/router#server-setup` opens the page and scrolls there.",
+          "A normal link is all it takes. A click on a link to your own site becomes a navigation without a page load. Ctrl-click, `target=\"_blank\"`, downloads, other sites and `#anchors` on the same page work as usual. A link the server has to answer itself, like a file or an export, gets `data-native` (or `rel=\"external\"`), and the router leaves it alone. A link to another page keeps its anchor: `/docs/router#server-setup` opens the page and scrolls there.",
           "From code, use `navigate`. With `replace` the current history entry is swapped instead of a new one added.",
         ],
         code: `<a href="/instance/3">three</a>

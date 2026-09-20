@@ -637,6 +637,15 @@ export const changelog = {
   intro: "What changed, newest first.",
   blocks: [
     {
+      h: "0.2.1",
+      p: [
+        "`{#each}`: a key that is used twice no longer leaves a row behind that nothing can remove. A row that shows its index is built again when the index changes, so the number is right after a reorder.",
+        "The compiler no longer ends an expression at a `}` inside a comment or a regular expression.",
+        "Router: a link with `data-native` or `rel=\"external\"` is left to the browser, and a repeated query key gives an array.",
+        "The compiler command stops with an error when `--runtime` has no path.",
+      ],
+    },
+    {
       h: "0.2.0",
       p: [
         "Styles are scoped with an attribute on every element that a component creates, instead of the native `@scope` rule. A rule no longer reaches into child components. `:global(...)` reaches outside on purpose. The scoped styles now work in every browser with constructed stylesheets, not only in those with `@scope`. If a page relied on a style leaking into a child, wrap that selector in `:global(...)`.",
