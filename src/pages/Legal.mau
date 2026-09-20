@@ -34,7 +34,7 @@
   }
 </script>
 
-<section class={isLicense ? "legal" : "legal notice"}>
+<section class="legal notice">
   <h1 class="head">{page.heading}</h1>
 
   {#if isLicense}
@@ -73,6 +73,9 @@
   /* imprint and privacy: a centred column with orange accents */
   :scope.notice .head { margin: 0 auto 2.4rem; text-align: center; padding-bottom: .22em; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: .07em; text-underline-offset: .08em; text-decoration-skip-ink: auto; font-size: clamp(3rem, 11vw, 6.5rem); }
   :scope.notice .md { margin: 0 auto; }
+  :scope.notice .tabs { margin-left: auto; margin-right: auto; }
+  :scope.notice .sub { text-align: center; }
+  :scope.notice .from { max-width: 46rem; margin-left: auto; margin-right: auto; }
   :scope.notice .md h3 { margin: 1.4rem 0 .6rem; padding: .35rem .8rem; border-left: 6px solid var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); font-size: 1.15rem; }
   :scope.notice .md h3:first-child { margin-top: 0; }
   :scope.notice .md a[href^="mailto:"] { font-family: var(--mono); font-size: .92em; font-weight: 700; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: .12em; text-decoration-skip-ink: auto; }
