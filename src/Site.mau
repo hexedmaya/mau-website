@@ -33,14 +33,13 @@
   ];
 
   // every page starts at the top, and the tab shows its title
-  let el;
   effect(() => {
     document.title = titleFor(route().path);
-    el?.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo({ top: 0, behavior: "instant" });
   });
 </script>
 
-<div class="site" ref={(e) => (el = e)}>
+<div class="site">
   <nav class="topbar">
     <a class="brand" href="/" aria-label="mau, home">
       <svg viewBox="0 0 28 24" aria-hidden="true"><path d="M2 21V3l6 6h6l6-6v18h-4v-8h-3v8H9v-8H6v8z" /><rect class="dot" x="22" y="17" width="4" height="4" /></svg>
@@ -61,7 +60,7 @@
   :scope {
     --paper: #f1eee4; --ink: #141414; --mute: #6b6759; --accent: #ff4b1f;
     --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
-    position: fixed; inset: 0; overflow: auto; scroll-behavior: smooth;
+    min-height: 100vh; min-height: 100dvh;
     background: var(--paper); color: var(--ink);
     font: 17px/1.55 "Helvetica Neue", Arial, system-ui, sans-serif;
   }

@@ -56,13 +56,15 @@
     padding: clamp(2.5rem, 8vw, 6rem) clamp(1rem, 4vw, 2.5rem) clamp(2.5rem, 6vw, 4rem);
     border-bottom: 2px solid var(--ink);
   }
-  @media (max-width: 800px) { :scope { grid-template-columns: 1fr; } }
+  @media (max-width: 800px) { :scope { grid-template-columns: minmax(0, 1fr); } }
+  .left, .right { min-width: 0; }
   .title { margin: 0; font-size: clamp(6rem, 21vw, 15rem); line-height: .78; font-weight: 900; letter-spacing: -.07em; }
   .title i { color: var(--accent); font-style: normal; }
   .tag { margin: 1.2rem 0 0; font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: .12em; font-size: .9rem; }
   .lead { max-width: 30rem; margin: 1rem 0 1.6rem; font-size: 1.15rem; }
   code { font-family: var(--mono); font-size: .92em; background: var(--ink); color: var(--paper); padding: .05em .35em; }
   .cmd {
+    max-width: 100%; white-space: normal; overflow-wrap: anywhere;
     font: inherit; font-family: var(--mono); font-size: .9rem; cursor: pointer; text-align: left;
     color: var(--ink); background: var(--paper); border: 2px solid var(--ink); padding: .7rem 1rem;
     box-shadow: 5px 5px 0 var(--ink); transition: transform .08s, box-shadow .08s;

@@ -26,6 +26,7 @@ const html = ({ path: p, title, description, notFound }) => `<!doctype html>
   <meta name="theme-color" content="#ff4b1f">
 ${notFound ? `  <meta name="robots" content="noindex">` : `  <link rel="canonical" href="${SITE}${p === "/" ? "/" : p + "/"}">`}
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/base.css">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="mau">

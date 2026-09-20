@@ -51,14 +51,21 @@
     display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: start;
     padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 2.5rem) 4rem;
   }
-  @media (max-width: 800px) { :scope { grid-template-columns: minmax(0, 1fr); } .side { position: static; } }
-
   .side { position: sticky; top: 4.4rem; border: 2px solid var(--ink); font-family: var(--mono); font-size: .85rem; }
   .cap { margin: 0; padding: .55rem .8rem; background: var(--ink); color: var(--paper); text-transform: uppercase; letter-spacing: .14em; font-size: .75rem; }
   .side a { display: flex; gap: .7rem; padding: .55rem .8rem; color: var(--ink); text-decoration: none; border-top: 2px solid var(--ink); }
   .side a span { color: var(--accent); font-weight: 700; }
   .side a:hover, .side a.on { background: var(--accent); color: #000; }
   .side a:hover span, .side a.on span { color: #000; }
+
+  /* phones: one swipeable row instead of a tall list (after the base rules, so it wins) */
+  @media (max-width: 800px) {
+    :scope { grid-template-columns: minmax(0, 1fr); }
+    .side { position: static; display: flex; overflow-x: auto; }
+    .cap { display: none; }
+    .side a { flex: none; white-space: nowrap; border-top: 0; border-right: 2px solid var(--ink); }
+    .side a:last-child { border-right: 0; }
+  }
 
   .doc h1 { margin: 0 0 .8rem; font-size: clamp(2.6rem, 8vw, 5.5rem); line-height: .9; font-weight: 900; letter-spacing: -.05em; }
   .intro { max-width: 40rem; margin: 0 0 2rem; font-size: 1.2rem; }
