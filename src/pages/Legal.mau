@@ -8,12 +8,14 @@
   const all = {
     "/licenses": { heading: "license", src: "/vendor/mau/LICENSE", repo: links.mau },
     "/licenses/website": { heading: "license", src: "/LICENSE", repo: links.website },
+    "/brand-policy": { heading: "brand policy", src: "/BRAND-POLICY.md" },
     "/imprint": { heading: "imprint", text: imprint },
     "/privacy": { heading: "privacy", text: privacy },
   };
   const path = route().path;
   const page = all[path];
   const isLicense = path === "/licenses" || path === "/licenses/website";
+  const hasTabs = isLicense || path === "/brand-policy";
 
   const subtitle = signal("");
   const blocks = signal([]);
@@ -37,13 +39,13 @@
 <section class="legal notice">
   <h1 class="head">{page.heading}</h1>
 
-  {#if isLicense}
+  {#if hasTabs}
     <nav class="tabs">
       <a href="/licenses" class={path === "/licenses" ? "on" : ""}>mau License</a>
       <a href="/licenses/website" class={path === "/licenses/website" ? "on" : ""}>Website License</a>
-      <a href="/brand">Brand Policy</a>
+      <a href="/brand-policy" class={path === "/brand-policy" ? "on" : ""}>Brand Policy</a>
     </nav>
-    <p class="sub">{subtitle()}</p>
+    {#if isLicense}<p class="sub">{subtitle()}</p>{/if}
   {/if}
 
   {#if failed()}

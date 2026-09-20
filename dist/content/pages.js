@@ -40,6 +40,11 @@ export const pages = [
     description: "The mau logo, colors and brand policy.",
   },
   {
+    path: "/brand-policy",
+    title: "Brand Policy · mau",
+    description: "How you may use the mau name and logo.",
+  },
+  {
     path: "/licenses",
     title: "License · mau",
     description: "The mau License 1.0: use mau, also commercially, to build your own products. Do not sell mau itself.",

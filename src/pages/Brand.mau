@@ -1,7 +1,4 @@
 <script>
-  import Markdown from "../components/Markdown.js";
-  import { parseMarkdown } from "../content/markdown.js";
-
   const logos = [
     { file: "logo.svg", label: "logo, light", bg: "paper" },
     { file: "logo-dark.svg", label: "logo, dark", bg: "ink" },
@@ -29,15 +26,6 @@
     { name: "paper, dark mode", hex: "#131311" },
     { name: "orange, dark mode", hex: "#ff5a2b" },
   ];
-
-  // the policy is BRAND-POLICY.md next to the page, turned into simple blocks
-  const blocks = signal([]);
-  const failed = signal(false);
-
-  fetch("/BRAND-POLICY.md")
-    .then((r) => (r.ok ? r.text() : Promise.reject(new Error("not found"))))
-    .then((text) => blocks.set(parseMarkdown(text).filter((b) => b.t !== "h1")))
-    .catch(() => failed.set(true));
 </script>
 
 <section class="brand-page">
@@ -73,12 +61,7 @@
   </div>
 
   <h2 class="label">brand policy</h2>
-  <div class="policy">
-    {#if failed()}
-      <p class="note">The policy could not be loaded. It is the file <a href="/BRAND-POLICY.md">BRAND-POLICY.md</a>.</p>
-    {/if}
-    <Markdown blocks={blocks} />
-  </div>
+  <p class="policy">How you may use the mau name and logo: <a href="/brand-policy">read the brand policy</a>.</p>
 </section>
 
 <style>
@@ -105,6 +88,6 @@
   .chip { display: block; height: 4.5rem; border: 2px solid var(--ink); }
   .swatch code { font-family: var(--mono); font-size: .85rem; color: var(--mute); }
 
-  .policy { max-width: 46rem; }
-  .note { font-family: var(--mono); }
+  .policy a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
+  .policy a:hover { background: var(--accent); color: #000; text-decoration: none; }
 </style>

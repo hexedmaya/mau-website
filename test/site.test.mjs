@@ -220,13 +220,21 @@ test("license pages read the LICENSE files, with tabs", async () => {
   assert.equal($(".sub").textContent, "mau Website License 1.0");
 });
 
-test("brand page: four logos, nine downloads, the policy", async () => {
+test("brand page: four logos, nine downloads, link to the policy", async () => {
   await go("/brand");
   await wait(60);
   assert.equal($$(".tile").length, 4);
   assert.equal($$(".files li").length, 9);
   for (const a of $$(".files a")) assert.ok(fs.existsSync(path.join(root, a.getAttribute("href"))), a.getAttribute("href"));
+  assert.equal($(".policy a").getAttribute("href"), "/brand-policy");
+});
+
+test("brand policy page: its own address, read from BRAND-POLICY.md", async () => {
+  await go("/brand-policy");
+  await wait(60);
+  assert.equal($(".head").textContent, "brand policy");
   assert.ok($$(".md h3").length > 5, "policy rendered");
+  assert.equal($(".tabs a.on").textContent, "Brand Policy");
 });
 
 test("imprint and privacy", async () => {

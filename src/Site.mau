@@ -21,6 +21,7 @@
     "/playground": Playground,
     "/about": About,
     "/brand": Brand,
+    "/brand-policy": Legal,
     "/licenses": Legal,
     "/licenses/website": Legal,
     "/imprint": Legal,
