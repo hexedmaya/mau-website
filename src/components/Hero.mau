@@ -1,5 +1,5 @@
 <script>
-  const cmd = "node mau/compiler/cli.js src --watch";
+  const cmd = "node mau/compiler/cli.js --watch";
   const copied = signal(false);
   const copy = async () => {
     try {

@@ -3,7 +3,7 @@
 import { signal, computed, effect, untracked, batch, onDestroy, router, route, navigate, h as __h, raw as __raw, each as __each, adoptStyle as __style } from "../../vendor/mau/index.js";
 import { segs } from "../content/text.js";
 
-__style("@scope (.mau-4ftdss) {\n:scope { padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2.5rem) 2rem; }\r\n  .head { margin: 0 0 .8rem; font-size: clamp(3.5rem, 13vw, 8rem); line-height: .85; font-weight: 900; letter-spacing: -.06em; }\r\n  .intro { max-width: 40rem; margin: 0 0 2.5rem; font-size: 1.2rem; }\r\n\r\n  .step { display: grid; grid-template-columns: 1fr 1.3fr; gap: 2rem; padding: 1.6rem 0; border-top: 2px solid var(--ink); }\r\n  @media (max-width: 800px) { .step { grid-template-columns: minmax(0, 1fr); gap: 1rem; } }\r\n  .n { font-family: var(--mono); font-weight: 700; color: var(--accent); }\r\n  .step h2 { margin: .1rem 0 .5rem; font-size: 1.6rem; letter-spacing: -.02em; }\r\n  .step p { max-width: 32rem; margin: 0 0 .7rem; }\r\n  .step p a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }\r\n  .step p a:hover { background: var(--accent); color: #000; text-decoration: none; }\r\n  .step p code { font-family: var(--mono); font-size: .88em; background: var(--ink); color: var(--paper); padding: .05em .35em; }\r\n  .code { margin: 0; padding: 1rem 1.2rem; overflow: auto; align-self: start; background: var(--ink); color: var(--paper); font: .84rem/1.65 var(--mono); }\r\n  .code code { font-family: inherit; }\r\n\r\n  .next { display: flex; flex-wrap: wrap; gap: 1rem 2rem; padding-top: 2rem; border-top: 2px solid var(--ink); }\r\n  .big {\r\n    font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 900; letter-spacing: -.03em; color: var(--ink);\r\n    text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: .18em;\r\n  }\r\n  .big:hover { background: var(--accent); color: #000; text-decoration: none; }\n}");
+__style("@scope (.mau-1k1zm2) {\n:scope { padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2.5rem) 2rem; }\r\n  .head { margin: 0 0 .8rem; font-size: clamp(3.5rem, 13vw, 8rem); line-height: .85; font-weight: 900; letter-spacing: -.06em; }\r\n  .intro { max-width: 40rem; margin: 0 0 2.5rem; font-size: 1.2rem; }\r\n\r\n  .step { display: grid; grid-template-columns: 1fr 1.3fr; gap: 2rem; padding: 1.6rem 0; border-top: 2px solid var(--ink); }\r\n  @media (max-width: 800px) { .step { grid-template-columns: minmax(0, 1fr); gap: 1rem; } }\r\n  .n { font-family: var(--mono); font-weight: 700; color: var(--accent); }\r\n  .step h2 { margin: .1rem 0 .5rem; font-size: 1.6rem; letter-spacing: -.02em; }\r\n  .step p { max-width: 32rem; margin: 0 0 .7rem; }\r\n  .step p a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }\r\n  .step p a:hover { background: var(--accent); color: #000; text-decoration: none; }\r\n  .step p code { font-family: var(--mono); font-size: .88em; background: var(--ink); color: var(--paper); padding: .05em .35em; }\r\n  .code { margin: 0; padding: 1rem 1.2rem; overflow: auto; align-self: start; background: var(--ink); color: var(--paper); font: .84rem/1.65 var(--mono); }\r\n  .code code { font-family: inherit; }\r\n\r\n  .next { display: flex; flex-wrap: wrap; gap: 1rem 2rem; padding-top: 2rem; border-top: 2px solid var(--ink); }\r\n  .big {\r\n    font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 900; letter-spacing: -.03em; color: var(--ink);\r\n    text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: .18em;\r\n  }\r\n  .big:hover { background: var(--accent); color: #000; text-decoration: none; }\n}");
 
 export default function Start(props = {}) {
   const steps = [
@@ -31,23 +31,23 @@ export default function Start(props = {}) {
       n: "03",
       h: "Compile it",
       p: [
-        "Every `.mau` file gets a `.js` file next to it. Commit both, so nobody else needs a build step.",
+        "Every `.mau` file in `src/` becomes a `.js` file in `dist/`, every other file in `src/` is copied. Commit `dist/`, so nobody else needs a build step.",
         "Add `--watch` while you work and it recompiles on every save.",
       ],
-      code: `node mau/compiler/cli.js src
-node mau/compiler/cli.js src --watch`,
+      code: `node mau/compiler/cli.js
+node mau/compiler/cli.js --watch`,
     },
     {
       n: "04",
       h: "Mount it",
-      p: ["A page, a script, and one call to `mount`."],
+      p: ["A page, a script, and one call to `mount`. The page loads the compiled file from `dist/`."],
       code: `<!-- index.html -->
 <div id="app"></div>
-<script type="module" src="main.js"></script>
+<script type="module" src="/dist/main.js"></script>
 
-// main.js
-import { mount } from "./mau/index.js";
-import Counter from "./src/Counter.js";
+// src/main.js
+import { mount } from "../mau/index.js";
+import Counter from "./Counter.js";
 
 mount(document.getElementById("app"), Counter);`,
     },
@@ -69,6 +69,6 @@ mount(document.getElementById("app"), Counter);`,
     },
   ];
   const __root = __h("section", { "class": "start" }, __h("h1", { "class": "head" }, "start"), __h("p", { "class": "intro" }, "mau turns .mau files into plain JavaScript. The people who use what you build install nothing."), __each(() => (steps), (s) => (s.n), (s) => [__h("article", { "class": "step" }, __h("div", { "class": "info" }, __h("span", { "class": "n" }, () => (s.n)), __h("h2", {  }, () => (s.h)), __each(() => (s.p), (text) => (text), (text) => [__h("p", {  }, __each(() => (segs(text)), null, (part) => [() => ((part.code) ? untracked(() => [__h("code", {  }, () => (part.t))]) : (part.href) ? untracked(() => [__h("a", { "href": () => (part.href), "target": () => (part.external ? "_blank" : null), "rel": () => (part.external ? "noopener" : null) }, () => (part.t))]) : untracked(() => [() => (part.t)]))], true))], true)), () => ((s.code) ? untracked(() => [__h("pre", { "class": "code" }, __h("code", {  }, () => (s.code)))]) : null))], true), __h("div", { "class": "next" }, __h("a", { "class": "big", "href": "/docs" }, "read the docs →"), __h("a", { "class": "big", "href": "/try" }, "try it →")));
-  __root.classList.add("mau-4ftdss");
+  __root.classList.add("mau-1k1zm2");
   return __root;
 }

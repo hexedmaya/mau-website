@@ -9,18 +9,19 @@ build-pages.mjs     writes those files
 dev-server.mjs      a tiny server: every page has a file, everything else is a 404
 deploy/             an example nginx configuration
 404.html            shown for every address that is not a page (generated)
-main.js             mounts the site
-src/
+src/                what people write
+  main.js           mounts the site
   Site.mau          layout, navigation and routes
   pages/            Home, Docs, Try, About, NotFound
   components/       Hero, Features, Footer
   content/docs.js   the text of the docs pages
+dist/               generated from src/, what the server serves
 assets/brand/       logo, icon and PNG variants
 BRAND-POLICY.md     how the mau name and logo may be used (shown on the brand page)
 vendor/mau/         a copy of the mau runtime
 ```
 
-The `.js` file next to each `.mau` file is generated and committed.
+`dist/` is generated from `src/` by the mau compiler (`.mau` becomes `.js`, everything else is copied). It is committed and is what the server serves: upload the whole folder.
 
 ## Run it
 
@@ -37,7 +38,7 @@ node dev-server.mjs          # http://localhost:8080
 After editing a `.mau` file, compile with the compiler from the mau repo:
 
 ```
-node ../mau/compiler/cli.js src --runtime ./vendor/mau/index.js
+node ../mau/compiler/cli.js --runtime ./vendor/mau/index.js
 ```
 
 Add `--watch` while you work.

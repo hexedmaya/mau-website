@@ -46,7 +46,7 @@ ${notFound ? "" : `  <meta property="og:url" content="${SITE}${p === "/" ? "/" :
 </head>
 <body>
   <div id="app"></div>
-  <script type="module" src="/main.js"></script>
+  <script type="module" src="/dist/main.js"></script>
 </body>
 </html>
 `;

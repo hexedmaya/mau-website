@@ -26,23 +26,23 @@
       n: "03",
       h: "Compile it",
       p: [
-        "Every `.mau` file gets a `.js` file next to it. Commit both, so nobody else needs a build step.",
+        "Every `.mau` file in `src/` becomes a `.js` file in `dist/`, every other file in `src/` is copied. Commit `dist/`, so nobody else needs a build step.",
         "Add `--watch` while you work and it recompiles on every save.",
       ],
-      code: `node mau/compiler/cli.js src
-node mau/compiler/cli.js src --watch`,
+      code: `node mau/compiler/cli.js
+node mau/compiler/cli.js --watch`,
     },
     {
       n: "04",
       h: "Mount it",
-      p: ["A page, a script, and one call to `mount`."],
+      p: ["A page, a script, and one call to `mount`. The page loads the compiled file from `dist/`."],
       code: `<!-- index.html -->
 <div id="app"></div>
-<script type="module" src="main.js"></script>
+<script type="module" src="/dist/main.js"></script>
 
-// main.js
-import { mount } from "./mau/index.js";
-import Counter from "./src/Counter.js";
+// src/main.js
+import { mount } from "../mau/index.js";
+import Counter from "./Counter.js";
 
 mount(document.getElementById("app"), Counter);`,
     },

@@ -4,8 +4,8 @@
 
   const steps = [
     { n: "1", title: "write", text: "One .mau file: script, markup, style. Short, and it looks like HTML.", code: "<button on:click={inc}>\n  clicked {n()}\n</button>" },
-    { n: "2", title: "compile", text: "One command on your machine. You get plain JavaScript next to each file.", code: "node mau/compiler/cli.js src" },
-    { n: "3", title: "ship", text: "Commit the output. The browser loads ES modules, nobody needs a build.", code: "<script type=\"module\"\n  src=\"main.js\"></script>" },
+    { n: "2", title: "compile", text: "One command on your machine. src/ becomes dist/, plain JavaScript.", code: "node mau/compiler/cli.js" },
+    { n: "3", title: "ship", text: "Commit dist/. The browser loads ES modules, nobody needs a build.", code: "<script type=\"module\"\n  src=\"main.js\"></script>" },
   ];
 </script>
 
