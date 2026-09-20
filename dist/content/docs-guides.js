@@ -637,12 +637,9 @@ export const changelog = {
   intro: "What changed, newest first.",
   blocks: [
     {
-      h: "After 0.1.0",
+      h: "0.2.0",
       p: [
-        "Styles are scoped with an attribute on every element that a component creates, instead of the native `@scope` rule. A rule no longer reaches into child components. `:global(...)` reaches outside on purpose. The scoped styles now work in every browser with constructed stylesheets, not only in those with `@scope`. A reactive `class` on a root element no longer risks its styles.",
-        "The playground keeps its code in the link, offers examples, and remembers the last draft in your browser.",
-        "The website has a light and a dark mode that you can switch.",
-        "Docs: a tutorial, recipes, deployment, questions and troubleshooting.",
+        "Styles are scoped with an attribute on every element that a component creates, instead of the native `@scope` rule. A rule no longer reaches into child components. `:global(...)` reaches outside on purpose. The scoped styles now work in every browser with constructed stylesheets, not only in those with `@scope`. If a page relied on a style leaking into a child, wrap that selector in `:global(...)`.",
       ],
     },
     {
