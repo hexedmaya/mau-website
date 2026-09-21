@@ -65,12 +65,19 @@
   .tabs { display: flex; flex-wrap: wrap; margin-bottom: 1.6rem; border: 2px solid var(--ink); width: fit-content; max-width: 100%; font-family: var(--mono); font-size: .85rem; }
   .tabs a { padding: .55rem 1rem; color: var(--ink); text-decoration: none; border-right: 2px solid var(--ink); }
   .tabs a:last-child { border-right: 0; }
-  .tabs a:hover, .tabs a.on { background: var(--accent); color: #000; }
+  .tabs a.on { background: var(--accent); color: #000; }
+  @media (hover: hover) { .tabs a:hover { background: var(--accent); color: #000; } }
   .sub { margin: 0 0 1.6rem; font-size: 1.3rem; font-weight: 800; letter-spacing: -.02em; }
   .note { font-family: var(--mono); }
   .from { margin-top: 2.5rem; padding-top: 1.2rem; border-top: 2px solid var(--ink); font-family: var(--mono); font-size: .85rem; color: var(--mute); }
   .from a, .note a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
-  .from a:hover, .note a:hover { background: var(--accent); color: #000; text-decoration: none; }
+  @media (hover: hover) { .from a:hover, .note a:hover { background: var(--accent); color: #000; text-decoration: none; } }
+
+  /* phones: the three tabs stay in one row, sharing the width */
+  @media (max-width: 600px) {
+    .tabs { flex-wrap: nowrap; width: 100%; box-sizing: border-box; }
+    .tabs a { flex: 1 1 auto; padding: .55rem .3rem; text-align: center; font-size: .72rem; white-space: nowrap; }
+  }
 
   /* imprint and privacy: a centred column with orange accents */
   :scope.notice .head { margin: 0 auto 2.4rem; text-align: center; padding-bottom: .22em; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: .07em; text-underline-offset: .08em; text-decoration-skip-ink: auto; font-size: clamp(3rem, 11vw, 6.5rem); }
@@ -81,7 +88,7 @@
   :scope.notice :global(.md h3) { margin: 1.4rem 0 .6rem; padding: .35rem .8rem; border-left: 6px solid var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); font-size: 1.15rem; }
   :scope.notice :global(.md h3:first-child) { margin-top: 0; }
   :scope.notice :global(.md a[href^="mailto:"]) { font-family: var(--mono); font-size: .92em; font-weight: 700; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: .12em; text-decoration-skip-ink: auto; }
-  :scope.notice :global(.md a[href^="mailto:"]:hover) { background: var(--accent); color: #000; text-decoration: none; }
+  @media (hover: hover) { :scope.notice :global(.md a[href^="mailto:"]:hover) { background: var(--accent); color: #000; text-decoration: none; } }
   :scope.notice :global(.md p) { padding-left: .8rem; }
   :scope.notice :global(.md p:first-child) { padding-left: 0; text-align: center; font-family: var(--mono); font-size: .9rem; color: var(--mute); }
 </style>

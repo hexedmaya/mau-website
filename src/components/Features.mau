@@ -30,10 +30,10 @@
     display: grid; grid-template-columns: 4rem minmax(9rem, 1fr) 2fr; gap: 1rem; align-items: baseline;
     padding: 1rem .6rem; border-top: 2px solid var(--ink); transition: background .1s;
   }
-  .rows li:hover { background: var(--ink); color: var(--paper); }
+  @media (hover: hover) { .rows li:hover { background: var(--ink); color: var(--paper); } }
   .n { font-family: var(--mono); color: var(--accent); font-weight: 700; }
   .t { font-size: 1.25rem; letter-spacing: -.01em; }
   .d { color: var(--mute); }
-  .rows li:hover .d { color: var(--paper); }
+  @media (hover: hover) { .rows li:hover .d { color: var(--paper); } }
   @media (max-width: 700px) { .rows li { grid-template-columns: 2.5rem 1fr; } .d { grid-column: 2; } }
 </style>

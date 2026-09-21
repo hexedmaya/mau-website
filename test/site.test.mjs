@@ -108,6 +108,30 @@ test("search: needs two letters, all words, heading hits first", () => {
 
 // ---- the pages
 
+test("phones: the menu button opens the links and moving to another page closes them", async () => {
+  await go("/");
+  assert.equal($(".links").className, "links");
+  assert.equal($(".burger").textContent, "menu");
+  $(".burger").click();
+  assert.equal($(".links").className, "links open");
+  assert.equal($(".burger").getAttribute("aria-expanded"), "true");
+  assert.equal($(".burger").textContent, "close");
+  await go("/try");
+  assert.equal($(".links").className, "links", "closed by the new page");
+});
+
+test("phones: the docs page list opens from a button and shows the current page", async () => {
+  await go("/docs/router");
+  assert.match($(".pick .now").textContent, /Router/);
+  assert.equal($(".list").className, "list");
+  $(".pick").click();
+  assert.equal($(".list").className, "list open");
+  assert.equal($(".pick").getAttribute("aria-expanded"), "true");
+  await go("/docs/styles");
+  assert.equal($(".list").className, "list", "a new page starts closed");
+  assert.equal($$(".list a").length, docs.length);
+});
+
 test("the navbar: docs, try, github, and the current page is marked", async () => {
   await go("/docs");
   assert.deepEqual($$(".links a").map((a) => a.textContent.trim()), ["docs", "try", "playground", "github ↗"]);

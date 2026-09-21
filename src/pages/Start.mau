@@ -102,7 +102,7 @@ mount(document.getElementById("app"), Counter);`,
   .step h2 { margin: .1rem 0 .5rem; font-size: 1.6rem; letter-spacing: -.02em; }
   .step p { max-width: 32rem; margin: 0 0 .7rem; }
   .step p a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
-  .step p a:hover { background: var(--accent); color: #000; text-decoration: none; }
+  @media (hover: hover) { .step p a:hover { background: var(--accent); color: #000; text-decoration: none; } }
   .step p code { font-family: var(--mono); font-size: .88em; background: var(--ink); color: var(--paper); padding: .05em .35em; }
 
   .next { display: flex; flex-wrap: wrap; gap: 1rem 2rem; padding-top: 2rem; border-top: 2px solid var(--ink); }
@@ -110,5 +110,5 @@ mount(document.getElementById("app"), Counter);`,
     font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 900; letter-spacing: -.03em; color: var(--ink);
     text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: .18em;
   }
-  .big:hover { background: var(--accent); color: #000; text-decoration: none; }
+  @media (hover: hover) { .big:hover { background: var(--accent); color: #000; text-decoration: none; } }
 </style>

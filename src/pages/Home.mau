@@ -51,5 +51,5 @@
     font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 900; letter-spacing: -.03em; color: var(--ink);
     text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: .18em;
   }
-  .big:hover { background: var(--accent); color: #000; text-decoration: none; }
+  @media (hover: hover) { .big:hover { background: var(--accent); color: #000; text-decoration: none; } }
 </style>

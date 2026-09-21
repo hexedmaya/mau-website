@@ -10,16 +10,25 @@
   const prev = pages[idx - 1];
   const next = pages[idx + 1];
 
+  // phones: the pages sit behind a button that opens the list. Opening a page builds this one again, closed.
+  const menu = signal(false);
+
 </script>
 
 <div class="docs">
-  <nav class="side">
-    <p class="cap">docs</p>
-    {#each pages as p, i (p.slug)}
-      <a href={"/docs/" + p.slug} class={p.slug === slug ? "on" : ""}>
-        <span>{String(i + 1).padStart(2, "0")}</span> {p.title}
-      </a>
-    {/each}
+  <nav class="side" aria-label="docs pages">
+    <button class="pick" on:click={() => menu.set(!menu())} aria-expanded={menu() ? "true" : "false"}>
+      <span class="now"><span class="n">{page ? String(idx + 1).padStart(2, "0") : "--"}</span> {page ? page.title : "docs"}</span>
+      <span>{menu() ? "close" : "all pages"}</span>
+    </button>
+    <div class={menu() ? "list open" : "list"}>
+      <p class="cap">docs</p>
+      {#each pages as p, i (p.slug)}
+        <a href={"/docs/" + p.slug} class={p.slug === slug ? "on" : ""}>
+          <span>{String(i + 1).padStart(2, "0")}</span> {p.title}
+        </a>
+      {/each}
+    </div>
   </nav>
 
   <article class="doc">
@@ -56,18 +65,24 @@
   }
   .side { position: sticky; top: 4.4rem; border: 2px solid var(--ink); font-family: var(--mono); font-size: .85rem; }
   .cap { margin: 0; padding: .55rem .8rem; background: var(--ink); color: var(--paper); text-transform: uppercase; letter-spacing: .14em; font-size: .75rem; }
+  .pick { display: none; }
   .side a { display: flex; gap: .7rem; padding: .55rem .8rem; color: var(--ink); text-decoration: none; border-top: 2px solid var(--ink); }
   .side a span { color: var(--accent); font-weight: 700; }
-  .side a:hover, .side a.on { background: var(--accent); color: #000; }
-  .side a:hover span, .side a.on span { color: #000; }
+  .side a.on { background: var(--accent); color: #000; }
+  @media (hover: hover) { .side a:hover { background: var(--accent); color: #000; } }
+  .side a.on span { color: #000; }
+  @media (hover: hover) { .side a:hover span { color: #000; } }
 
   /* phones: one swipeable row instead of a tall list (after the base rules, so it wins) */
   @media (max-width: 800px) {
     :scope { grid-template-columns: minmax(0, 1fr); }
-    .side { position: static; display: flex; overflow-x: auto; }
+    .side { position: static; }
+    .pick { display: flex; justify-content: space-between; align-items: center; gap: 1rem; width: 100%; padding: .7rem .8rem; font: inherit; cursor: pointer; text-align: left; color: var(--ink); background: transparent; border: 0; }
+    .pick .n { color: var(--accent); font-weight: 700; margin-right: .4rem; }
+    .list { display: none; border-top: 2px solid var(--ink); }
+    .list.open { display: block; }
     .cap { display: none; }
-    .side a { flex: none; white-space: nowrap; border-top: 0; border-right: 2px solid var(--ink); }
-    .side a:last-child { border-right: 0; }
+    .side a:first-of-type { border-top: 0; }
   }
 
   .doc h1 { margin: 0 0 .8rem; font-size: clamp(2.6rem, 8vw, 5.5rem); line-height: .9; font-weight: 900; letter-spacing: -.05em; }
@@ -75,14 +90,15 @@
   .blk { padding: 1.4rem 0; border-top: 2px solid var(--ink); }
   .blk h2 { margin: 0 0 .5rem; font-size: 1.5rem; letter-spacing: -.02em; scroll-margin-top: 4.5rem; }
   .anchor { margin-right: .5rem; color: var(--accent); text-decoration: none; opacity: .35; font-weight: 400; }
-  .blk h2:hover .anchor, .anchor:focus { opacity: 1; }
+  .anchor:focus { opacity: 1; }
+  @media (hover: hover) { .blk h2:hover .anchor { opacity: 1; } }
   .blk p { max-width: 42rem; margin: 0 0 .7rem; }
   .blk p a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
-  .blk p a:hover { background: var(--accent); color: #000; text-decoration: none; }
+  @media (hover: hover) { .blk p a:hover { background: var(--accent); color: #000; text-decoration: none; } }
   .blk p code { font-family: var(--mono); font-size: .88em; background: var(--ink); color: var(--paper); padding: .05em .35em; }
 
   .pager { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2.5rem; padding-top: 1.2rem; border-top: 2px solid var(--ink); font-family: var(--mono); }
   .pager a { color: var(--ink); }
-  .pager a:hover { background: var(--accent); color: #000; text-decoration: none; }
+  @media (hover: hover) { .pager a:hover { background: var(--accent); color: #000; text-decoration: none; } }
   .right { margin-left: auto; }
 </style>

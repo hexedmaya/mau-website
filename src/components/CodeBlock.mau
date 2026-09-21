@@ -41,5 +41,5 @@
     font: .72rem var(--mono); padding: .15rem .6rem; cursor: pointer;
     color: var(--paper); background: transparent; border: 1px solid currentColor; opacity: .6;
   }
-  .copy:hover { opacity: 1; background: var(--accent); border-color: var(--accent); color: #000; }
+  @media (hover: hover) { .copy:hover { opacity: 1; background: var(--accent); border-color: var(--accent); color: #000; } }
 </style>

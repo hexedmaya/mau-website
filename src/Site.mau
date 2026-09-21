@@ -40,6 +40,10 @@
   };
   effect(() => document.documentElement.setAttribute("data-theme", theme()));
 
+  // phones: the links sit behind a menu button. Any move to another page closes it.
+  const menu = signal(false);
+  effect(() => { route(); menu.set(false); });
+
   const links = [
     { to: "/docs", label: "docs" },
     { to: "/try", label: "try" },
@@ -64,7 +68,8 @@
       <svg viewBox="0 0 28 24" aria-hidden="true"><path d="M2 21V3l6 6h6l6-6v18h-4v-8h-3v8H9v-8H6v8z" /><rect class="dot" x="22" y="17" width="4" height="4" /></svg>
       <span>mau</span>
     </a>
-    <div class="links">
+    <button class="burger" on:click={() => menu.set(!menu())} aria-expanded={menu() ? "true" : "false"} aria-controls="site-links">{menu() ? "close" : "menu"}</button>
+    <div class={menu() ? "links open" : "links"} id="site-links">
       {#each links as l (l.to)}
         <a href={l.to} class={route().path.startsWith(l.to) ? "on" : ""} aria-current={route().path.startsWith(l.to) ? "page" : null}>{l.label}</a>
       {/each}
@@ -116,12 +121,17 @@
   .brand .dot { fill: var(--accent); }
   .links a { margin-left: 1.3rem; color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .25em; }
   .mode { margin-left: 1.3rem; padding: .1rem .55rem; font: inherit; cursor: pointer; color: var(--ink); background: transparent; border: 2px solid var(--ink); }
-  .mode:hover { background: var(--accent); border-color: var(--accent); color: #000; }
-  .links a:hover, .links a.on { background: var(--accent); color: #000; text-decoration: none; }
-  /* phones: the links may wrap under the logo instead of running off the screen (after the base rules, so it wins) */
-  @media (max-width: 600px) {
-    .topbar { flex-wrap: wrap; gap: .4rem 1rem; }
-    .links { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: baseline; gap: .3rem 0; }
-    .links a, .mode { margin-left: .9rem; }
+  @media (hover: hover) { .mode:hover { background: var(--accent); border-color: var(--accent); color: #000; } }
+  .links a.on { background: var(--accent); color: #000; text-decoration: none; }
+  @media (hover: hover) { .links a:hover { background: var(--accent); color: #000; text-decoration: none; } }
+  .burger { display: none; }
+  /* phones: the links open under the bar from a menu button (after the base rules, so it wins) */
+  @media (max-width: 700px) {
+    .topbar { flex-wrap: wrap; align-items: center; }
+    .burger { display: block; padding: .25rem .8rem; font: inherit; cursor: pointer; color: var(--ink); background: transparent; border: 2px solid var(--ink); }
+    .links { display: none; flex: 0 0 calc(100% + 2 * clamp(1rem, 4vw, 2.5rem)); flex-direction: column; margin: .7rem calc(-1 * clamp(1rem, 4vw, 2.5rem)) -.8rem; border-top: 2px solid var(--ink); }
+    .links.open { display: flex; }
+    .links a { margin: 0; padding: .8rem clamp(1rem, 4vw, 2.5rem); border-bottom: 2px solid var(--ink); text-decoration: none; font-size: 1rem; }
+    .mode { margin: 0; padding: .8rem clamp(1rem, 4vw, 2.5rem); text-align: left; border: 0; font-size: 1rem; }
   }
 </style>

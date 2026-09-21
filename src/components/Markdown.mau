@@ -33,5 +33,5 @@
   blockquote { margin: 0 0 1rem; padding: .6rem 1rem; border-left: 4px solid var(--accent); white-space: pre-line; font-family: var(--mono); font-size: .9rem; }
   code { font-family: var(--mono); font-size: .88em; background: var(--ink); color: var(--paper); padding: .05em .35em; }
   a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
-  a:hover { background: var(--accent); color: #000; text-decoration: none; }
+  @media (hover: hover) { a:hover { background: var(--accent); color: #000; text-decoration: none; } }
 </style>
